@@ -62,15 +62,8 @@
     </div>
 </div>
 <!--评论区-->
-<div class="col-md-12 comment-div">
-    <div class="user-comment" th:each="c : ${comments}">
-        <div class="cell" style="background-color: #8DB6CD;">
-            <span class="badge">[[${c.user.username}]]</span>
-            <span class="date">[[${#dates.format(c.createDate,'yyy/MM/dd HH:mm:ss')}]]</span>
-            <textarea rows="3" readonly>[[${c.comment}]]</textarea>
-        </div>
-    </div>
-</div>
+<div class="col-md-12 comment-div"></div>
+<!--评论分页-->
 <div class="col-md-12 comment-div-bottom">
     <div class="cell">
         <input type="button" class="btn btn-primary left-btn" value="更新">
@@ -171,6 +164,19 @@
         return strs[num];
     }
 
+    //时间格式化
+    function dateFormat(times) {
+        var dates=new Date(times);
+        var Y=dates.getFullYear();
+        var M=dates.getMonth();
+        var D=dates.getDate();
+        var h=dates.getHours();
+        var m=dates.getMinutes();
+        var s=dates.getSeconds();
+        var dateTime=Y+"-"+M+"-"+D+" "+h+":"+m+":"+s;
+        return dateTime;
+    }
+
     /**评分**/
     function showRating(rating, userNum) {
         if (rating > 0) {
@@ -256,7 +262,7 @@
             });
     }
 
-    function updateComments() {
+    function showComments() {
         $.post("[[@{/showComments}]]",{acId:3},
         function (data,status) {
             if(status=='success'){
@@ -265,7 +271,7 @@
                     html+="<div class='user-comment'" +
                         "        <div class='cell' style='background-color: #8DB6CD;'>\n" +
                         "            <span class='badge'>"+data.comment[i].user.username+"</span>\n" +
-                        "            <span class='date'>"+data.comment[i].createDate+"</span>\n" +
+                        "            <span class='date'>"+dateFormat(data.comment[i].createDate)+"</span>\n" +
                         "            <textarea rows='3' readonly>"+data.comment[i].comment+"</textarea>\n" +
                         "        </div>\n" +
                         "    </div>";
@@ -278,6 +284,7 @@
     };
 
     $(document).ready(function () {
+        showComments();
         showRating([[${ac.rating}]], [[${userNum}]]);
         if ('[[${session.currentUser}]]' != '') {
             myMark();

@@ -44,9 +44,6 @@ public class ShowController {
         model.addAttribute("ac", ac);
         int userNum = showServiceImpl.sumRating(ac.getId() + "");
         model.addAttribute("userNum", userNum);
-        List<?> comments = showServiceImpl.allComments(id);
-        model.addAttribute("comments", comments);
-        System.out.println(comments);
         return "/front/acInfo";
     }
 

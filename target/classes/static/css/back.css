@@ -1,0 +1,43 @@
+div {
+    /*查看边界, 方便布局*/
+    /*border-style: solid;*/
+}
+
+.mainInfo {
+    position: absolute;
+    top: 60px;
+    left: 16%;
+}
+
+.div1 {
+    position: fixed;
+    top: 60px;
+}
+
+button {
+    width: 100px;
+}
+
+button.btn-edit {
+    margin-left: 100px;
+}
+
+.smImg {
+    height: 50px;
+}
+
+.div2 {
+    width: 45%;
+    height: auto;
+    float: left;
+    display: inline;
+}
+
+.search {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.search button {
+    width: 66px;
+}

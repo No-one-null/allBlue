@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>动漫信息</title>
+</head>
+<body>
+<div>
+    <!-- 导航栏-->
+    <div th:replace="/back/back :: head"></div>
+    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
+    <div class="back_body" style="position:relative; top:-15px;">
+
+        <!-- 左侧栏 -->
+        <div th:replace="/back/acInfo/ac_Info :: left"></div>
+
+        <!-- 中间员工表格信息展示内容 -->
+        <div class="mainInfo col-sm-10">
+
+            <div class="panel panel-success">
+                <!-- 路径导航 -->
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <li><a href="#">动漫信息</a></li>
+                        <li class="active">动漫新增</li>
+                    </ol>
+                </div>
+                <form class="form-horizontal" role="form" th:action="@{/back/addOne}" method="post"
+                      enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入作品名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="author" class="col-sm-2 control-label">作者</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <input type="text" class="form-control" id="author" name="author" placeholder="请输入作者名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="year" class="col-sm-2 control-label">年份</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <input type="text" class="form-control" id="year" name="year" placeholder="请输入年份">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="info" class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <textarea class="form-control" rows="5" id="info" name="info"
+                                      placeholder="请输入简介"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-sm-2 control-label">封面&nbsp/&nbsp海报</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <input type="file" id="file" name="file">
+                            <img id="preImg" th:src="@{/images/null.png}" height="100px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类别</label>
+                        <div class="col-sm-10" style="width: 33%">
+                            <label class="radio-inline">
+                                <input type="radio" name="category" id="category1" value="A" checked>动画
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="category" id="category2" value="C">漫画
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success" style="width: 100px;margin-left: 30px">确定
+                            </button>
+                            <button type="reset" class="btn btn-warning" style="width: 100px;margin-left: 100px">重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+    $("#image").change(function () {
+        // $("#preImg").attr("src","file:///"+$("#image").val());
+    })
+</script>
+</body>
+</html>

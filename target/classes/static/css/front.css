@@ -1,0 +1,349 @@
+.main-body {
+    background: url('../images/background/background.jpg') no-repeat center center fixed #87CEFA;
+    background-size: cover;
+    height: auto;
+}
+
+.error-body {
+    background: url('../images/background/Gintoki.jpg') no-repeat center center fixed #87CEFA;
+    background-size: cover;
+}
+
+.backGround {
+    background: url('../images/background/Weathering.With.You.jpg') no-repeat center center fixed #87CEFA;
+    background-size: cover;
+}
+
+/**
+通用
+ */
+div {
+    /*查看边界*/
+    /*border-style: dashed;*/
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    background-color: #F0F8FF;
+    padding-top: 60px;
+    height: 100%;
+}
+
+button {
+    width: 75px;
+}
+
+.btn-link {
+    width: auto;
+}
+
+a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+.goTop {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 10px;
+    bottom: 0;
+}
+
+.goTop img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.bottom-left {
+    position: fixed;
+    left: 0;
+    bottom: 10px;
+}
+
+.bottom-right {
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+}
+
+.top-right {
+    position: fixed;
+    right: 0;
+    top: 60px;
+}
+
+.top-left {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    width: 18%;
+}
+
+/*
+首页
+ */
+.dropdown-menu {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: red;
+    text-shadow: 5px 5px 5px #F8F8FF;
+}
+
+h5 {
+    text-align: center;
+}
+
+.ac-div a {
+    background-color: #B0E0E6;
+    height: 350px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.ac-div a img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 50%;
+}
+
+.ac-div h4 {
+    color: #0000CD;
+}
+
+.headImg {
+    width: 30px;
+    height: 30px;
+    border-color: #0000CD;
+    border-style: ridge;
+    border-radius: 100px;
+}
+
+/*
+详情页
+ */
+.title-div {
+    text-align: center;
+    color: #4169E1;
+}
+
+.title-divs h4 b span {
+    color: blue;
+}
+
+.panel-info {
+    background-color: #F0FFFF;
+}
+
+.detail-div {
+    margin-top: 3%;
+    border-style: dashed;
+    height: 85%;
+}
+
+.detail-div .img-div {
+    margin-left: 20%;
+    background-color: #BBFFFF;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    line-height: 300px;
+}
+
+.detail-div .img-div img {
+    width: auto;
+    height: auto;
+    max-height: 95%;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.detail-div .more {
+    text-align: center;
+}
+
+.info-div {
+    margin-top: 3%;
+    height: 220px;
+    background-color: white;
+}
+
+pre {
+    height: 180px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    text-indent: 2em;
+    font-size: 15px;
+    Letter-spacing: -0.4px;
+}
+
+/*
+链接
+ */
+.link-div {
+    height: 100px;
+    border-style: dotted;
+    border-color: #1E90FF;
+    background-color: #BBFFFF;
+}
+
+/**
+收藏和评分
+ */
+.mark-div {
+    margin-top: 5px;
+    height: 200px;
+    text-align: center;
+}
+
+.rating-div {
+    width: 100%;
+    height: 66%;
+    background-color: white;
+    border-style: double;
+}
+
+.rating-star-div {
+    width: 25%;
+    height: 100%;
+    float: left;
+    border-style: dashed;
+    background-color: #B0E0E6;
+    display: table;
+    margin: 0 auto;
+}
+
+.rating-star-div h1 {
+    color: #FFFFFF;
+    text-shadow: 5px 5px 5px black;
+}
+
+.rating-star-div h3 {
+    color: #FFFFFF;
+    text-shadow: 5px 5px 5px black;
+}
+
+.rating-chart-div {
+    height: 100%;
+    width: 75%;
+    float: right;
+}
+
+.my-mark-div {
+    width: 100%;
+    height: 33%;
+    display: table;
+    margin: 0 auto;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+.my-star-div {
+    float: left;
+    width: 30%;
+    height: 100%;
+}
+
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: -4px;
+    margin-right: 0;
+}
+
+.list-group-horizontal .list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+}
+
+.list-group-horizontal .list-group-item:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0;
+}
+
+/*
+收藏-模式框
+ */
+.mark-form {
+
+}
+
+.mark-form .form-group {
+    width: 100%;
+    border-style: double;
+}
+
+.rating-star {
+    height: 50px;
+}
+
+.rating img {
+    height: 30px;
+}
+
+/**
+评论
+ */
+.comment-btn-div {
+    height: 50px;
+}
+
+.comment-div {
+    background-size: cover;
+    height: 95%;
+    background-color: #FFFFF0;
+}
+
+.user-comment {
+    width: 32%;
+    height: 12%;
+    float: left;
+    margin-left: 1%;
+    margin-top: 1.5%;
+    display: table;
+}
+
+.date{
+    float: right;
+}
+
+.user-comment textarea {
+    float: bottom;
+    width: 100%;
+    background-color: #F0FFF0;
+    border-style: none;
+"
+}
+
+.comment-div-bottom {
+    background-color: rgba(230, 230, 250, 0.7);
+    text-align: center;
+    height: 5%;
+    display: table;
+    margin: 0 auto;
+}
+
+.left-btn{
+    float:left;
+    width: 20%;
+}
+
+.right-btn{
+    float: right;
+    width: 20%;
+}

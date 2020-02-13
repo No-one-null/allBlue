@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>动漫资讯</title>
+    <script>
+        var testPageNum = 1;
+    </script>
+</head>
+<body>
+<!-- 导航栏-->
+<div th:replace="/back/back :: head"></div>
+<!-- 左侧栏 -->
+<div class="panel-group col-sm-2 div1" role="tablist" aria-multiselectable="true" th:fragment="left">
+    <ul class="nav nav-pills nav-stacked emp_sidebar">
+        <li role="presentation" class="active">
+            <a href="#" data-toggle="collapse" data-target="#collapse_news">
+                <span class="glyphicon glyphicon-leaf" aria-hidden="true"> 动漫情报</span>
+            </a>
+            <ul class="nav nav-pills nav-stacked" id="collapse_news">
+                <li role="presentation"><a href="#">全部资讯</a></li>
+                <li role="presentation"><a href="#">发布情报</a></li>
+                <li role="presentation"><a href="#">删除资讯</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav nav-pills nav-stacked dept_sidebar">
+        <li role="presentation" class="active">
+            <a href="#" data-toggle="collapse" data-target="#collapse-violate">
+                <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"> 公告通知</span>
+            </a>
+            <ul class="nav nav-pills nav-stacked" id="collapse-violate">
+                <li role="presentation"><a href="#">公告管理</a></li>
+                <li role="presentation"><a href="#">发布公告</a></li>
+                <li role="presentation"><a href="#">发布通知</a></li>
+            </ul>
+        </li>
+    </ul>
+</div><!-- /.panel-group，#hrms_sidebar_left --><!-- 动漫信息展示内容 -->
+<div class="col-sm-10 mainInfo">
+    <div class="panel panel-warning">
+        <!-- 路径导航 -->
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="#">动漫信息</a></li>
+                <li class="active"><a href="#">全部作品</a></li>
+            </ol>
+            <div class="input-group search">
+                <input type="text" id="search-input" class="form-control" placeholder="输入作者或作品名搜索">
+                <span class="input-group-btn">
+						    <button class="btn btn-default" id="search-button" type="button">Go!</button>
+					    </span>
+            </div><!-- /input-group -->
+        </div>
+        <!-- Table -->
+        <table class="table table-bordered table-hover">
+
+        </table>
+        <!--        <div th:replace="/back/back_public :: page"></div>-->
+    </div><!-- /.panel panel-success -->
+</div><!-- /.emp_info -->
+</body>
+</html>

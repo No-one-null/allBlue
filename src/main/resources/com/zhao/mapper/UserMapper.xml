@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhao.mapper.UserMapper">
+    <select id="showAll" resultType="user"> select * from user </select>
+    <select id="selectByPage" resultType="user">
+        select * from user
+        where status = 1
+        limit #{pageStart},#{pageSize}
+    </select>
+    <select id="selectCount" resultType="long">
+        select count(*) from user
+        where status=1
+    </select>
+    <select id="selectById" resultType="user" parameterType="Integer">
+        select * from user
+        where uid = #{uid}
+        and status=1
+    </select>
+    <select id="selectByKeyword" resultType="user">
+        select * from user
+        <where>
+            status=1
+            and username like #{keyword}
+            <bind name="keyword" value="'%'+keyword+'%'"/>
+        </where>
+    </select>
+    <select id="selectByName" resultType="user">
+        select * from user
+        <where>
+            status=1
+            and username = #{username}
+        </where>
+    </select>
+    <select id="selectUserByName" resultType="user">
+        select * from user
+        <where>
+            status=1
+            and username = #{username}
+        </where>
+    </select>
+    <select id="selectByUser" resultType="user">
+        select * from user
+        <where>
+            status=1
+            and username = #{username}
+            and password = #{password}
+        </where>
+    </select>
+    <select id="selectRolesByUsername" resultType="String">
+        select role from user_roles
+        <where>
+            username = #{username}
+        </where>
+    </select>
+    <insert id="insertUser" parameterType="user">
+        insert into user(username,password,birth,email,gender)
+        values(#{username},#{password},#{birth},#{email},'M')
+    </insert>
+</mapper>

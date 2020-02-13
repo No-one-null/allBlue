@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body style="padding-top: 100px">
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class="panel panel-info col-md-offset-3 col-md-6">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="text-align: center;">登录</h3>
+    </div>
+    <div th:if="(!${#strings.isEmpty(errLogin)})"><h3 style="text-align: center;color: red;">[[${errLogin}]]</h3></div>
+    <form class="form-horizontal panel-body" role="form" th:action="@{/doLogin}" method="post">
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="validCode" class="col-sm-2 control-label">验证码</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="validCode" placeholder="请输入验证码">
+            </div>
+            <img class="col-sm-3" style="height: 50px" src="/images/null.png">
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-default">登录</button>
+            </div>
+            <div class="col-sm-4">
+                <a href="/register">
+                    <button type="button" class="btn btn-link">没有账号？注册新账号</button>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-offset-4 form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" name="remember">7天内免登录
+            </label>
+        </div>
+    </form>
+</div>
+</body>
+</html>

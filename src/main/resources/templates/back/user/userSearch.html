@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>用户管理</title>
+</head>
+<body>
+<div>
+    <!-- 导航栏-->
+    <div th:replace="/back/back :: head"></div>
+    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
+    <div class="back_body" style="position:relative; top:-15px;">
+
+        <!-- 左侧栏 -->
+        <div th:replace="/back/user/userInfo :: left"></div>
+
+        <!-- 动漫信息展示内容 -->
+        <div class="col-sm-10 mainInfo">
+
+            <div class="panel panel-danger">
+                <!-- 路径导航 -->
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <li><a href="#">动漫信息管理</a></li>
+                        <li class="active">搜索结果</li>
+                    </ol>
+                    <div class="input-group search">
+                        <input type="text" id="search-input" class="form-control" placeholder="输入作者或作品名搜索">
+                        <span class="input-group-btn">
+						    <button class="btn btn-default" id="search-button" type="button">Go!</button>
+					    </span>
+                    </div><!-- /input-group -->
+                </div>
+                <div class="panel-body">
+                    <div class="table_items" style="text-align: center">
+                        找到<span class="badge" th:text="${listSize}"></span>条记录。
+                    </div>
+                </div>
+                <div class="alert alert-warning" th:if="${#lists.isEmpty(list)}">
+                    <a href="#" class="close" data-dismiss="alert">
+                        &times;
+                    </a>
+                    <h4 style="text-align: center"><strong>没有找到结果！</strong>换关键词试试？</h4>
+                </div>
+                <!-- Table -->
+                <div th:if="!${#lists.isEmpty(list)}">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <th>UID</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>性别</th>
+                        <th>邮箱</th>
+                        <th>生日</th>
+                        <th>角色</th>
+                        <th>操作</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="u : ${list}">
+                            <td th:text="${u.uid}"></td>
+                            <td th:text="${u.username}"></td>
+                            <td th:text="${u.password}"></td>
+                            <td th:if="${u.gender=='M'}">男</td>
+                            <td th:if="${u.gender=='F'}">女</td>
+                            <td th:text="${u.email}"></td>
+                            <td th:if="${u.birth}!=null">[[${#dates.format(u.birth,'yyy/MM/dd')}]]</td>
+                            <td th:if="${u.birth}==null">暂无</td>
+                            <th th:text="${u.rid}"></th>
+                            <td>
+                                <a th:href="@{'/back/user/uid='+${u.uid}}">详情</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- /.panel panel-success -->
+        </div><!-- /.emp_info -->
+
+    </div><!-- /.hrms_body -->
+
+</div><!-- /.container -->
+</body>
+</html>

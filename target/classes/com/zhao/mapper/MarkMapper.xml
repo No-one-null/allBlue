@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhao.mapper.MarkMapper">
+    <resultMap id="markMap" type="mark">
+        <result column="ac_id" property="acId"/>
+        <result column="create_date" property="createDate"/>
+        <association property="user" select="com.zhao.mapper.UserMapper.selectById" column="uid"/>
+    </resultMap>
+    <select id="selectById" resultMap="markMap">
+        SELECT * FROM mark
+        WHERE ac_id = #{acId}
+        AND uid = #{uid}
+    </select>
+    <select id="selectComments" parameterType="int" resultMap="markMap">
+        SELECT * FROM user,mark
+        WHERE ac_id=#{0} AND mark.uid=user.uid AND `comment`!=''
+        ORDER BY `create_date` DESC
+    </select>
+    <select id="countComment" resultType="int">
+        SELECT COUNT(`comment`) FROM `mark` WHERE `ac_id`=#{acId} AND `comment`!=''
+    </select>
+    <select id="countRating" resultType="int">
+        SELECT COUNT(`rating`) FROM `mark` WHERE `ac_id`=#{acId} AND `rating`>=1 AND rating <![CDATA[<=]]>5
+    </select>
+    <select id="avgRating" resultType="float">
+        SELECT AVG(`rating`) FROM `mark` WHERE `ac_id`=#{acId} AND `rating`>=1 AND rating <![CDATA[<=]]>5
+    </select>
+    <insert id="insertMark">
+        INSERT INTO mark (uid, ac_id)
+        VALUES (#{uid}, #{acId})
+    </insert>
+    <update id="updateMark">
+        UPDATE mark
+        <trim prefix="SET" suffixOverrides=",">
+            comment=#{comment},tag=#{tag},progress=#{progress},
+            <if test="rating!=0 and rating!=null">rating=#{rating}</if>
+        </trim>
+        WHERE ac_id = #{acId} AND uid = #{uid}
+    </update>
+</mapper>

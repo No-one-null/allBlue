@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>动漫信息</title>
+
+</head>
+<body>
+<div>
+    <!-- 导航栏-->
+    <div th:replace="/back/back :: head"></div>
+    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
+    <div class="back_body" style="position:relative; top:-15px;">
+        <!-- 左侧栏 -->
+        <div th:replace="/back/acInfo/ac_Info :: left"></div>
+
+        <!-- 中间员工表格信息展示内容 -->
+        <div class="mainInfo col-sm-10">
+            <div class="panel panel-success">
+                <!-- 路径导航 -->
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <li><a href="#">动漫信息</a></li>
+                        <li class="active"><a href="#">编辑信息</a></li>
+                    </ol>
+                </div>
+                <form class="form-horizontal" role="form" action="/back/editOk" method="post"
+                      enctype="multipart/form-data" id="myForm">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="file" class="col-sm-2 control-label">封面<br>(海报)</label>
+                            <div class="col-sm-10">
+                                <img id="preImg"
+                                     th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}"
+                                     height="200px">
+                                <input type="file" id="file" name="file">
+                                <input type="hidden" name="image" th:value="${ac.image}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="id" name="id" th:value="${ac.id}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">类别</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="category" name="category"
+                                       th:value="${ac.category}=='A'?'动画':'漫画'" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入作品名"
+                                       th:value="${ac.name}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-sm-2 control-label">作者</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="author" name="author" placeholder="请输入作者名"
+                                       th:value="${ac.author}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="year" class="col-sm-2 control-label">年份</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="year" name="year" placeholder="请输入年份"
+                                       th:value="${ac.year}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="info" class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="10" id="info" name="info" placeholder="请输入简介"
+                                          th:text="${ac.info}">${ac.info}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="reset" class="btn btn-warning btn-edit" id="button-reload"
+                                    data-toggle="tooltip" title="重置页面">恢复
+                            </button>
+                            <button type="button" class="btn btn-info btn-edit" id="button-edit"
+                                    data-toggle="tooltip" title="修改">修改
+                            </button>
+                            <button type="button" class="btn btn-danger btn-edit" id="button-delete"
+                                    data-toggle="tooltip" title="删除">删除
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+    $("#image").change(function () {
+        alert("暂时没有实现预览图!!");
+    });
+    $("#button-delete").click(function () {
+        var id = $("#id").val();
+        var aname = $("#name").val();
+        if (confirm("确定删除【" + id + "." + aname + "】？")) {
+            window.location.href = "/back/deleteOne/" + id;
+            alert("删除成功！");
+        }
+    });
+    $("#button-edit").click(function () {
+        var id = $("#id").val();
+        var aname = $("#name").val();
+        if (confirm("确定修改【" + id + "." + aname + "】？")) {
+            $("#myForm").submit();
+        }
+    });
+</script>
+</body>
+</html>

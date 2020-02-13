@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>动漫信息</title>
+    <script>
+        var pNum = [[${pages.pageNumber}]];
+        var pSize = [[${pages.pageSize}]];
+        var pTotal = [[${pages.total}]];
+        var pCount = [[${pages.count}]];
+    </script>
+</head>
+<body>
+<div>
+    <!-- 导航栏-->
+    <div th:replace="/back/back :: head"></div>
+    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
+    <div class="back_body">
+        <!-- 左侧栏 -->
+        <div class="panel-group col-sm-2 div1" role="tablist" aria-multiselectable="true" th:fragment="left">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active">
+                    <a href="#" data-toggle="collapse" data-target="#collapse_acInfo">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true">全部作品</span>
+                    </a>
+                    <ul class="nav nav-pills nav-stacked" id="collapse_acInfo">
+                        <li role="presentation"><a th:href="@{/back/ac/info/1}">全部条目</a></li>
+                        <li role="presentation"><a href="#">错误反馈</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active">
+                    <a href="#" data-toggle="collapse" data-target="#collapse_acUpdate">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true">增加动漫</span>
+                    </a>
+                    <ul class="nav nav-pills nav-stacked" id="collapse_acUpdate">
+                        <li role="presentation"><a th:href="@{/back/add}">增加条目</a></li>
+                        <li role="presentation"><a href="#">批量删除</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div><!--左侧栏-->
+    <!-- 动漫信息展示内容 -->
+    <div class="col-sm-10 mainInfo">
+        <div class="panel panel-success">
+            <!-- 路径导航 -->
+            <div class="panel-heading">
+                <ol class="breadcrumb">
+                    <li><a href="#">动漫信息</a></li>
+                    <li class="active">全部作品</li>
+                </ol>
+                <div class="input-group search">
+                    <input type="text" id="search-input" class="form-control" placeholder="输入作者或作品名搜索">
+                    <span class="input-group-btn">
+						    <button class="btn btn-default" id="search-button" type="button">Go!</button>
+					    </span>
+                </div><!-- /input-group -->
+            </div>
+            <!-- Table -->
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th width="50">序号</th>
+                <th width="150">封面/海报</th>
+                <th>ID</th>
+                <th>作品名</th>
+                <th>作者/导演</th>
+                <th>出版/放映时间</th>
+                <th>操作</th>
+                </thead>
+                <tbody>
+                <tr th:each="ac,var : ${list}">
+                    <td th:text="${var.index}+1"></td>
+                    <td>
+                        <img class="smImg"
+                             th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}">
+                    </td>
+                    <td th:text="${ac.id}"></td>
+                    <td th:text="${ac.name}"></td>
+                    <td th:text="${ac.author}"></td>
+                    <td th:text="${ac.year}"></td>
+                    <td>
+                        <a th:href="@{'/back/edit/'+${ac.id}}">编辑详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:replace="/back/back :: page"></div>
+        </div><!-- /.panel panel-success -->
+    </div><!-- /.emp_info -->
+</div><!-- /.back_body -->
+</div>
+</body>
+</html>

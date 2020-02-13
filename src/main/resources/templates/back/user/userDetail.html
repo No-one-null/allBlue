@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>用户管理</title>
+
+</head>
+<body>
+<div>
+    <!-- 导航栏-->
+    <div th:replace="/back/back :: head"></div>
+    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
+    <div class="back-body">
+        <!-- 左侧栏 -->
+        <div th:replace="/back/user/userInfo :: left"></div>
+
+        <!-- 中间员工表格信息展示内容 -->
+        <div class="mainInfo col-sm-10">
+            <div class="panel panel-danger">
+                <!-- 路径导航 -->
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <li><a href="#">用户管理</a></li>
+                        <li>详细信息</li>
+                        <li class="active">UID:<span class="badge">[[${user.uid}]]</span></li>
+                    </ol>
+                </div>
+                <form class="form-horizontal" role="form" action="/back/editOk" method="post"
+                      enctype="multipart/form-data" id="myForm">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="file" class="col-sm-2 control-label">头像</label>
+                            <div class="col-sm-4">
+                                <img id="preImg"
+                                     th:src="@{${#strings.isEmpty(user.photo)}?'/images/null.png':'/images/cover/'+${user.photo}}"
+                                     height="200px">
+                                <input type="file" id="file" name="file">
+                                <input type="hidden" name="image" th:value="${user.photo}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="username" placeholder="请输入用户名"
+                                       th:value="${user.username}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="password" placeholder="密码"
+                                       th:value="${user.password}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birth" class="col-sm-2 control-label">生日</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="birth"
+                                       th:value="${#dates.format(user.birth,'yyy/MM/dd')}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">邮箱</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="email" th:value="${user.email}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="gender"
+                                       th:value="${user.gender}=='M'?'男':'女'">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button type="button" class="btn btn-primary col-sm-8"
+                                    onclick="javascript:history.back(-1);">返回
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+    $("#image").change(function () {
+        alert("暂时没有实现预览图!!");
+    });
+    $("#button-delete").click(function () {
+        var id = $("#id").val();
+        var aname = $("#name").val();
+        if (confirm("确定删除【" + id + "." + aname + "】？")) {
+            window.location.href = "/back/deleteOne/" + id;
+            alert("删除成功！");
+        }
+    });
+    $("#button-edit").click(function () {
+        var id = $("#id").val();
+        var aname = $("#name").val();
+        if (confirm("确定修改【" + id + "." + aname + "】？")) {
+            $("#myForm").submit();
+        }
+    });
+</script>
+</body>
+</html>

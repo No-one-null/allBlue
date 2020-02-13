@@ -1,0 +1,123 @@
+<!DOCTYPE html >
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/front/front.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/front.css}">
+</head>
+<body class="main-body">
+<a name="top" id="top"></a>
+<img th:src="@{/images/character/LuoTianyi.gif}" class="bottom-left">
+<!-- 导航栏-->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" th:fragment="head">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">
+                AllBlue动漫网
+            </a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav nav-tag">
+                <input type="hidden" id="input-hidden">
+                <li><a th:href="@{/ac/comic}"><span class="glyphicon glyphicon-book"></span> 漫画</a></li>
+                <li><a th:href="@{/ac/anime}"><span class="glyphicon glyphicon-film"></span> 动画</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-fire"></span> 资讯</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-globe"></span> 话题</a></li>
+            </ul>
+            <div class="nav navbar-nav ">
+                <form class="navbar-form" role="search" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-search" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-search">搜索</button>
+                </form>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div th:if="${session.currentUser}==null" style="float: left;"><span
+                                class="glyphicon glyphicon-user"></span> 账号
+                        </div>
+                        <div th:if="${session.currentUser}!=null" style="float: left;">
+                            <img class="img-circle headImg"
+                                 th:src="@{${#strings.isEmpty(session.currentUser.photo)}?'/images/no-one.jpg':'/images/cover/'+${session.currentUser.photo}}"></img>
+                            [[${session.currentUser.username}]]
+                        </div>
+                        <b class="caret"></b>
+                    </a>
+                    <ul th:if="(${session.currentUser}==null)" class="dropdown-menu">
+                        <li>
+                            <a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> 登录/注册</a>
+                        </li>
+                    </ul>
+                    <ul class="dropdown-menu" th:if="(${session.currentUser}!=null)">
+                        <li>
+                            <a th:href="@{/userInfo}">
+                                UID：<span class="badge">[[${session.currentUser.uid}]]</span>
+                                <h5>[[${session.currentUser.username}]]</h5>
+                                <span class="glyphicon glyphicon-user"></span> 个人主页
+                            </a>
+                        </li>
+                        <hr>
+                        <li th:if="(${session.currentUser}!=null)">
+                            <a href="javascript:quit()"><span class="glyphicon glyphicon-log-out"></span> 退出账号</a>
+                        </li>
+                        <!--                        <li class="divider"></li>-->
+                        <li shiro:hasRole="admin">
+                            <hr>
+                            <a th:href="@{/back/user/info/1}"><span class="glyphicon glyphicon-wrench"></span> 管理员</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--主要内容-->
+<div class="col-md-offset-2 col-md-8" style="border-bottom-color: blue;padding-top: 100px;">
+    <h2><span class="glyphicon glyphicon-fire"></span>热门动画</h2>
+    <!--style="float: left;background-color: #98F5FF;height: 300px;text-align:center;margin-left:20px;margin-bottom: 20px">-->
+    <div class="col-md-3 ac-div" th:each="ac,num : ${animes}">
+        <a th:href="'acInfo='+${ac.id}" class="thumbnail">
+            <p th:text="${num.index+1}"></p>
+            <img th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}"
+                 alt="通用的占位符缩略图">
+            <div class="caption">
+                <h4 th:text="${ac.name}"></h4><br>
+                <p th:text="${ac.info}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="col-md-offset-2 col-md-8" style="text-align: center;">
+    <a th:href="@{/ac/anime}">更多……</a>
+    <hr>
+</div>
+<div class="col-md-offset-2 col-md-8">
+    <h2><span class="glyphicon glyphicon-fire"></span>热门漫画</h2>
+    <div th:each="c,num : ${comics}">
+        <!--style="float: left;background-color: #98F5FF;height: 300px;text-align:center;margin-left:20px;margin-bottom: 20px">-->
+        <div class="col-md-3 ac-div">
+            <a th:href="@{'acInfo='+${c.id}}" class="thumbnail">
+                <p th:text="${num.index+1}"></p>
+                <img th:src="@{${#strings.isEmpty(c.image)}?'/images/none.png':'/images/cover/'+${c.image}}"
+                     alt="通用的占位符缩略图">
+                <div class="caption">
+                    <h4 th:text="${c.name}"></h4><br>
+                    <p th:text="${c.info}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col-md-offset-2 col-md-8" style="text-align: center;">
+    <a th:href="@{/ac/comic}">更多……</a>
+    <hr>
+</div>
+<a href="#top" class="goTop"><img th:src="@{/images/icon/top.gif}"></a>
+</body>
+</html>

@@ -22,7 +22,7 @@ div {
     /*border-style: dashed;*/
 }
 
-html{
+html {
     height: 100%;
 }
 
@@ -30,6 +30,7 @@ body {
     background-color: #F0F8FF;
     padding-top: 60px;
     height: 100%;
+    font-size: 150%;
 }
 
 button {
@@ -85,9 +86,7 @@ a:hover {
     width: 18%;
 }
 
-/*
-首页
- */
+/*首页*/
 .dropdown-menu {
     text-align: center;
 }
@@ -146,7 +145,6 @@ h5 {
 
 .detail-div {
     margin-top: 3%;
-    border-style: dashed;
     height: 85%;
 }
 
@@ -218,7 +216,7 @@ pre {
     width: 25%;
     height: 100%;
     float: left;
-    border-style: dashed;
+    border-style: outset;
     background-color: #B0E0E6;
     display: table;
     margin: 0 auto;
@@ -285,7 +283,6 @@ pre {
 
 .mark-form .form-group {
     width: 100%;
-    border-style: double;
 }
 
 .rating-star {
@@ -304,9 +301,21 @@ pre {
 }
 
 .comment-div {
-    background-size: cover;
     height: 95%;
     background-color: #FFFFF0;
+}
+
+.no-found {
+    background-image: url("../images/character/noFound-tucao.jpg");
+    background-size: cover;
+    border-style: dot-dash;
+}
+
+.not-much{
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+    height: 33%;
 }
 
 .user-comment {
@@ -318,8 +327,13 @@ pre {
     display: table;
 }
 
-.date{
+.user-comment span{
+    color: #F0FFFF;
+}
+
+.date {
     float: right;
+    font-family: "Times New Roman", Times, serif;
 }
 
 .user-comment textarea {
@@ -327,7 +341,7 @@ pre {
     width: 100%;
     background-color: #F0FFF0;
     border-style: none;
-"
+    font-family:"Times New Roman",Georgia,Serif;
 }
 
 .comment-div-bottom {
@@ -338,12 +352,12 @@ pre {
     margin: 0 auto;
 }
 
-.left-btn{
-    float:left;
+.left-btn {
+    float: left;
     width: 20%;
 }
 
-.right-btn{
+.right-btn {
     float: right;
     width: 20%;
 }

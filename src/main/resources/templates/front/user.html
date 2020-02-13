@@ -7,6 +7,8 @@
 position: fixed;text-align: center;">
     <img class="img-rounded img-thumbnail" style="height: 100px;"
          th:src="${#strings.isEmpty(session.currentUser.photo)}?'images/no-one.jpg':'images/cover/'+${session.currentUser.photo}"></img>
+    <h4>[[${session.currentUser.username}]]</h4>
+    UID：<span class="badge">[[${session.currentUser.uid}]]</span>
     <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#"><span class="glyphicon glyphicon-align-left"></span> 个人信息</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改信息</a></li>
@@ -14,8 +16,6 @@ position: fixed;text-align: center;">
     </ul>
 </div>
 <div class="col-md-offset-2 col-md-8" style="background-color: #F0FFFF;">
-    <h3>[[${session.currentUser.username}]]</h3>
-    UID：<span class="badge">[[${session.currentUser.uid}]]</span>
     <p>
         李白（701年5月19日－762年11月30日）[1]，字太白，号青莲居士，中国唐朝诗人，自言祖籍陇西成纪（今甘肃省天水市秦安县），先世西凉武昭王李暠之后，与李唐皇室同宗。幼时内迁，寄籍剑南道绵州（今四川省江油市昌隆县）。另外，郭沫若研究认为李白出生于吉尔吉斯碎叶河上的碎叶城，属唐安西都护府（今楚河州托克马克市），该说有一定影响[2]。有“诗仙”、“诗侠”、“酒仙”、“谪仙人”等称呼，活跃于盛唐[3]，为杰出的浪漫主义诗人。与杜甫合称“李杜”[4]。被贺知章惊呼为“天上谪仙”。</p>
     <h1>噫吁嚱，危乎高哉，蜀道之难，难于上青天！<br>

@@ -38,10 +38,12 @@ public class UserRealmTest {
         Md5Hash md5Hash2 = new Md5Hash("admin", "admin");
         Md5Hash md5Hash3 = new Md5Hash("password", "user");
         Md5Hash md5Hash4 = new Md5Hash("root", "root");
+        Md5Hash md5Hash5=new Md5Hash("那撸多","123456");
         System.out.println("000000(zero):" + md5Hash1);
         System.out.println("admin(admin):" + md5Hash2);
         System.out.println("password(user):" + md5Hash3);
         System.out.println("root(root):" + md5Hash4);
+        System.out.println("123456(那撸多)"+md5Hash5);
     }
 
     @Test

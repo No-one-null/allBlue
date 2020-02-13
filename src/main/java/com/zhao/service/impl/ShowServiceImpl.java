@@ -71,6 +71,11 @@ public class ShowServiceImpl implements ShowService {
         return acItemsMapper.selectByParams(field, word, seq, 0, end);
     }
 
+    @Override
+    public List<AcItems> Sort(String field, String word, String sort, String seq, int start, int end) {
+        return acItemsMapper.sortByParams(field,word,sort,seq,start,end);
+    }
+
     @Transactional
     @Override
     public Boolean addMark(Mark mark) {

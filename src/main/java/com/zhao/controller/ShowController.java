@@ -28,6 +28,15 @@ public class ShowController {
     @Resource
     private ShowService showServiceImpl;
 
+//    @RequestMapping("/")
+//    public String index(Model model, HttpServletRequest request) {
+//        List animes = showServiceImpl.findByParam("category", "A", "DESC", 0, 16);
+//        model.addAttribute("animes", animes);
+//        List comics = showServiceImpl.findByParam("category", "C", "DESC", 0, 16);
+//        model.addAttribute("comics", comics);
+//        return "/index";
+//    }
+
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
         List animes = showServiceImpl.findByParam("category", "A", "DESC", 0, 16);
@@ -122,10 +131,10 @@ public class ShowController {
     @ResponseBody
     public Map<String, Object> showComments(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        String acId=request.getParameter("acId");
+        String acId = request.getParameter("acId");
         List<Mark> marks = showServiceImpl.allComments(acId);
         map.put("comment", marks);
-        System.out.println("acId:"+acId+"marks:"+marks);
+//        System.out.println("acId:" + acId + "marks:" + marks);
         return map;
     }
 }

@@ -3,7 +3,7 @@ package com.zhao.pojo;
 
 public class AcItems {
 
-    private long id;
+    private int id;
     private String name;
     private String author;
     private String year;
@@ -12,7 +12,8 @@ public class AcItems {
     private String category;
     private String country;
     private float rating;
-    private long status;
+    private int status;
+    private int count;
 
     @Override
     public String toString() {
@@ -27,17 +28,17 @@ public class AcItems {
                 ", country='" + country + '\'' +
                 ", rating=" + rating +
                 ", status=" + status +
+                ", count=" + count +
                 '}';
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -47,7 +48,6 @@ public class AcItems {
         this.name = name;
     }
 
-
     public String getAuthor() {
         return author;
     }
@@ -55,7 +55,6 @@ public class AcItems {
     public void setAuthor(String author) {
         this.author = author;
     }
-
 
     public String getYear() {
         return year;
@@ -65,7 +64,6 @@ public class AcItems {
         this.year = year;
     }
 
-
     public String getInfo() {
         return info;
     }
@@ -73,7 +71,6 @@ public class AcItems {
     public void setInfo(String info) {
         this.info = info;
     }
-
 
     public String getImage() {
         return image;
@@ -83,7 +80,6 @@ public class AcItems {
         this.image = image;
     }
 
-
     public String getCategory() {
         return category;
     }
@@ -91,7 +87,6 @@ public class AcItems {
     public void setCategory(String category) {
         this.category = category;
     }
-
 
     public String getCountry() {
         return country;
@@ -101,7 +96,6 @@ public class AcItems {
         this.country = country;
     }
 
-
     public float getRating() {
         return rating;
     }
@@ -110,13 +104,19 @@ public class AcItems {
         this.rating = rating;
     }
 
-
-    public long getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

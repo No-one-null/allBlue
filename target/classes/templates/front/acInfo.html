@@ -7,7 +7,7 @@
 <body class="container">
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<a href="#top" class="goTop"><img th:src="@{/images/icon/top.gif}"></a>
+<a href="#" class="goTop"><img th:src="@{/images/icon/top.gif}"></a>
 <div class="col-md-12 panel panel-info">
     <div class="title-div panel-heading">
         <h4><b><span th:text="${ac.name}"></span></b></h4>
@@ -34,9 +34,11 @@
         <pre th:if="!${#strings.isEmpty(ac.info)}">[[${ac.info}]]</pre>
         <p style="text-align: center"><a href="#"><i>信息有误? 报错！</i> </a></p>
     </div>
+    <!--链接-->
     <div class="col-md-6 link-div">
         观看链接
     </div>
+<!--    收藏和评分-->
     <div class="col-md-6 mark-div">
         <div class="rating-div">
             <div class="rating-star-div">
@@ -57,7 +59,9 @@
         </div>
     </div>
     <div class="col-md-6 comment-btn-div">
-        <input type="button" class="btn btn-info btn-block" id="comment-btn" value="吐槽一下">
+        <button type="button" class="btn btn-default btn-block" id="comment-btn">
+            <span class="glyphicon glyphicon-thumbs-up"></span> 看看大家的吐槽
+            <span class="glyphicon glyphicon-thumbs-down"></span></button>
         <a name="comments" id="comments"></a>
     </div>
 </div>
@@ -66,8 +70,8 @@
 <!--评论分页-->
 <div class="col-md-12 comment-div-bottom">
     <div class="cell">
-        <input type="button" class="btn btn-primary left-btn" value="更新">
-        <input type="button" class="btn btn-default right-btn" value="关闭">
+        <input type="button" class="btn btn-primary left-btn" value="刷新">
+        <input type="button" class="btn btn-default right-btn" value="更多">
     </div>
 </div>
 <div class="col-md-6 comment-model panel-warning" hidden>
@@ -81,7 +85,7 @@
     </div>
 </div>
 <!-- 模态框（Modal） -->
-<div class="modal fade col-md-12" id="myModal" role="dialog" aria-hidden="true">
+<div class="modal fade col-md-12m" id="myModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,8 +96,7 @@
             </div>
             <div class="modal-body">
                 <!--评分评论表单-->
-                <form class="form-horizontal mark-form" role="form" method="post" th:action="@{/mark(acId=${ac.id})}"
-                      id="mark-form">
+                <form class="form-horizontal mark-form" role="form"id="mark-form">
                     <!--                    <input type="hidden" name="acId" th:value="$">-->
                     <div class="form-group">
                         <label class="control-label col-md-2">进度</label>
@@ -145,42 +148,10 @@
 </body>
 </html>
 <script type="text/javascript">
-    //星星
-    function star(num) {
-        num = Math.round(num);
-        var star = "";
-        for (var i = 0; i < num; i++) {
-            star += "★";
-        }
-        for (var i = num; i < 5; i++) {
-            star += "☆";
-        }
-        return star;
-    };
-
-    //进度
-    function progress(num) {
-        var strs = ["暂无", "想看", "在看", "看过", "搁置", "已弃"];
-        return strs[num];
-    }
-
-    //时间格式化
-    function dateFormat(times) {
-        var dates=new Date(times);
-        var Y=dates.getFullYear();
-        var M=dates.getMonth();
-        var D=dates.getDate();
-        var h=dates.getHours();
-        var m=dates.getMinutes();
-        var s=dates.getSeconds();
-        var dateTime=Y+"-"+M+"-"+D+" "+h+":"+m+":"+s;
-        return dateTime;
-    }
-
     /**评分**/
     function showRating(rating, userNum) {
         if (rating > 0) {
-            $(".rating-star-div div h1").html(rating);
+            $(".rating-star-div div h1").html(numFormat(rating));
         }
         if (rating <= 0) {
             $(".rating-star-div div h1").html("暂无");
@@ -192,15 +163,15 @@
     //查询更新评分
     function queryRatingData() {
         $.post("[[@{/rating}]]",
-        {
-            acId: [[${ac.id}]]
-        }, function (data, status) {
-            if (status == 'success') {
-                showRating(data.acRating, data.userNum);
-            } else {
-                alert("系统繁忙!");
-            }
-        });
+            {
+                acId: [[${ac.id}]]
+            }, function (data, status) {
+                if (status == 'success') {
+                    showRating(data.acRating, data.userNum);
+                } else {
+                    alert("系统繁忙!");
+                }
+            });
     }
 
     //我的收藏
@@ -210,17 +181,26 @@
             dataType: "json",
             type: "post",
             async: "false",
-            success: function (data) {   //如果请求成功，返回数据。
-                var html = "<div style='width: 50%;float: left;'>我的评价:";
+            success: function (data) {
+                var html = "<div style='width: 33%;float: left;'>我的评价:";
                 if (data.myMark == null) {
                     html += "<a onclick='addMark()' href='#' " +
                         "class='data-toggle='tooltip' title='添加评价'>未评价</a>";
                 } else {
                     html += "<a href='#' onclick='editMark()' " +
                         "class='data-toggle='tooltip' title='修改评分'>" +
-                        "<span>" + star(data.myMark.rating) + "</span></a>";
+                        "<span>" + numFormat(data.myMark.rating) + "</span></a>";
                 }
-                html += "</div><div style='width: 50%;float:right;'>我的进度:";
+                html += "</div><div style='width: 33%;float:left;'>我的吐槽:";
+                if (data.myMark == null) {
+                    html += "<a onclick='addMark()' href='#' " +
+                        "data-toggle='tooltip' data-placement='top' title='添加吐槽'>暂无</a>";
+                } else {
+                    html += "<a href='#' onclick='editMark()' " +
+                        "data-toggle='tooltip' data-placement='top' title='修改'>" +
+                        "<span>查看</span></a>";
+                }
+                html += "</div><div style='width: 33%;float:right;'>我的进度:";
                 if (data.myMark == null) {
                     html += "<a onclick='addMark()' href='#' " +
                         "data-toggle='tooltip' data-placement='top' title='添加收藏'>暂无</a>";
@@ -232,6 +212,7 @@
                 html += "</div>";
                 $(".my-mark-div div").html(html); //在html页面id=test的标签里显示html内容
                 queryRatingData();
+                showComments();
             }
         });
     };
@@ -244,11 +225,9 @@
         $("#myModal").modal();
     }
 
+    //编辑收藏信息
     function editMark() {
-        $.post("[[@{/myMark}]]",
-            {
-                acId: [[${ac.id}]]
-            },
+        $.post("[[@{/myMark}]]",{acId: [[${ac.id}]]},
             function (data, status) {
                 if (status == "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
@@ -262,25 +241,38 @@
             });
     }
 
+    //显示评论
     function showComments() {
-        $.post("[[@{/showComments}]]",{acId:3},
-        function (data,status) {
-            if(status=='success'){
-                html="";
-                for(var i=0;i<data.comment.length;i++){
-                    html+="<div class='user-comment'" +
-                        "        <div class='cell' style='background-color: #8DB6CD;'>\n" +
-                        "            <span class='badge'>"+data.comment[i].user.username+"</span>\n" +
-                        "            <span class='date'>"+dateFormat(data.comment[i].createDate)+"</span>\n" +
-                        "            <textarea rows='3' readonly>"+data.comment[i].comment+"</textarea>\n" +
-                        "        </div>\n" +
-                        "    </div>";
+        $.post("[[@{/showComments}]]", {acId: [[${ac.id}]]},
+            function (data, status) {
+                if (status == 'success') {
+                    let html = "";
+                    if(data.comment.length<=0){
+                        $(".comment-div").addClass("no-found");
+                    }else{
+                        $(".comment-div").removeClass("no-found");
+                    }
+                    if(data.comment.length<12&&data.comment.length>0){
+                        html+="<img class='not-much' src='images/character/Kanna.gif'>";
+                    }
+                    if(data.comment.length>0){
+                        for (let i = 0; i < data.comment.length; i++) {
+                            html += "<div class='user-comment'" +
+                                "        <div class='cell' style='background-color: #8DB6CD;'>\n" +
+                                "            <span class='badge'>" + data.comment[i].user.username + "</span>\n"
+                                + star(data.comment[i].rating) +"["+progress(data.comment[i].progress)+"]"+
+                                "            <span class='date'>" + fullTime(data.comment[i].createDate) + "</span>\n" +
+                                "            <textarea rows='3' readonly>"
+                                + data.comment[i].comment + "</textarea>\n" +
+                                "        </div>\n" +
+                                "    </div>";
+                        }
+                    }
+                    $(".comment-div").html(html);
+                } else {
+                    alert("失败");
                 }
-                $(".comment-div").html(html);
-            }else {
-                alert("失败");
-            }
-        });
+            });
     };
 
     $(document).ready(function () {
@@ -290,7 +282,7 @@
             myMark();
         }
         $(".left-btn").click(function () {
-            updateComments();
+            showComments();
         });
         $(".rating a").click(function () {
             $("#rating").attr("checked", "true");

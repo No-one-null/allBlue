@@ -15,6 +15,8 @@ public interface ShowService {
 
     List<AcItems> findByParam(String field, String word, String seq, int start, int end);
 
+    List<AcItems> Sort(String field, String word,String sort,String seq, int start, int end);
+
     Boolean addMark(Mark mark);
 
     Mark findMarkOne(int uid, int acId);

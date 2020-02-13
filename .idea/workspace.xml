@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/character/noFound-tucao.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/images/background/Biyori.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/character/Biyori.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/images/background/Biyori.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/front/front.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="allblue: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="allblue: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="mark: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="spring-beans.schema" />
+        <option value="HTML File" />
+        <option value="Class" />
+        <option value="Interface" />
+        <option value="Tag Library Descriptor" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\Workspaces\allBlue\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/Program Files/Maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\Users\.m2\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1WYo5VwIq3VSngmxadhw0ym7hTg" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/images/character" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\character" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\icon" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\cover" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\error" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.zhao" />
+      <recent name="com.zhao.service" />
+    </key>
+    <key name="DestinationChooserDialog.Package.RECENTS_KEY">
+      <recent name="com.zhao.test" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zhao.pojo" />
+      <recent name="com.zhao.service.impl" />
+      <recent name="com.zhao.service" />
+      <recent name="com.zhao.mapper" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\character" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images" />
+      <recent name="D:\Workspaces\allBlue\target\classes\static\images\background" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\icon" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.UserRealmTest.Md5Test">
+    <configuration name="UserRealmTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zhao.test" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRealmTest.Md5Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zhao.test" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
+      <option name="METHOD_NAME" value="Md5Test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRealmTest.Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zhao.test" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
+      <option name="METHOD_NAME" value="Test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zhao.App" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.App" />
+        <item itemvalue="JUnit.UserRealmTest.Md5Test" />
+        <item itemvalue="JUnit.UserRealmTest.Test" />
+        <item itemvalue="JUnit.UserRealmTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="" />
+      <created>1579335708522</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579335708522</updated>
+      <workItem from="1579335718648" duration="7978000" />
+      <workItem from="1579347246167" duration="1950000" />
+      <workItem from="1579351508322" duration="8368000" />
+      <workItem from="1579402051619" duration="2324000" />
+      <workItem from="1579404417157" duration="39413000" />
+      <workItem from="1579450398272" duration="801000" />
+      <workItem from="1579480546954" duration="30540000" />
+      <workItem from="1579568928290" duration="51593000" />
+      <workItem from="1579655272269" duration="37584000" />
+      <workItem from="1579741707453" duration="42012000" />
+      <workItem from="1579853235613" duration="18458000" />
+      <workItem from="1579912698319" duration="47994000" />
+      <workItem from="1580005260561" duration="29544000" />
+      <workItem from="1580049808608" duration="7313000" />
+      <workItem from="1580091068004" duration="13353000" />
+      <workItem from="1580174675544" duration="44018000" />
+      <workItem from="1580263793858" duration="13757000" />
+      <workItem from="1580351795914" duration="4110000" />
+      <workItem from="1580355942269" duration="20078000" />
+      <workItem from="1580437527582" duration="32070000" />
+      <workItem from="1580522425526" duration="32366000" />
+      <workItem from="1580611651681" duration="12698000" />
+      <workItem from="1580715814394" duration="27260000" />
+      <workItem from="1580801544756" duration="23681000" />
+      <workItem from="1580870113592" duration="16434000" />
+      <workItem from="1580918460658" duration="157000" />
+      <workItem from="1580959232292" duration="27084000" />
+      <workItem from="1581043500221" duration="31069000" />
+      <workItem from="1581128881771" duration="31160000" />
+      <workItem from="1581216907035" duration="24361000" />
+      <workItem from="1581312874198" duration="28479000" />
+      <workItem from="1581402216989" duration="35480000" />
+      <workItem from="1581471503185" duration="48126000" />
+      <workItem from="1581555141916" duration="32754000" />
+    </task>
+    <task id="LOCAL-00001" summary="测试">
+      <created>1581569963607</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1581569963607</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="测试" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="92" key="#HTTP_Proxy" timestamp="1580660121007">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="92" key="#HTTP_Proxy/0.0.1536.824@0.0.1536.824" timestamp="1580660121007" />
+    <state x="361" y="74" key="#Notifications" timestamp="1581258327679">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="74" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1581258327679" />
+    <state x="361" y="74" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580660474738">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="74" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1580660474738" />
+    <state x="507" y="221" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1580829509300">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="507" y="221" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1580829509300" />
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1581600369184">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1581600369184" />
+    <state x="499" y="193" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1581436556695">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="193" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1581436556695" />
+    <state x="498" y="226" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1580975564753">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="498" y="226" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1580975564753" />
+    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1580975594087">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1580975594087" />
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1580975565836">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1580975565836" />
+    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1580975595900">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1536.824@0.0.1536.824" timestamp="1580975595900" />
+    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1581474708967">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474708967" />
+    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581474538552">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474538552" />
+    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1581569961624">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581569961624" />
+    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1581499865379">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581499865379" />
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1581583296284">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
+    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1581583296284">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
+    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1581583296284">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
+    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1581583296284">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.1.center" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.1.left" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.1.right" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom" timestamp="1581583296180">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296180" />
+    <state width="1493" height="191" key="GridCell.Tab.2.center" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.2.left" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.2.right" timestamp="1581583296179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.3.bottom" timestamp="1581340155604">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581340155604" />
+    <state width="1493" height="191" key="GridCell.Tab.3.center" timestamp="1581340155604">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1581340155604" />
+    <state width="1493" height="191" key="GridCell.Tab.3.left" timestamp="1581340155604">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1581340155604" />
+    <state width="1493" height="191" key="GridCell.Tab.3.right" timestamp="1581340155604">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1581340155604" />
+    <state x="349" y="78" key="Registry" timestamp="1579404395384">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="78" key="Registry/0.0.1536.824@0.0.1536.824" timestamp="1579404395384" />
+    <state x="272" y="0" key="SettingsEditor" timestamp="1581250592777">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="272" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581250592777" />
+    <state width="498" height="468" key="SwitcherDM" timestamp="1581499924360">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="498" height="468" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1581499924360" />
+    <state x="553" y="243" width="429" height="339" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1581556762247">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="553" y="243" width="429" height="339" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.824@0.0.1536.824" timestamp="1581556762247" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581555192709">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581555192709" />
+    <state x="564" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581585386940">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="564" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1581585386940" />
+    <state x="178" y="117" key="new project wizard" timestamp="1579343313100">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="178" y="117" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1579343313100" />
+    <state x="511" y="36" key="refactoring.ChangeSignatureDialog" timestamp="1579791118461">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="511" y="36" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1579791118461" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1581575026934">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1581575026934" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1581500308842">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1581500308842" />
+  </component>
+</project>

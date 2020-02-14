@@ -72,8 +72,8 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<AcItems> Sort(String field, String word, String sort, String seq, int start, int end) {
-        return acItemsMapper.sortByParams(field,word,sort,seq,start,end);
+    public List<AcItems> sort(String category,int start, int end) {
+        return acItemsMapper.sort(category,start,end);
     }
 
     @Transactional

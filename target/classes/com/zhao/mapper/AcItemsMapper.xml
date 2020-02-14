@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhao.mapper.AcItemsMapper">
-    <resultMap id="acMap" type="acItems">
-        <id column="id" property="id"/>
-        <collection property="list" ofType="comment">
-            <id column="uid" property="uid"/>
-            <id column="ac_id" property="acId"/>
-            <result column="create_date" property="createDate"/>
-        </collection>
-    </resultMap>
     <select id="selectAll" resultType="acItems">
         select * from ac_items
         where status = 1
@@ -52,12 +44,18 @@
             limit #{start},#{end}
         </if>
     </select>
-    <select id="sortBy" resultMap="acItems">
+    <select id="sort" resultType="acItems">
         SELECT * FROM ac_items
-        LEFT JOIN (select ac_id,count(`comment`) count FROM mark GROUP BY ac_id ORDER BY ac_id) c
+        LEFT JOIN (select ac_id,count(*) count FROM mark GROUP BY ac_id) c
         ON id=ac_id
         WHERE `status`=1
-        ORDER BY rating DESC,`count` DESC
+        <if test="category!=null and category!=''">
+            AND category = #{category}
+        </if>
+        ORDER BY `count` DESC,rating DESC
+        <if test="end!=0">
+            limit #{start},#{end}
+        </if>
     </select>
     <select id="selectById" resultType="acItems" parameterType="Integer">
         select * from ac_items

@@ -42,13 +42,13 @@
         <!-- 路径导航 -->
         <div class="panel-heading">
             <ol class="breadcrumb">
-                <li><a href="#">动漫信息</a></li>
-                <li class="active"><a href="#">全部作品</a></li>
+                <li><a href="#">动漫资讯</a></li>
+                <li class="active">全部公告</li>
             </ol>
             <div class="input-group search">
-                <input type="text" id="search-input" class="form-control" placeholder="输入作者或作品名搜索">
+                <input type="text" class="form-control search-input" placeholder="根据关键词搜索消息">
                 <span class="input-group-btn">
-						    <button class="btn btn-default" id="search-button" type="button">Go!</button>
+						    <button class="btn btn-default search-button" type="button">Go!</button>
 					    </span>
             </div><!-- /input-group -->
         </div>
@@ -60,4 +60,14 @@
     </div><!-- /.panel panel-success -->
 </div><!-- /.emp_info -->
 </body>
+<script type="text/javascript">
+    $(".search-input").focus();
+    $(".search-button").click(function () {
+        var input = $("#search-input").val();
+        if (input == "") {
+            alert("不能为空!! ")
+        } else {
+        }
+    });
+</script>
 </html>

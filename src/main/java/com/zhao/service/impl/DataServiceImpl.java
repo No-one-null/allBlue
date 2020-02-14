@@ -26,11 +26,9 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public List<AcItems> findByWord(String keyword) {
-        System.out.println("findByWord:keyword[" + keyword + "]");
         if ((keyword.equalsIgnoreCase("_")) || (keyword.equalsIgnoreCase("%"))) {
             keyword = "\\" + keyword;
         }
-        System.out.println("findByWord:keyword[" + keyword + "]");
         return AcItemsMapper.selectByKey(keyword);
     }
 

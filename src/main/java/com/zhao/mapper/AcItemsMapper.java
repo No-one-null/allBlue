@@ -19,8 +19,7 @@ public interface AcItemsMapper {
     List<AcItems> selectByParams(@Param("field") String field, @Param("word") String word, @Param("seq") String seq,
                                  @Param("start") int start, @Param("end") int end);
 
-    List<AcItems> sortByParams(@Param("field") String field, @Param("word") String word,@Param("sort")String sort,
-                                 @Param("seq") String seq, @Param("start") int start, @Param("end") int end);
+    List<AcItems> sort(@Param("category")String category,@Param("start") int start, @Param("end") int end);
 
     AcItems selectById(Integer id);
 

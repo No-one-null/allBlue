@@ -3,6 +3,7 @@ package com.zhao.service;
 import com.zhao.pojo.AcItems;
 import com.zhao.pojo.Mark;
 import com.zhao.pojo.PageInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ShowService {
 
     List<AcItems> findByParam(String field, String word, String seq, int start, int end);
 
-    List<AcItems> Sort(String field, String word,String sort,String seq, int start, int end);
+    List<AcItems> sort(String category,int start,int end);
 
     Boolean addMark(Mark mark);
 

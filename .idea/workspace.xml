@@ -2,30 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/character/noFound-tucao.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/front.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/images/background/Biyori.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/character/Biyori.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/back/back.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/back/back.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/user/userInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/user/userInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/front.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/images/background/Biyori.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/back/back.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/back/back.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/front/front.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/back.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/user/userInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/user/userInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +126,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/images/character" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/js/back" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -157,14 +160,14 @@
       <recent name="com.zhao.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\js\back" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\character" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images" />
       <recent name="D:\Workspaces\allBlue\target\classes\static\images\background" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\icon" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserRealmTest.Md5Test">
+  <component name="RunManager" selected="Spring Boot.App">
     <configuration name="UserRealmTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
@@ -289,7 +292,9 @@
       <workItem from="1581312874198" duration="28479000" />
       <workItem from="1581402216989" duration="35480000" />
       <workItem from="1581471503185" duration="48126000" />
-      <workItem from="1581555141916" duration="32754000" />
+      <workItem from="1581555141916" duration="37422000" />
+      <workItem from="1581605725930" duration="4843000" />
+      <workItem from="1581639602929" duration="1616000" />
     </task>
     <task id="LOCAL-00001" summary="测试">
       <created>1581569963607</created>
@@ -298,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581569963607</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="测试2">
+      <created>1581600457063</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1581600457063</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,7 +355,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="测试" />
+    <MESSAGE value="测试2" />
+    <option name="LAST_COMMIT_MESSAGE" value="测试2" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="92" key="#HTTP_Proxy" timestamp="1580660121007">
@@ -394,62 +407,62 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474538552" />
-    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1581569961624">
+    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1581600453240">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581569961624" />
+    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581600453240" />
     <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1581499865379">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581499865379" />
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1581583296284">
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1581610918651">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
-    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1581583296284">
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
+    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1581610918651">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
-    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1581583296284">
+    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
+    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1581610918651">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
-    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1581583296284">
+    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
+    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1581610918651">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296284" />
-    <state width="1493" height="191" key="GridCell.Tab.1.bottom" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom" timestamp="1581610918652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.1.center" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
+    <state width="1493" height="191" key="GridCell.Tab.1.center" timestamp="1581610918652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.1.left" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
+    <state width="1493" height="191" key="GridCell.Tab.1.left" timestamp="1581610918652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.1.right" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
+    <state width="1493" height="191" key="GridCell.Tab.1.right" timestamp="1581610918652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.2.bottom" timestamp="1581583296180">
+    <state width="1493" height="191" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom" timestamp="1581605051995">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581583296180" />
-    <state width="1493" height="191" key="GridCell.Tab.2.center" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581605051995" />
+    <state width="1493" height="191" key="GridCell.Tab.2.center" timestamp="1581605051994">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.2.left" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
+    <state width="1493" height="191" key="GridCell.Tab.2.left" timestamp="1581605051994">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
-    <state width="1493" height="191" key="GridCell.Tab.2.right" timestamp="1581583296179">
+    <state width="1493" height="191" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
+    <state width="1493" height="191" key="GridCell.Tab.2.right" timestamp="1581605051994">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1581583296179" />
+    <state width="1493" height="191" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
     <state width="1493" height="191" key="GridCell.Tab.3.bottom" timestamp="1581340155604">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -482,10 +495,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="553" y="243" width="429" height="339" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.824@0.0.1536.824" timestamp="1581556762247" />
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581555192709">
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581639671053">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581555192709" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581639671053" />
     <state x="564" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581585386940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -39,9 +39,9 @@ public class ShowController {
 
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
-        List animes = showServiceImpl.findByParam("category", "A", "DESC", 0, 16);
+        List animes = showServiceImpl.sort("A", 0, 16);
         model.addAttribute("animes", animes);
-        List comics = showServiceImpl.findByParam("category", "C", "DESC", 0, 16);
+        List comics = showServiceImpl.sort("C", 0, 16);
         model.addAttribute("comics", comics);
         return "/index";
     }

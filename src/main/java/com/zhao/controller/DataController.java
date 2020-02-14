@@ -59,6 +59,20 @@ public class DataController {
         return "/error/error404";
     }
 
+    @RequestMapping("/{path}/info")
+    public String showAllUser(Model model, HttpServletRequest request, @PathVariable String path) {
+        PageInfo pageInfo = showServiceImpl.showPage(path, "1", "6");
+        model.addAttribute("list", pageInfo.getList());
+        model.addAttribute("pages", pageInfo);
+        if (path.equalsIgnoreCase("user")) {
+            return "/back/user/userInfo";
+        }
+        if (path.equalsIgnoreCase("ac")) {
+            return "back/acInfo/ac_Info";
+        }
+        return "/error/error404";
+    }
+
     /*
     跳转到acNews编辑页
      */
@@ -79,22 +93,19 @@ public class DataController {
     @RequestMapping("/{path}/search={word}")
     public String find(Model model, HttpServletRequest request, @PathVariable String word, @PathVariable String path) {
         List<?> list = null;
+        String p="/error/error404";
         if (path.equalsIgnoreCase("user")) {
             list = loginServiceImpl.findByWord(word);
+            p="/back/user/userSearch";
         }
         if (path.equalsIgnoreCase("ac")) {
             list = dataServiceImpl.findByWord(word);
+            p="/back/acInfo/ac_search";
         }
         int listSize = list.size();
         model.addAttribute("listSize", listSize);
         model.addAttribute("list", list);
-        if (path.equalsIgnoreCase("user")) {
-            return "/back/user/userSearch";
-        }
-        if (path.equalsIgnoreCase("ac")) {
-            return "/back/acInfo/ac_search";
-        }
-        return "/error/error404";
+        return p;
     }
 
     /**

@@ -13,9 +13,6 @@ $(document).ready(function () {
             alert("不能为空!");
         }
     });
-    $("#comment-btn").click(function () {
-        $('html, body').animate({scrollTop: $('#top').offset().top}, 0);
-    });
 });
 
 //注销登录

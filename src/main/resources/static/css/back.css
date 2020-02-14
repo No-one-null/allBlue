@@ -1,3 +1,7 @@
+html{
+    height: 100%;
+}
+
 div {
     /*查看边界, 方便布局*/
     /*border-style: solid;*/

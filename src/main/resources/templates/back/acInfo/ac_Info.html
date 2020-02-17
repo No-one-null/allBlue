@@ -3,10 +3,24 @@
 <head>
     <title>动漫信息</title>
     <script>
-        var pNum = [[${pages.pageNumber}]];
-        var pSize = [[${pages.pageSize}]];
-        var pTotal = [[${pages.total}]];
-        var pCount = [[${pages.count}]];
+        const pathName = "[[@{/back/ac}]]";
+        const path = "";
+
+        function showTable(data) {
+            let html = "";
+            for (let i = 0; i < data.list.length; i++) {
+                html += "<tr>\n" +
+                    "<td>" + data.list[i].id + "</td>\n" +
+                    "<td>" + data.list[i].name + "</td>\n" +
+                    "<td>" + data.list[i].author + "</td>\n" +
+                    "<td>" + data.list[i].year + "</td>\n" +
+                    "<td>\n" +
+                    "    <a href='" + "[[@{/back/edit/}]]" + data.list[i].id + "'>编辑详情</a>\n" +
+                    "</td>" +
+                    "</tr>";
+            }
+            $("#tBody").html(html);
+        }
     </script>
 </head>
 <body>
@@ -23,7 +37,7 @@
                         <span class="glyphicon glyphicon-search" aria-hidden="true">全部作品</span>
                     </a>
                     <ul class="nav nav-pills nav-stacked" id="collapse_acInfo">
-                        <li role="presentation"><a th:href="@{/back/ac/info/1}">全部条目</a></li>
+                        <li role="presentation"><a th:href="@{/back/ac/info}">全部条目</a></li>
                         <li role="presentation"><a href="#">错误反馈</a></li>
                     </ul>
                 </li>
@@ -34,7 +48,7 @@
                         <span class="glyphicon glyphicon-plus" aria-hidden="true">增加动漫</span>
                     </a>
                     <ul class="nav nav-pills nav-stacked" id="collapse_acUpdate">
-                        <li role="presentation"><a th:href="@{/back/add}">增加条目</a></li>
+                        <li role="presentation"><a th:href="@{/back/addItems}">增加条目</a></li>
                         <li role="presentation"><a href="#">批量删除</a></li>
                     </ul>
                 </li>
@@ -60,21 +74,14 @@
             <!-- Table -->
             <table class="table table-bordered table-hover">
                 <thead>
-                <th width="50">序号</th>
-                <th width="150">封面/海报</th>
                 <th>ID</th>
                 <th>作品名</th>
                 <th>作者/导演</th>
                 <th>出版/放映时间</th>
                 <th>操作</th>
                 </thead>
-                <tbody>
-                <tr th:each="ac,var : ${list}">
-                    <td th:text="${var.index}+1"></td>
-                    <td>
-                        <img class="smImg"
-                             th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}">
-                    </td>
+                <tbody id="tBody">
+                <tr th:each="ac : ${pages.list}">
                     <td th:text="${ac.id}"></td>
                     <td th:text="${ac.name}"></td>
                     <td th:text="${ac.author}"></td>

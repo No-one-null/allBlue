@@ -1,4 +1,4 @@
-package com.zhao.pojo;
+package com.zhao.util;
 
 import java.util.List;
 
@@ -15,6 +15,17 @@ public class PageInfo {
     private List<?> list;
 
     public PageInfo() {
+    }
+
+    @Override
+    public String toString() {
+        return "PageInfo{" +
+                "pageSize=" + pageSize +
+                ", count=" + count +
+                ", pageNumber=" + pageNumber +
+                ", total=" + total +
+                ", list=" + list +
+                '}';
     }
 
     public int getPageSize() {

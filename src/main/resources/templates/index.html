@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
@@ -25,7 +25,7 @@
                 <input type="hidden" id="input-hidden">
                 <li><a th:href="@{/ac/comic}"><span class="glyphicon glyphicon-book"></span> 漫画</a></li>
                 <li><a th:href="@{/ac/anime}"><span class="glyphicon glyphicon-film"></span> 动画</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-fire"></span> 资讯</a></li>
+                <li><a th:href="@{/ac/news}"><span class="glyphicon glyphicon-fire"></span> 资讯</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-globe"></span> 话题</a></li>
             </ul>
             <div class="nav navbar-nav ">
@@ -66,10 +66,10 @@
                         <li th:if="(${session.currentUser}!=null)">
                             <a href="javascript:quit()"><span class="glyphicon glyphicon-log-out"></span> 退出账号</a>
                         </li>
-                        <!--                        <li class="divider"></li>-->
                         <li shiro:hasRole="admin">
-                            <hr>
-                            <a th:href="@{/back/user/info/1}"><span class="glyphicon glyphicon-wrench"></span> 管理员</a>
+                            <!--                        <hr>-->
+                            <hr class="divider">
+                            <a th:href="@{/back/user/info}"><span class="glyphicon glyphicon-wrench"></span> 管理员</a>
                         </li>
                     </ul>
                 </li>
@@ -84,6 +84,7 @@
     <div class="col-md-3 ac-div" th:each="ac,num : ${animes}">
         <a th:href="'acInfo='+${ac.id}" class="thumbnail">
             <p th:text="${num.index+1}"></p>
+            <span th:text="${ac.rating}"></span>
             <img th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}"
                  alt="通用的占位符缩略图">
             <div class="caption">

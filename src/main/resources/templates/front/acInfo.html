@@ -38,7 +38,7 @@
     <div class="col-md-6 link-div">
         观看链接
     </div>
-<!--    收藏和评分-->
+    <!--    收藏和评分-->
     <div class="col-md-6 mark-div">
         <div class="rating-div">
             <div class="rating-star-div">
@@ -96,7 +96,7 @@
             </div>
             <div class="modal-body">
                 <!--评分评论表单-->
-                <form class="form-horizontal mark-form" role="form"id="mark-form">
+                <form class="form-horizontal mark-form" role="form" id="mark-form">
                     <!--                    <input type="hidden" name="acId" th:value="$">-->
                     <div class="form-group">
                         <label class="control-label col-md-2">进度</label>
@@ -227,7 +227,7 @@
 
     //编辑收藏信息
     function editMark() {
-        $.post("[[@{/myMark}]]",{acId: [[${ac.id}]]},
+        $.post("[[@{/myMark}]]", {acId: [[${ac.id}]]},
             function (data, status) {
                 if (status == "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
@@ -247,20 +247,20 @@
             function (data, status) {
                 if (status == 'success') {
                     let html = "";
-                    if(data.comment.length<=0){
+                    if (data.comment.length <= 0) {
                         $(".comment-div").addClass("no-found");
-                    }else{
+                    } else {
                         $(".comment-div").removeClass("no-found");
                     }
-                    if(data.comment.length<12&&data.comment.length>0){
-                        html+="<img class='not-much' src='images/character/Kanna.gif'>";
+                    if (data.comment.length < 12 && data.comment.length > 0) {
+                        html += "<img class='not-much' src='images/character/Kanna.gif'>";
                     }
-                    if(data.comment.length>0){
+                    if (data.comment.length > 0) {
                         for (let i = 0; i < data.comment.length; i++) {
                             html += "<div class='user-comment'" +
                                 "        <div class='cell' style='background-color: #8DB6CD;'>\n" +
                                 "            <span class='badge'>" + data.comment[i].user.username + "</span>\n"
-                                + star(data.comment[i].rating) +"["+progress(data.comment[i].progress)+"]"+
+                                + star(data.comment[i].rating) + "[" + progress(data.comment[i].progress) + "]" +
                                 "            <span class='date'>" + fullTime(data.comment[i].createDate) + "</span>\n" +
                                 "            <textarea rows='3' readonly>"
                                 + data.comment[i].comment + "</textarea>\n" +

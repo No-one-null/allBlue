@@ -1,11 +1,14 @@
 $(document).ready(function () {
-    var tag = document.title;
+    let tag = document.title;
     $(".nav-tag").children("li").removeAttr("class");
     if (tag == "全部漫画") {
         $(".nav-tag").children("li").eq(0).attr("class", "active");
     }
     if (tag == "全部动画") {
         $(".nav-tag").children("li").eq(1).attr("class", "active");
+    }
+    if(tag=="动漫资讯"){
+        $(".nav-tag").children("li").eq(2).attr("class","active");
     }
     $(".btn-search").click(function () {
         var test = $(".input-search").val();
@@ -39,11 +42,11 @@ function star(num) {
 }
 
 function numFormat(number) {
-    if(number<=0){
+    if (number <= 0) {
         return "未评分";
     }
-    let num=(number*10)%10;
-    return num==0?number+'.0':number;
+    let num = (number * 10) % 10;
+    return num == 0 ? number + '.0' : number;
 }
 
 //进度
@@ -71,7 +74,7 @@ function fullTime(timestamp) {
     let dates = new Date(timestamp);
     let Y = (dates.getFullYear() < now.getFullYear() ? dates.getFullYear() + '-' : '');
     let M = (dates.getMonth() + 1) < 10 ? '0' + (dates.getMonth() + 1) + '-' : (dates.getMonth() + 1) + '-';
-    let D = dates.getDate()<10?'0'+dates.getDate():dates.getDate();
+    let D = dates.getDate() < 10 ? '0' + dates.getDate() : dates.getDate();
     let h = dates.getHours() + ':';
     let m = dates.getMinutes() + ':';
     let s = dates.getSeconds();

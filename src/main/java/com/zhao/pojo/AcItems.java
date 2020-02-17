@@ -1,9 +1,12 @@
 package com.zhao.pojo;
 
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class AcItems {
 
     private int id;
+    @NotEmpty
     private String name;
     private String author;
     private String year;

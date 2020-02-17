@@ -6,6 +6,7 @@ import com.zhao.pojo.User;
 import com.zhao.service.DataService;
 import com.zhao.service.ShowService;
 import com.zhao.service.LoginService;
+import com.zhao.util.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.zhao.util.Constant.ERROR404;
+import static com.zhao.util.Constant.TYPE_ARRAY;
 
 @Controller
 public class ShowController {
@@ -58,18 +63,33 @@ public class ShowController {
 
     @RequestMapping("/ac/{category}")
     public String category(@PathVariable String category, Model model) {
-        String path = "";
+        String path = ERROR404;
+        List list=new ArrayList();
+        PageInfo pi=new PageInfo();
         if (category.equalsIgnoreCase("comic")) {
             path = "C";
+            list = showServiceImpl.findByParam("category", path, null, 0, 0);
         }
         if (category.equalsIgnoreCase("anime")) {
             path = "A";
+            list = showServiceImpl.findByParam("category", path, null, 0, 0);
         }
-        List list = showServiceImpl.findByParam("category", path, null, 0, 0);
+        if(category.equalsIgnoreCase("news")){
+            pi=showServiceImpl.showPage(category,"1","0");
+            System.out.println(pi);
+            model.addAttribute("page",pi);
+            model.addAttribute("menu",TYPE_ARRAY);
+        }
         model.addAttribute("list", list);
         path = "/front/" + category;
         return path;
     }
+
+//    @RequestMapping("/ac/news/{type}")
+//    public String showNews(Model model, @PathVariable String type){
+//        model.addAttribute("menu",TYPE_ARRAY);
+//        return "/front/news";
+//    }
 
     @RequestMapping("/userInfo")
     public String userInfo() {
@@ -136,5 +156,10 @@ public class ShowController {
         map.put("comment", marks);
 //        System.out.println("acId:" + acId + "marks:" + marks);
         return map;
+    }
+
+    @RequestMapping("/test")
+    public String test() {
+        return "/back/user/userSearch";
     }
 }

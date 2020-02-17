@@ -6,7 +6,29 @@
 
 .error-body {
     background: url('../images/background/Gintoki.jpg') no-repeat center center fixed #87CEFA;
+}
+
+.error {
+    text-shadow: 5px 5px 5px #F8F8FF;
+    text-align: center;
     background-size: cover;
+    height: 85%;
+}
+
+.error div {
+    color: #FF4500;
+}
+
+.error h1 {
+    font-size: 3em;
+}
+
+.error h3 {
+    margin-top: 5%;
+}
+
+.error h5 {
+    margin-top: 12%;
 }
 
 .backGround {
@@ -42,7 +64,7 @@ button {
 }
 
 a:hover {
-    color: red;
+    color: #00FF00;
     text-decoration: none;
 }
 
@@ -98,7 +120,7 @@ h2 {
 }
 
 h5 {
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .ac-div a {
@@ -199,6 +221,11 @@ pre {
 /**
 收藏和评分
  */
+.star{
+    color: yellow;
+    text-shadow: 5px 5px 5px black;
+}
+
 .mark-div {
     margin-top: 5px;
     height: 200px;
@@ -311,7 +338,7 @@ pre {
     border-style: dot-dash;
 }
 
-.not-much{
+.not-much {
     position: absolute;
     right: 5%;
     bottom: 10%;
@@ -327,7 +354,7 @@ pre {
     display: table;
 }
 
-.user-comment span{
+.user-comment span {
     color: #F0FFFF;
 }
 
@@ -341,7 +368,7 @@ pre {
     width: 100%;
     background-color: #F0FFF0;
     border-style: none;
-    font-family:"Times New Roman",Georgia,Serif;
+    font-family: "Times New Roman", Georgia, Serif;
 }
 
 .comment-div-bottom {

@@ -2,13 +2,11 @@ package com.zhao.service;
 
 import com.zhao.pojo.AcItems;
 import com.zhao.pojo.Mark;
-import com.zhao.pojo.PageInfo;
-import org.apache.ibatis.annotations.Param;
+import com.zhao.util.PageInfo;
 
 import java.util.List;
 
 public interface ShowService {
-    PageInfo showPage(String ac, String pageNumber, String pageSize);
 
     AcItems findById(String id);
 
@@ -16,7 +14,7 @@ public interface ShowService {
 
     List<AcItems> findByParam(String field, String word, String seq, int start, int end);
 
-    List<AcItems> sort(String category,int start,int end);
+    List<AcItems> sort(String category, int start, int end);
 
     Boolean addMark(Mark mark);
 
@@ -27,4 +25,6 @@ public interface ShowService {
     int sumRating(String acId);
 
     List<Mark> allComments(String acId);
+
+    PageInfo showPage(String path,String pNum,String pSize);
 }

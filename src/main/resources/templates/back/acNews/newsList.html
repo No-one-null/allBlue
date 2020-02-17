@@ -52,8 +52,19 @@
 					    </span>
             </div><!-- /input-group -->
         </div>
+        <div class="panel-body">
+            <div class="table_items" style="text-align: center">
+                找到<span class="badge" th:text="${#lists.size(list)}"></span>条记录。
+            </div>
+        </div>
+        <div class="alert alert-warning" th:if="${#lists.isEmpty(list)}">
+            <a href="#" class="close" data-dismiss="alert">
+                &times;
+            </a>
+            <h4 style="text-align: center"><strong>没有找到结果！</strong>换关键词试试？</h4>
+        </div>
         <!-- Table -->
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" th:if="!${#lists.isEmpty(list)}">
             <thead>
             <th></th>
             <th>标题</th>
@@ -64,7 +75,7 @@
             <th>操作</th>
             </thead>
             <tbody id="tBody">
-            <tr th:each="n,num : ${pages.list}">
+            <tr th:each="n,num : ${list}">
                 <td th:text="${num.index+1}"></td>
                 <td th:text="${n.newsTitle}"></td>
                 <td th:text="${n.newsType}"></td>
@@ -81,7 +92,6 @@
             </tr>
             </tbody>
         </table>
-        <div th:replace="/back/back :: page"></div>
     </div><!-- /.panel panel-success -->
 </div><!-- /.emp_info -->
 </body>

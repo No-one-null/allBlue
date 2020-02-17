@@ -3,6 +3,26 @@
 <head>
     <meta charset="utf-8">
     <title>用户管理</title>
+    <script>
+        const pathName = "[[@{/back/user}]]";
+
+        function showTable(data) {
+            let html = "";
+            for (let i = 0; i < data.list.length; i++) {
+                html += "<tr>\n" +
+                    "<td>" + data.list[i].uid + "</td>\n" +
+                    "<td>" + data.list[i].username + "</td>\n" +
+                    "<td>" + (data.list[i].gender == 'M' ? '男' : '女') + "</td>\n" +
+                    "<td>" + data.list[i].email + "</td>\n" +
+                    "<td>" + (data.list[i].birth == null ? '暂无' : date(data.list[i].birth)) + "</td>\n" +
+                    "<td>\n" +
+                    "    <a href='" + pathName + "/uid=" + data.list[i].uid + "'>查看详情</a>\n" +
+                    "</td>\n" +
+                    "</tr>";
+            }
+            $("#tBody").html(html);
+        }
+    </script>
 </head>
 <body>
 <div>
@@ -18,12 +38,12 @@
                         <span class="glyphicon glyphicon-user" aria-hidden="true">用户管理</span>
                     </a>
                     <ul class="nav nav-pills nav-stacked" id="collapse_uInfo">
-                        <li role="presentation"><a th:href="@{/back/user/info/1}">全部用户</a></li>
+                        <li role="presentation"><a th:href="@{/back/user/info}">全部用户</a></li>
                         <li role="presentation"><a href="#">查找用户</a></li>
                     </ul>
                 </li>
             </ul>
-            <ul class="nav nav-pills nav-stacked dept_sidebar">
+            <ul class="nav nav-pills nav-stacked">
                 <li role="presentation" class="active">
                     <a href="#" data-toggle="collapse" data-target="#collapse-violate">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">违规处理</span>
@@ -35,7 +55,7 @@
                 </li>
             </ul>
         </div><!-- /.panel-group -->
-        <!-- 中间员工表格信息展示内容 -->
+        <!-- 用户表格信息展示内容 -->
         <div class="mainInfo col-sm-10">
 
             <div class="panel panel-danger">
@@ -53,7 +73,7 @@
                     </div><!-- /input-group -->
                 </div>
                 <!-- Table -->
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="list">
                     <thead>
                     <th>UID</th>
                     <th>用户名</th>
@@ -62,7 +82,7 @@
                     <th>生日</th>
                     <th>操作</th>
                     </thead>
-                    <tbody>
+                    <tbody id="tBody">
                     <tr th:each="u : ${pages.list}">
                         <td th:text="${u.uid}"></td>
                         <td th:text="${u.username}"></td>

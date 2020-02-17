@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>[[${news.newsTitle}]]</title>
+    <style type="text/css">
+        .info {
+            text-align: center;
+        }
+
+        .info b {
+            color: blue;
+        }
+
+        .content {
+            width: 65%;
+            position: relative;
+            left: 18%;
+        }
+
+        .content img {
+            max-height: 400px;
+        }
+
+        p {
+            text-indent: 2em;
+        }
+
+        p img {
+            /*margin-left: 15%;*/
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏-->
+<div th:replace="/back/back :: head"></div>
+<!-- 左侧栏 -->
+<div th:replace="/back/acNews/acNews :: left"></div>
+<div class="col-sm-10 mainInfo" style="height: 100%;">
+    <div class="panel panel-warning" style="height: 95%;overflow: auto;">
+        <!-- 路径导航 -->
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="#">动漫资讯</a></li>
+                <li class="active">详情</li>
+                <input id="edit-btn" type="button" style="position: absolute;right: 4%;width: 5%"
+                       data-toggle="tooltip" title="修改">
+            </ol>
+            <select id="status" style="position: absolute;right: 4%;width: 5%;">
+                <option value=0>隐藏</option>
+                <option value=1>正常</option>
+                <option value=2>置顶</option>
+            </select>
+        </div>
+        <div class="info">
+            <h3>[[${news.newsTitle}]]</h3>
+            <h4>[[${news.newsAuthor}]]</h4>
+            <span th:text="${#dates.format(news.newsDate,'yyy/MM/dd HH:mm:ss')}"></span><br>
+            <span class="badge" th:text="${news.newsType}"></span>
+        </div>
+        <hr>
+        <!--正文-->
+        <div class="content" th:utext="${news.newsContent}"></div>
+        <input id="next-btn" type="button" style="position: absolute;right: 4%;bottom: 5%;width: 5%"
+               data-toggle="tooltip" title="修改" value="next">
+    </div><!-- /.panel panel-success -->
+</div>
+<script type="text/javascript">
+    $("#status").hide();
+    let flag = 0;
+    $("#edit-btn").val(status([[${news.status}]]));
+    //修改状态
+    $("#edit-btn").click(function () {
+        if (flag == 0) {
+            flag++;
+            $("#status").show();
+            $("#edit-btn").val("修改");
+        } else {
+            if (confirm("确定修改？")) {
+                let status = $("#status").val();
+                $.post("[[@{/back/editStatus}]]", {
+                    status: status,
+                    id: [[${news.newsId}]]
+                }, function (data, status) {
+                    if (data == "success") {
+                        alert("修改成功!");
+                        window.location.href = '[[@{/back/showNews}]]' + '[[${news.newsId}]]';
+                        return;
+                    }
+                    alert(data + "，失败！");
+                });
+            }
+        }
+    });
+    //下一条
+    $("#next-btn").click(function () {
+        $.post("[[@{/back/nextNews}]]", {id: [[${news.newsId}]]},
+            function (data, status) {
+                if (status == "success") {
+                    // alert(data);
+                    window.location.href = "[[@{/back/showNews}]]" + data;
+                } else {
+                    alert(status);
+                }
+            });
+    });
+</script>
+</body>
+</html>

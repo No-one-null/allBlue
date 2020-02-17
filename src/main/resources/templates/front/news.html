@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>动漫资讯</title>
+    <style type="text/css">
+        div{
+            border-style: double;
+        }
+    </style>
+</head>
+<body class="container">
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class="col-md-offset-1 col-md-10" style="border-style: dashed">
+    <div style="background-color: #B0E0E6;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">全部资讯</a></li>
+            <li th:each="m : ${menu}"><a href="#">[[${m}]]</a></li>
+        </ul>
+    </div>
+    <div th:each="n : ${page.list}" style="height: 150px;">
+            <div class="col-md-3" style="height: 100%;">
+                <a href="#"><img src="/images/none.png" style="max-height: 100%;"></a>
+            </div>
+            <div class="col-md-9" style="height: 100%;">
+                <h5>
+                    <span class="badge" th:text="${n.newsType}"></span>
+                    <a href="#">[[${n.newsTitle}]]</a>
+                    <span class="badge" th:if="${n.status}>1" style="float:right;">置顶</span>
+                </h5>
+                <p th:text="${#dates.format(n.newsDate,'yyy年MM月dd日 HH时mm分')}"></p>
+            </div>
+    </div>
+    <div style="height: 50px;"></div>
+</div>
+</body>
+</html>

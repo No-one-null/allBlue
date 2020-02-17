@@ -1,12 +1,10 @@
 package com.zhao.service;
 
-import com.zhao.pojo.PageInfo;
 import com.zhao.pojo.User;
 
 import java.util.List;
 
 public interface LoginService {
-    List<User> showAll();
 
     List<User> findByWord(String keyword);
 

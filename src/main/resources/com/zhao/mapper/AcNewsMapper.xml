@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhao.mapper.AcNewsMapper">
+    <resultMap id="acNewsMap" type="acNews">
+        <id property="newsId" column="news_id"/>
+        <result column="news_title" property="newsTitle"/>
+        <result property="newsAuthor" column="news_author"/>
+        <result property="newsContent" column="news_content"/>
+        <result property="newsDate" column="news_date"/>
+        <result property="newsType" column="news_type"/>
+    </resultMap>
+    <select id="selectAll" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        ORDER BY news_date DESC
+    </select>
+    <select id="selectByParams" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        WHERE status>0
+        ORDER BY status DESC,news_date DESC
+        LIMIT #{start},#{size}
+    </select>
+    <select id="countNotAll" resultType="long">
+        SELECT COUNT(*) FROM ac_news
+        WHERE status>0
+    </select>
+    <select id="CountAll" resultType="long">
+        SELECT COUNT(*) FROM ac_news
+    </select>
+    <select id="selectByPage" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        ORDER BY news_date DESC
+        LIMIT #{0},#{1}
+    </select>
+    <select id="selectOneById" parameterType="int" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        WHERE news_id=#{0}
+    </select>
+    <select id="selectFirstId" resultType="int">
+        SELECT MIN(news_id) FROM ac_news
+    </select>
+    <select id="selectLastId" resultType="int">
+        SELECT MAX(news_id) FROM ac_news
+    </select>
+    <select id="selectNextId" resultType="int" parameterType="int">
+        SELECT MIN(news_id) FROM ac_news
+        WHERE news_id<![CDATA[>]]>#{id}
+    </select>
+    <select id="selectPrevId" resultType="int" parameterType="int">
+        SELECT MAX(news_id) FROM ac_news
+        WHERE news_id<![CDATA[<]]>#{id}
+    </select>
+    <select id="selectByKeyword" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        WHERE concat(news_author,news_title,news_type) LIKE #{keyword}
+        <bind name="keyword" value="'%'+keyword+'%'"/>
+    </select>
+    <insert id="insertAcNews" parameterType="acNews">
+        insert into ac_news (news_title, news_author, news_content, news_date, news_type)
+        values (#{newsTitle}, #{newsAuthor}, #{newsContent}, #{newsDate}, #{newsType})
+    </insert>
+    <update id="updateStatus" parameterType="int">
+        UPDATE ac_news SET status=#{status}
+        WHERE news_id = #{id}
+    </update>
+</mapper>

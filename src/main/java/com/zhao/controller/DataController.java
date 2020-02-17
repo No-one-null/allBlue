@@ -1,19 +1,20 @@
 package com.zhao.controller;
 
 import com.zhao.pojo.AcItems;
-import com.zhao.pojo.PageInfo;
+import com.zhao.pojo.AcNews;
+import com.zhao.util.PageInfo;
 import com.zhao.pojo.User;
 import com.zhao.service.DataService;
 import com.zhao.service.LoginService;
 
-import com.zhao.service.ShowService;
+import com.zhao.util.CommonUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -23,8 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import static com.zhao.util.Constant.ERROR404;
+import static com.zhao.util.Constant.TYPE_ARRAY;
 
 @Controller
 @RequestMapping("/back")
@@ -33,77 +36,70 @@ public class DataController {
     private LoginService loginServiceImpl;
     @Resource
     private DataService dataServiceImpl;
-    @Resource
-    private ShowService showServiceImpl;
+
+    CommonUtil commonUtil = new CommonUtil();
 
     /**
-     * 全部信息展示
+     * 分页获取信息
      *
      * @param model
-     * @param pageNumber
-     * @param request
      * @param path
      * @return
      */
-    @RequestMapping("/{path}/info/{pageNumber}")
-    public String showAllUser(Model model, @PathVariable String pageNumber, HttpServletRequest request, @PathVariable String path) {
-        PageInfo pageInfo = showServiceImpl.showPage(path, pageNumber, request.getParameter("pageSize"));
-        model.addAttribute("list", pageInfo.getList());
+    @RequestMapping("/{path}List{pSize}/p{pNum}")
+    public String show(Model model, @PathVariable String path, @PathVariable String pNum, @PathVariable String pSize) {
+        String str = ERROR404;
+        System.out.println(pNum + pSize);
+        if (path.equals("user")) {
+            str = "/back/user/userInfo";
+        }
+        if (path.equals("ac")) {
+            str = "back/acInfo/ac_Info";
+        }
+        if (path.equals("news")) {
+            str = "/back/acNews/acNews";
+        }
+        PageInfo pageInfo = dataServiceImpl.showPage(path, pNum, pSize);
         model.addAttribute("pages", pageInfo);
-        if (path.equalsIgnoreCase("user")) {
-            return "/back/user/userInfo";
-        }
-        if (path.equalsIgnoreCase("ac")) {
-            return "back/acInfo/ac_Info";
-        }
-        return "/error/error404";
+//        System.out.println(pageInfo);
+        return str;
     }
 
     @RequestMapping("/{path}/info")
-    public String showAllUser(Model model, HttpServletRequest request, @PathVariable String path) {
-        PageInfo pageInfo = showServiceImpl.showPage(path, "1", "6");
-        model.addAttribute("list", pageInfo.getList());
-        model.addAttribute("pages", pageInfo);
-        if (path.equalsIgnoreCase("user")) {
-            return "/back/user/userInfo";
-        }
-        if (path.equalsIgnoreCase("ac")) {
-            return "back/acInfo/ac_Info";
-        }
-        return "/error/error404";
+    public String showAll(Model model, @PathVariable String path) {
+        String str = "redirect:/back/" + path + "List/p1";
+        return str;
     }
 
-    /*
-    跳转到acNews编辑页
-     */
     @RequestMapping("/acNews")
     public String acNews() {
-        return "/back/acNews/acNews";
+        return "redirect:/back/newsList/p1";
     }
 
     /**
      * 关键词搜索
      *
      * @param model
-     * @param request
      * @param word
      * @param path
      * @return
      */
     @RequestMapping("/{path}/search={word}")
-    public String find(Model model, HttpServletRequest request, @PathVariable String word, @PathVariable String path) {
-        List<?> list = null;
-        String p="/error/error404";
+    public String find(Model model, @PathVariable String word, @PathVariable String path) {
+        List<?> list = new ArrayList<>();
+        String p = "/error/error404";
         if (path.equalsIgnoreCase("user")) {
             list = loginServiceImpl.findByWord(word);
-            p="/back/user/userSearch";
+            p = "/back/user/userSearch";
         }
         if (path.equalsIgnoreCase("ac")) {
-            list = dataServiceImpl.findByWord(word);
-            p="/back/acInfo/ac_search";
+            p = "/back/acInfo/ac_search";
+            list = dataServiceImpl.findByWord(path, word);
         }
-        int listSize = list.size();
-        model.addAttribute("listSize", listSize);
+        if (path.equalsIgnoreCase("news")) {
+            p = "/back/acNews/newsList";
+            list = dataServiceImpl.findByWord(path, word);
+        }
         model.addAttribute("list", list);
         return p;
     }
@@ -123,9 +119,25 @@ public class DataController {
         return "/back/user/userDetail";
     }
 
-    @RequestMapping("/add")
-    public String add(HttpServletRequest request) {
-        return "back/acInfo/ac_add";
+    /**
+     * 增加条目
+     *
+     * @param request
+     * @param path
+     * @param model
+     * @return
+     */
+    @RequestMapping("/add{path}")
+    public String add(HttpServletRequest request, @PathVariable String path, Model model) {
+        String str = "/error/error404";
+        if (path.equalsIgnoreCase("Items")) {
+            str = "back/acInfo/ac_add";
+        }
+        if (path.equalsIgnoreCase("News")) {
+            model.addAttribute("type", TYPE_ARRAY);
+            str = "back/acNews/addNews";
+        }
+        return str;
     }
 
     @RequestMapping("/addOne")
@@ -150,6 +162,46 @@ public class DataController {
         } else {
             return "/back/acInfo/ac_add";
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/submitNews")
+    public String submitNews(HttpServletRequest request) {
+        AcNews acNews = new AcNews();
+        acNews.setNewsAuthor(request.getParameter("author"));
+        acNews.setNewsContent(request.getParameter("html"));
+        acNews.setNewsTitle(request.getParameter("title"));
+        acNews.setNewsType(request.getParameter("type"));
+        System.out.println(acNews);
+        Boolean isWork = dataServiceImpl.addNews(acNews);
+        if (isWork) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    @RequestMapping("/showNews{id}")
+    public String showNews(Model model, @PathVariable String id) {
+        AcNews acNews = dataServiceImpl.findNewsById(id);
+        model.addAttribute("news", acNews);
+        return "/back/acNews/detailsNews";
+    }
+
+    @ResponseBody
+    @RequestMapping("/editStatus")
+    public String editStatus(String id, String status) {
+        System.out.println(id + status);
+        if (dataServiceImpl.updNews(id, status)) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    @ResponseBody
+    @RequestMapping("/nextNews")
+    public int nextNews(String id) {
+        int next = dataServiceImpl.findNextId(id);
+        return next;
     }
 
     @RequestMapping("/addSuccess")
@@ -200,7 +252,7 @@ public class DataController {
     @RequestMapping("/deleteOne/{id}")
     public String deleteOne(@PathVariable String id, HttpServletResponse response) {
         dataServiceImpl.DeleteOne(Integer.valueOf(id));
-        return "redirect:/back/ac/info/1";
+        return "redirect:/back/ac/info";
     }
 
     public void upload(MultipartFile file, String fileName, HttpServletRequest request) {

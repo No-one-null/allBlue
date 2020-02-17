@@ -1,17 +1,20 @@
 package com.zhao.service.impl;
 
 import com.zhao.mapper.AcItemsMapper;
+import com.zhao.mapper.AcNewsMapper;
 import com.zhao.mapper.MarkMapper;
 import com.zhao.mapper.UserMapper;
 import com.zhao.pojo.AcItems;
 import com.zhao.pojo.Mark;
-import com.zhao.pojo.PageInfo;
+import com.zhao.util.PageInfo;
 import com.zhao.service.ShowService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.zhao.util.CommonUtil.isNumber;
 
 @Service
 public class ShowServiceImpl implements ShowService {
@@ -21,40 +24,8 @@ public class ShowServiceImpl implements ShowService {
     private UserMapper userMapper;
     @Resource
     private MarkMapper markMapper;
-
-    /**
-     * 分页
-     *
-     * @param pageNumber 页数
-     * @param pageSize   每页显示数量
-     * @return Page对象
-     */
-    @Override
-    public PageInfo showPage(String tbName, String pageNumber, String pageSize) {
-        int pSize = 10;
-        if (pageSize != null && !pageSize.equals("")) {
-            pSize = Integer.parseInt(pageSize);
-        }
-        int pNum = 1;
-        if (pageNumber != null && !pageNumber.equals("")) {
-            pNum = Integer.parseInt(pageNumber);
-        }
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setPageNumber(pNum);
-        pageInfo.setPageSize(pSize);
-        int pageStart = pSize * (pNum - 1);
-        long count = 0;
-        if (tbName.equalsIgnoreCase("user")) {
-            pageInfo.setList(userMapper.selectByPage(pageStart, pSize));
-            count = userMapper.selectCount();
-        } else {
-            pageInfo.setList(acItemsMapper.selectByPage(pageStart, pSize));
-            count = acItemsMapper.selectCount();
-        }
-        pageInfo.setCount(count);
-        pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
-        return pageInfo;
-    }
+    @Resource
+    private AcNewsMapper acNewsMapper;
 
     @Override
     public AcItems findById(String id) {
@@ -72,8 +43,8 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<AcItems> sort(String category,int start, int end) {
-        return acItemsMapper.sort(category,start,end);
+    public List<AcItems> sort(String category, int start, int end) {
+        return acItemsMapper.sort(category, start, end);
     }
 
     @Transactional
@@ -117,5 +88,28 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public List<Mark> allComments(String acId) {
         return markMapper.selectComments(Integer.valueOf(acId));
+    }
+
+    @Override
+    public PageInfo showPage(String path, String pageNumber, String pageSize) {
+        int pSize = 10;
+        if (isNumber(pageSize)) {
+            pSize = Integer.parseInt(pageSize);
+        }
+        int pNum = 1;
+        if (isNumber(pageNumber)) {
+            pNum = Integer.parseInt(pageNumber);
+        }
+        long count=0;
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setPageNumber(pNum);
+        pageInfo.setPageSize(pSize);
+        int pageStart = pSize * (pNum - 1);
+        if(path.equalsIgnoreCase("news")){
+            count=acNewsMapper.countNotAll();
+            pageInfo.setList(acNewsMapper.selectByParams(pageStart,pSize));
+        }
+        pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
+        return pageInfo;
     }
 }

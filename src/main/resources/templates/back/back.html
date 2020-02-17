@@ -21,7 +21,6 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/back.css}">
     <script th:src="@{/js/back/back.js}"></script>
-    <script>const context = "[[${#httpServletRequest.getContextPath()}]]";</script>
 </head>
 <body>
 <!-- 导航条 -->
@@ -42,10 +41,10 @@
 
             <div class="collapse navbar-collapse" id="hrms-navbar-collapse-1">
                 <ul class="nav navbar-nav" id="navbar-head">
-                    <li id="nav-acInfo"><a th:href="@{/back/ac/info/1}">动漫信息</a></li>
+                    <li id="nav-user"><a th:href="@{/back/user/info}">用户管理</a></li>
+                    <li id="nav-acInfo"><a th:href="@{/back/ac/info}">动漫信息</a></li>
                     <li id="nav-acNews"><a th:href="@{/back/acNews}">动漫资讯</a></li>
-                    <li id="nav-user"><a th:href="@{/back/user/info/1}">用户管理</a></li>
-                    <li id="nav-comment"><a href="#">留言管理</a></li>
+                    <li id="nav-comment"><a href="#">动态管理</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -69,26 +68,25 @@
 </div><!-- /.hrms_brand_nav -->
 <!--分页-->
 <div class="panel-body" th:fragment="page">
+    <div class="page-information">
+        当前第<span class="badge" id="pNum" th:text="${pages.pageNumber}"></span>页，共有<span
+            class="badge" id="pTotal" th:text="${pages.total}"></span>页，总记录数<span
+            class="badge" id="pCount" th:text="${pages.count}"></span>条。
+        每页显示：<input id="pSize-text" type="text" size="1" th:value="${pages.pageSize}">条
+        <input id="pSize-btn" type="button" value="确定">
+    </div>
     <nav aria-label="Page navigation" class="pull-right">
-        <div class="table_items">
-            <input type="hidden" th:value="${pages.pageSize}">
-            当前第<span class="badge" th:text="${pages.pageNumber}"></span>页，共有<span
-                class="badge" th:text="${pages.total}"></span>页，总记录数<span
-                class="badge" th:text="${pages.count}"></span>条。
-            每页显示：<input id="changeSize-text" type="text" size="1" th:value="${pages.pageSize}">条
-            <input id="changeSize-button" type="button" value="确定">
-        </div>
         <ul class="pagination ul-page">
             <li><a href="#" onclick="clickPage(this)">首页</a></li>
-            <li id="prePage-li" class="disabled">
+            <li id="prePage-li">
                 <a href="#" aria-label="Previous"><span aria-hidden="true" onclick="clickPage(this)">上一页</span></a>
             </li>
-            <li>跳到：<input id="turnPage-text" type="text" size="1" th:value="${pages.pageNumber}">页
-                <input id="turnPage-button" type="button" value="确定"></li>
             <li id="nextPage-li">
                 <a href="#" aria-label="Next"><span aria-hidden="true" onclick="clickPage(this)">下一页</span></a>
             </li>
             <li><a href="#" onclick="clickPage(this)">尾页</a></li>
+            <li>跳到：<input id="pNum-text" type="text" size="1" th:value="${pages.pageNumber}">页
+                <input id="pNum-btn" type="button" value="确定"></li>
         </ul>
     </nav>
 </div><!-- 分页 -->

@@ -1,7 +1,6 @@
 package com.zhao.service.impl;
 
 import com.zhao.mapper.UserMapper;
-import com.zhao.pojo.PageInfo;
 import com.zhao.pojo.User;
 import com.zhao.service.LoginService;
 import org.springframework.stereotype.Service;
@@ -16,11 +15,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private UserMapper userMapper;
-
-    @Override
-    public List<User> showAll() {
-        return this.userMapper.showAll();
-    }
 
     @Override
     public List<User> findByWord(String keyword) {

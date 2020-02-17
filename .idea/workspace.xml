@@ -2,33 +2,81 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcNewsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcNews.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/test/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/util/CommonUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/util/Constant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcNewsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/background/403.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/background/404.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/cover/5065d752-ae02-4260-b5e6-b77357d4575d.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/cover/51fd2e67-91fc-4dae-b420-24658449f45c.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/wangEditor.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/addNews.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/detailsNews.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/newsList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/front/news.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/test/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5d0cbc32-b191-427a-9b80-dbc23cb6b95b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5d0cbc32-b191-427a-9b80-dbc23cb6b95b.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/AcItemsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/PageInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/util/PageInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/DataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/DataService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/LoginService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/LoginServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/LoginServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/util/Wildcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/test/Wildcard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/images/background/Gintoki.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/back/back.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/back/back.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acInfo/ac_Info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acInfo/ac_Info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acInfo/ac_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acInfo/ac_search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/user/userInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/user/userInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/user/userSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/user/userSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/error403.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/error403.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/error404.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/error404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/DataController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/DataController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/LoginController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/pojo/AcItems.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/pojo/AcItems.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/pojo/PageInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/DataService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/DataService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/LoginService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/DataServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/DataServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/LoginServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/LoginServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/util/Wildcard.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/images/background/Gintoki.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/js/back/back.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/back/back.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/front/front.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acInfo/ac_Info.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/acInfo/ac_Info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acInfo/ac_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/acInfo/ac_search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/back.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/back/user/userInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/user/userInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/user/userSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/user/userSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/error/error403.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/error/error403.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/error/error404.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/error/error404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/zhao/test/UserRealmTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +118,7 @@
         <item name="allblue" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="allblue: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="mark: table" type="285a2a93:MysqlImplModel$Table" />
+        <item name="ac_news: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -79,10 +127,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="spring-beans.schema" />
-        <option value="HTML File" />
-        <option value="Class" />
-        <option value="Interface" />
         <option value="Tag Library Descriptor" />
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -126,7 +174,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/js/back" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/zhao/pojo" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -137,16 +185,18 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\character" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\icon" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\cover" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\error" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\back\acNews" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\com\zhao\mapper" />
+      <recent name="D:\Workspaces\allBlue\src\main\java\com\zhao\util" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\js" />
+      <recent name="D:\Workspaces\allBlue\target\classes\static\images\background" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.zhao.test" />
       <recent name="com.zhao" />
       <recent name="com.zhao.service" />
     </key>
@@ -159,30 +209,15 @@
       <recent name="com.zhao.service" />
       <recent name="com.zhao.mapper" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\js\back" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\test" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\character" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images" />
-      <recent name="D:\Workspaces\allBlue\target\classes\static\images\background" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\icon" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\cover" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.App">
-    <configuration name="UserRealmTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="allBlue" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.zhao.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.zhao.test" />
-      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="UserRealmTest.Md5Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
@@ -199,7 +234,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRealmTest.Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserRealmTest.WildcardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
         <pattern>
@@ -209,7 +244,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.zhao.test" />
       <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
-      <option name="METHOD_NAME" value="Test" />
+      <option name="METHOD_NAME" value="WildcardTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRealmTest.bTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zhao.test" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
+      <option name="METHOD_NAME" value="bTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRealmTest.testNumber" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zhao.test" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.UserRealmTest" />
+      <option name="METHOD_NAME" value="testNumber" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -231,9 +298,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.App" />
+        <item itemvalue="JUnit.UserRealmTest.bTest" />
+        <item itemvalue="JUnit.UserRealmTest.testNumber" />
+        <item itemvalue="JUnit.UserRealmTest.WildcardTest" />
         <item itemvalue="JUnit.UserRealmTest.Md5Test" />
-        <item itemvalue="JUnit.UserRealmTest.Test" />
-        <item itemvalue="JUnit.UserRealmTest" />
       </list>
     </recent_temporary>
   </component>
@@ -294,7 +362,10 @@
       <workItem from="1581471503185" duration="48126000" />
       <workItem from="1581555141916" duration="37422000" />
       <workItem from="1581605725930" duration="4843000" />
-      <workItem from="1581639602929" duration="1616000" />
+      <workItem from="1581639602929" duration="42308000" />
+      <workItem from="1581729259591" duration="45172000" />
+      <workItem from="1581821497689" duration="42580000" />
+      <workItem from="1581902795200" duration="22766000" />
     </task>
     <task id="LOCAL-00001" summary="测试">
       <created>1581569963607</created>
@@ -310,7 +381,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581600457063</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="0214">
+      <created>1581641517303</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1581641517303</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -356,7 +434,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="测试" />
     <MESSAGE value="测试2" />
-    <option name="LAST_COMMIT_MESSAGE" value="测试2" />
+    <MESSAGE value="0214" />
+    <option name="LAST_COMMIT_MESSAGE" value="0214" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="92" key="#HTTP_Proxy" timestamp="1580660121007">
@@ -375,10 +454,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="507" y="221" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1580829509300" />
-    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1581600369184">
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1581943613959">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1581600369184" />
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1581943613959" />
     <state x="499" y="193" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1581436556695">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -391,78 +470,82 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1580975594087" />
-    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1580975565836">
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1581821791026">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1580975565836" />
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1581821791026" />
     <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1580975595900">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1536.824@0.0.1536.824" timestamp="1580975595900" />
-    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1581474708967">
+    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1581939283309">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474708967" />
+    <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1581939283309" />
     <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581474538552">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474538552" />
-    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1581600453240">
+    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1581641513717">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581600453240" />
-    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1581499865379">
+    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581641513717" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1581685489795">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581499865379" />
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1581610918651">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1581685489795" />
+    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1581869215106">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
-    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1581610918651">
+    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581869215106" />
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
-    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1581610918651">
+    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
-    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1581610918651">
+    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1581942717049">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581610918651" />
-    <state width="1493" height="191" key="GridCell.Tab.1.bottom" timestamp="1581610918652">
+    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581942717049" />
+    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
-    <state width="1493" height="191" key="GridCell.Tab.1.center" timestamp="1581610918652">
+    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
-    <state width="1493" height="191" key="GridCell.Tab.1.left" timestamp="1581610918652">
+    <state width="1493" height="191" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.1.center" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
-    <state width="1493" height="191" key="GridCell.Tab.1.right" timestamp="1581610918652">
+    <state width="1493" height="191" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.1.left" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581610918652" />
-    <state width="1493" height="191" key="GridCell.Tab.2.bottom" timestamp="1581605051995">
+    <state width="1493" height="191" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.1.right" timestamp="1581942717050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581605051995" />
-    <state width="1493" height="191" key="GridCell.Tab.2.center" timestamp="1581605051994">
+    <state width="1493" height="191" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581942717050" />
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom" timestamp="1581870822012">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
-    <state width="1493" height="191" key="GridCell.Tab.2.left" timestamp="1581605051994">
+    <state width="1493" height="191" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581870822012" />
+    <state width="1493" height="191" key="GridCell.Tab.2.center" timestamp="1581870822012">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
-    <state width="1493" height="191" key="GridCell.Tab.2.right" timestamp="1581605051994">
+    <state width="1493" height="191" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1581870822012" />
+    <state width="1493" height="191" key="GridCell.Tab.2.left" timestamp="1581870822012">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="191" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1581605051994" />
+    <state width="1493" height="191" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1581870822012" />
+    <state width="1493" height="191" key="GridCell.Tab.2.right" timestamp="1581870822012">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="191" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1581870822012" />
     <state width="1493" height="191" key="GridCell.Tab.3.bottom" timestamp="1581340155604">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -495,10 +578,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="553" y="243" width="429" height="339" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.824@0.0.1536.824" timestamp="1581556762247" />
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581639671053">
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581902846647">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581639671053" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581902846647" />
     <state x="564" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581585386940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -511,13 +594,13 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="511" y="36" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1579791118461" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1581575026934">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1581669419872">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1581575026934" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1581500308842">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1581669419872" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1581940312172">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1581500308842" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1581940312172" />
   </component>
 </project>

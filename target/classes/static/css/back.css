@@ -1,5 +1,10 @@
-html{
-    height: 100%;
+html {
+    height: 95%;
+}
+
+body {
+    margin-top: 4%;
+    height: 96%;
 }
 
 div {
@@ -7,15 +12,28 @@ div {
     /*border-style: solid;*/
 }
 
+p {
+    text-indent: 2em;
+}
+
+p img {
+    /*margin-left: 15%;*/
+}
+
 .mainInfo {
-    position: absolute;
-    top: 60px;
-    left: 16%;
+    margin-left: 16%;
+    height: 10%;
 }
 
 .div1 {
     position: fixed;
-    top: 60px;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 button {
@@ -44,4 +62,9 @@ button.btn-edit {
 
 .search button {
     width: 66px;
+}
+
+/**分页**/
+.page-information {
+    float: left;
 }

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>404!</title>
+    <title>404 Not Found</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/front.css}">
 </head>
-<body>
-<h2 style="color: red">404!</h2>
+<body class="error" style="background: url('/images/background/404.jpg') no-repeat fixed center;">
+<div>
+    <h1><i>404 Not Found</i></h1>
+    <br>
+    <h2>找不到网页！</h2>
+    <h3>查询的网页可能已经移除、重新命名或者暂时无法使用...</h3>
+</div>
+<h5><a href="/">点击此回到首页</a></h5>
 </body>
 </html>

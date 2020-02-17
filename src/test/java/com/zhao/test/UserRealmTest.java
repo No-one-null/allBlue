@@ -1,6 +1,7 @@
 package com.zhao.test;
 
 import com.zhao.shiro.realm.AuthRealm;
+import com.zhao.util.CommonUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -38,16 +39,32 @@ public class UserRealmTest {
         Md5Hash md5Hash2 = new Md5Hash("admin", "admin");
         Md5Hash md5Hash3 = new Md5Hash("password", "user");
         Md5Hash md5Hash4 = new Md5Hash("root", "root");
-        Md5Hash md5Hash5=new Md5Hash("那撸多","123456");
+        Md5Hash md5Hash5 = new Md5Hash("那撸多", "123456");
         System.out.println("000000(zero):" + md5Hash1);
         System.out.println("admin(admin):" + md5Hash2);
         System.out.println("password(user):" + md5Hash3);
         System.out.println("root(root):" + md5Hash4);
-        System.out.println("123456(那撸多)"+md5Hash5);
+        System.out.println("123456(那撸多)" + md5Hash5);
     }
 
     @Test
-    public void WildcardTest() {
+    public void bTest() {
+        System.out.println(true || true);
+        System.out.println("1" + (false || false));
+        System.out.println(true || false);
+        System.out.println("2" + (true && true));
+        System.out.println(true && false);
+        System.out.println(false && false);
+    }
+
+    @Test
+    public void testNumber() {
+        CommonUtil v = new CommonUtil();
+        System.out.println(v.isNumber1("1"));
+        System.out.println(v.isNumber1("A"));
+        System.out.println(v.isNumber1("A") || v.isNumber1("1"));
+        System.out.println(!v.isNumber1("A") || !v.isNumber1("1"));
+        System.out.println(!v.isNumber1("A") && !v.isNumber1("1"));
 
     }
 }

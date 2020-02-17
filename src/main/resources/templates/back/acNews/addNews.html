@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>动漫资讯</title>
+    <style type="text/css">
+        body, html {
+            height: 100%;
+        }
+
+        .title-div {
+            text-align: center;
+        }
+
+        .new-input {
+            width: 20%;
+        }
+
+        .toolbar {
+            border: 1px solid #ccc;
+            background-color: #B0E0E6;
+            width: 75%;
+            position: relative;
+            left: 15%;
+            z-index: 201;
+        }
+
+        .text {
+            border: 1px solid #ccc;
+            height: 70%;
+            width: 75%;
+            position: relative;
+            left: 15%;
+            background-color: #F0FFFF;
+        }
+
+        i {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏-->
+<div th:replace="/back/back :: head"></div>
+<!-- 左侧栏 -->
+<div th:replace="/back/acNews/acNews :: left"></div>
+<div class="col-sm-10 mainInfo" style="height: 100%;">
+    <div class="panel panel-warning" style="height: 95%;overflow: auto;">
+        <!-- 路径导航 -->
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="#">动漫资讯</a></li>
+                <li class="active">增加情报</li>
+                <input id="submit-btn" type="button" value="发布"
+                       style="position: absolute;right: 4%;width: 100px">
+            </ol>
+        </div>
+        <!--编辑内容-->
+        <div id="title" class="title-div">
+            <span class="badge">标题：</span>
+            <input id="news-title" type="text" class="new-input" placeholder="请输入标题">
+            <span class="badge">类型：</span>
+            <select id="news-type">
+                <option th:each="t : ${type}">[[${t}]]</option>
+            </select>
+            <span class="badge">作者：</span>
+            <input id="news-author" type="text" class="new-input" placeholder="请输入作者名"><br>
+            <h4>正文</h4>
+        </div>
+        <div id="editor-toolbar" class="toolbar"></div>
+        <div id="editor-text" class="text"></div>
+        <!--        <div style="height: 5%;"></div>-->
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！static/js/wangEditor.min.js-->
+        <script type="text/javascript" th:src="@{/js/wangEditor.min.js}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#news-title").focus();
+            });
+            let num = 0;
+            $("#editor-text").click(function () {
+                if (num <= 0) {
+                    num++;
+                    // editor.txt.html('');
+                }
+            });
+            let E = window.wangEditor
+            let editor = new E('#editor-toolbar', '#editor-text')
+            editor.customConfig.zIndex = 100
+            // 或者 var editor = new E( document.getElementById('editor') )
+            // editor.customConfig.uploadImgServer = '/upload'
+            editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
+            // 忽略粘贴内容中的图片
+            editor.customConfig.pasteIgnoreImg = true
+            // 隐藏“网络图片”tab
+            editor.customConfig.showLinkImg = false
+            editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024//限制大小
+            // // 限制一次最多上传 5 张图片
+            // editor.customConfig.uploadImgMaxLength = 5
+            editor.customConfig.menus = [
+                'head',  // 标题
+                'bold',  // 粗体
+                'fontSize',  // 字号
+                'italic',  // 斜体
+                'foreColor',  // 文字颜色
+                'backColor',  // 背景颜色
+                'link',  // 插入链接
+                'list',  // 列表
+                'image',  // 插入图片
+                'undo',  // 撤销
+                'redo'  // 重复
+            ]
+
+            editor.create()
+
+            $("#submit-btn").click(function () {
+                let html = editor.txt.html();
+                let text = editor.txt.text();
+                let title = $("#news-title").val();
+                let author = $("#news-author").val();
+                let type = $("#news-type").val();
+                if (title == '') {
+                    alert("请输入标题！");
+                    return false;
+                }
+                if (text == '') {
+                    alert("请输入内容！");
+                    return false;
+                }
+                if (author == '') {
+                    author = '[[${session.currentUser.username}]]';
+                }
+                $.post("/back/submitNews", {
+                    html: html,
+                    title: title,
+                    author: author,
+                    type: type
+                }, function (data, status) {
+                    if (status == 'success') {
+                        if (data == "success") {
+                            editor.txt.html('');
+                            $("#news-title").val('');
+                            $("#news-author").val('');
+                            alert("发布成功！");
+                            return;
+                        }
+                    }
+                    alert("提交失败，请重试！")
+                });
+            });
+        </script>
+    </div><!-- /.panel panel-success -->
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.zhao.service;
 
 import com.zhao.pojo.AcItems;
+import com.zhao.pojo.AcNews;
 import com.zhao.pojo.Mark;
 import com.zhao.util.PageInfo;
 
@@ -26,5 +27,7 @@ public interface ShowService {
 
     List<Mark> allComments(String acId);
 
-    PageInfo showPage(String path,String pNum,String pSize);
+    PageInfo showPage(String path, String type,String pNum,String pSize);
+
+    AcNews showNews(String nid);
 }

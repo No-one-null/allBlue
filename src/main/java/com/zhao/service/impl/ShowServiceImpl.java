@@ -5,6 +5,7 @@ import com.zhao.mapper.AcNewsMapper;
 import com.zhao.mapper.MarkMapper;
 import com.zhao.mapper.UserMapper;
 import com.zhao.pojo.AcItems;
+import com.zhao.pojo.AcNews;
 import com.zhao.pojo.Mark;
 import com.zhao.util.PageInfo;
 import com.zhao.service.ShowService;
@@ -91,25 +92,35 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public PageInfo showPage(String path, String pageNumber, String pageSize) {
-        int pSize = 10;
-        if (isNumber(pageSize)) {
-            pSize = Integer.parseInt(pageSize);
-        }
+    public PageInfo showPage(String path, String type, String pageNumber, String pageSize) {
         int pNum = 1;
         if (isNumber(pageNumber)) {
             pNum = Integer.parseInt(pageNumber);
         }
-        long count=0;
+        int pSize = 10;
+        if (isNumber(pageSize)) {
+            pSize = Integer.parseInt(pageSize);
+        }
+        long count = 0;
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPageNumber(pNum);
         pageInfo.setPageSize(pSize);
         int pageStart = pSize * (pNum - 1);
-        if(path.equalsIgnoreCase("news")){
-            count=acNewsMapper.countNotAll();
-            pageInfo.setList(acNewsMapper.selectByParams(pageStart,pSize));
+        if (path.equalsIgnoreCase("news")) {
+            count = acNewsMapper.countNotAll(type);
+            pageInfo.setList(acNewsMapper.selectByParams(pageStart, pSize,type));
         }
         pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
+        System.out.println(pageInfo);
         return pageInfo;
+    }
+
+    @Override
+    public AcNews showNews(String nid) {
+        if (isNumber(nid)) {
+            return acNewsMapper.selectById(Integer.parseInt(nid));
+        } else {
+            return null;
+        }
     }
 }

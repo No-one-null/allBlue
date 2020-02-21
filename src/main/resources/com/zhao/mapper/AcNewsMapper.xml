@@ -16,12 +16,18 @@
     <select id="selectByParams" resultMap="acNewsMap">
         SELECT * FROM ac_news
         WHERE status>0
+        <if test="type!='all' and type!='' and type!=null">
+            AND news_type=#{type}
+        </if>
         ORDER BY status DESC,news_date DESC
         LIMIT #{start},#{size}
     </select>
     <select id="countNotAll" resultType="long">
         SELECT COUNT(*) FROM ac_news
         WHERE status>0
+        <if test="type!='all' and type!='' and type!=null">
+            AND news_type=#{type}
+        </if>
     </select>
     <select id="CountAll" resultType="long">
         SELECT COUNT(*) FROM ac_news
@@ -34,6 +40,11 @@
     <select id="selectOneById" parameterType="int" resultMap="acNewsMap">
         SELECT * FROM ac_news
         WHERE news_id=#{0}
+    </select>
+    <select id="selectById" parameterType="int" resultMap="acNewsMap">
+        SELECT * FROM ac_news
+        WHERE news_id=#{0}
+        AND status>0
     </select>
     <select id="selectFirstId" resultType="int">
         SELECT MIN(news_id) FROM ac_news

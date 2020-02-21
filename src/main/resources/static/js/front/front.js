@@ -10,6 +10,9 @@ $(document).ready(function () {
     if(tag=="动漫资讯"){
         $(".nav-tag").children("li").eq(2).attr("class","active");
     }
+    if(tag=="话题讨论"){
+        $(".nav-tag").children("li").eq(3).attr("class","active");
+    }
     $(".btn-search").click(function () {
         var test = $(".input-search").val();
         if (test == "") {

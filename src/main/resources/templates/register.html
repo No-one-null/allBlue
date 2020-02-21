@@ -57,9 +57,9 @@
 </div>
 <script>
     $(".btn-ok").click(function () {
-        var birth = $("#birth").val();
-        var password = $("#password").val();
-        var confirm = $("#confirm").val();
+        let birth = $("#birth").val();
+        let password = $("#password").val();
+        let confirm = $("#confirm").val();
         if (password != confirm) {
             alert("密码不一致");
             $("#password").val("");

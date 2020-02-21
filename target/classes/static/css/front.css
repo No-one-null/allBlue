@@ -4,10 +4,6 @@
     height: auto;
 }
 
-.error-body {
-    background: url('../images/background/Gintoki.jpg') no-repeat center center fixed #87CEFA;
-}
-
 .error {
     text-shadow: 5px 5px 5px #F8F8FF;
     text-align: center;
@@ -61,11 +57,6 @@ button {
 
 .btn-link {
     width: auto;
-}
-
-a:hover {
-    color: #00FF00;
-    text-decoration: none;
 }
 
 .goTop {
@@ -221,7 +212,7 @@ pre {
 /**
 收藏和评分
  */
-.star{
+.star {
     color: yellow;
     text-shadow: 5px 5px 5px black;
 }

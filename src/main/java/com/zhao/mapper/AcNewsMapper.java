@@ -10,6 +10,8 @@ public interface AcNewsMapper {
 
     AcNews selectOneById(int id);
 
+    AcNews selectById(int id);
+
     List<AcNews> selectByPage(int start, int end);
 
     int selectNextId(@Param("id") int id);
@@ -26,7 +28,10 @@ public interface AcNewsMapper {
 
     int updateStatus(@Param("id") int id, @Param("status") int status);
 
-    List<AcNews> selectByParams(@Param("start") int start,@Param("size")int size);
+    List<AcNews> selectByParams(@Param("start") int start,@Param("size")int size,@Param("type")String type);
 
-    long countNotAll();
+//    List<AcNews> selectByParams(@Param("start") int start,@Param("size")int size,
+//                                @Param("field")String field,@Param("keyword")String keyword);
+
+    long countNotAll(@Param("type")String type);
 }

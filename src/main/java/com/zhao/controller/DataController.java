@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static com.zhao.util.Constant.ERROR404;
+import static com.zhao.util.Constant.*;
 import static com.zhao.util.Constant.TYPE_ARRAY;
 
 @Controller
@@ -48,7 +48,7 @@ public class DataController {
      */
     @RequestMapping("/{path}List{pSize}/p{pNum}")
     public String show(Model model, @PathVariable String path, @PathVariable String pNum, @PathVariable String pSize) {
-        String str = ERROR404;
+        String str = ERR404;
         System.out.println(pNum + pSize);
         if (path.equals("user")) {
             str = "/back/user/userInfo";

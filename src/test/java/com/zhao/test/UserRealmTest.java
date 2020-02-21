@@ -60,11 +60,5 @@ public class UserRealmTest {
     @Test
     public void testNumber() {
         CommonUtil v = new CommonUtil();
-        System.out.println(v.isNumber1("1"));
-        System.out.println(v.isNumber1("A"));
-        System.out.println(v.isNumber1("A") || v.isNumber1("1"));
-        System.out.println(!v.isNumber1("A") || !v.isNumber1("1"));
-        System.out.println(!v.isNumber1("A") && !v.isNumber1("1"));
-
     }
 }

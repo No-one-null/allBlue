@@ -15,7 +15,7 @@
     <!--详情-->
     <div class="col-md-6 detail-div">
         <div class="img-div">
-            <img th:src="${#strings.isEmpty(ac.image)}?'images/none.png':'images/cover/'+${ac.image}"
+            <img th:src="${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}"
                  class="img-rounded img-thumbnail" alt="封面/海报">
         </div>
         <div class="list-group">
@@ -231,7 +231,7 @@
             function (data, status) {
                 if (status == "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
-                    var a = $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
+                    let a = $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
                     $("#comment").val(data.myMark.comment);
                     $("#myModalLabel").html("修改");
                     $("#myModal").modal();
@@ -253,7 +253,7 @@
                         $(".comment-div").removeClass("no-found");
                     }
                     if (data.comment.length < 12 && data.comment.length > 0) {
-                        html += "<img class='not-much' src='images/character/Kanna.gif'>";
+                        html += "<img class='not-much' src='/images/character/Kanna.gif'>";
                     }
                     if (data.comment.length > 0) {
                         for (let i = 0; i < data.comment.length; i++) {

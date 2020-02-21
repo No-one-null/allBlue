@@ -10,7 +10,7 @@
 <div class="col-md-offset-2 col-md-8">
     <div th:each="ac,num : ${list}">
         <div class="col-md-3 ac-div">
-            <a th:href="@{'/acInfo='+${ac.id}}" class="thumbnail">
+            <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail">
                 <p th:text="${num.index+1}"></p>
                 <img th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}"
                      alt="通用的占位符缩略图">

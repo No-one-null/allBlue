@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+import static com.zhao.util.CommonUtil.isNumber;
+
 @Service
 public class DataServiceImpl implements DataService {
     @Resource
@@ -37,11 +39,11 @@ public class DataServiceImpl implements DataService {
     public PageInfo showPage(String tbName, String pageNumber, String pageSize) {
         CommonUtil v = new CommonUtil();
         int pSize = 10;
-        if (v.isNumber1(pageSize)) {
+        if (isNumber(pageSize)) {
             pSize = Integer.parseInt(pageSize);
         }
         int pNum = 1;
-        if (v.isNumber1(pageNumber)) {
+        if (isNumber(pageNumber)) {
             pNum = Integer.parseInt(pageNumber);
         }
         PageInfo pageInfo = new PageInfo();

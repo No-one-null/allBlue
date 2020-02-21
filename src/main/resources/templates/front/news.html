@@ -1,38 +1,99 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>动漫资讯</title>
     <style type="text/css">
-        div{
-            border-style: double;
+        p{
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        /* 未访问链接*/
+        .cell a:link {
+            color: #0000FF;
+            text-decoration: none;
+            text-shadow: 5px 5px 5px white;
+        }
+
+        /* 已访问链接 */
+        .cell a:visited {
+            color: #0000FF;
+            text-decoration: none;
+            text-shadow: 5px 5px 5px white;
+        }
+
+        /* 鼠标移动到链接上 */
+        .cell a:hover {
+            color: #BBFFFF;
+            text-decoration: none;
+            text-shadow: 5px 5px 5px #0000FF;
+        }
+
+        /* 鼠标点击时 */
+        .cell a:active {
+            color: #00FFFF;
+            text-decoration: none;
+            text-shadow: 5px 5px 5px white;
+        }
+        .left-button{
+            height: 100%;
+            width: 15%;
+            float:left;
+        }
+        .right-button{
+            height: 100%;
+            width: 15%;
+            float:right;
         }
     </style>
 </head>
-<body class="container">
+<body>
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<div class="col-md-offset-1 col-md-10" style="border-style: dashed">
+<div class="col-md-offset-2 col-md-8" style="background-color: white">
     <div style="background-color: #B0E0E6;">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#">全部资讯</a></li>
-            <li th:each="m : ${menu}"><a href="#">[[${m}]]</a></li>
+        <ul class="nav nav-tabs" id="nav-type">
+            <li id="all"><a th:href="@{/news/all}">全部资讯</a></li>
+            <li th:each="m,n : ${menu}" th:id="${m}"><a th:href="@{'/news/'+${m}}">[[${m}]]</a></li>
         </ul>
     </div>
-    <div th:each="n : ${page.list}" style="height: 150px;">
-            <div class="col-md-3" style="height: 100%;">
-                <a href="#"><img src="/images/none.png" style="max-height: 100%;"></a>
-            </div>
-            <div class="col-md-9" style="height: 100%;">
-                <h5>
+    <div th:each="n,num : ${page.list}"
+         th:style="'height: 150px;border-style: dotted;'+(${num.index%2==0}?'':'background-color: #E0FFFF')">
+        <div class="col-md-3" style="height: 100%;">
+            <a href="#"><img src="/images/none.png" style="max-height: 100%;"></a>
+        </div>
+        <div class="col-md-9" style="height: 100%;display: table;margin: 0 auto;">
+            <div class="cell">
+                <h4>
                     <span class="badge" th:text="${n.newsType}"></span>
-                    <a href="#">[[${n.newsTitle}]]</a>
+                    <a th:href="@{'/news/article/'+${n.newsId}}">[[${n.newsTitle}]]</a>
                     <span class="badge" th:if="${n.status}>1" style="float:right;">置顶</span>
-                </h5>
+                </h4>
+                发布者:<span th:text="${n.newsAuthor}"></span>
                 <p th:text="${#dates.format(n.newsDate,'yyy年MM月dd日 HH时mm分')}"></p>
             </div>
+        </div>
     </div>
-    <div style="height: 50px;"></div>
+    <div class="alert alert-warning" th:if="${page.list.size()}<${page.pageSize}">
+        <a href="#" class="close" data-dismiss="alert">
+            &times;
+        </a>
+        <h4 style="text-align: center"><strong>没有更多了。。。。</strong></h4>
+    </div>
+    <div style="height: 50px;text-align: center">
+        <button class="left-button" th:if="${page.pageNumber>1}">上一页</button>
+        <form id="pageForm" hidden><input name="pNum" th:value="${page.pageNumber}"></form>
+        <button class="right-button" th:if="${page.pageNumber}<${page.total}" type="button">下一页</button>
+    </div>
 </div>
+<script type="text/javascript">
+    const v="#"+"[[${type}]]";
+    $(v).attr("class","active");
+    $(".left-button").click(function () {
+        window.location.href="[[@{'/news/'+${type}}]]"+"?pNum=[[${page.pageNumber}-1]]";
+    });
+    $(".right-button").click(function () {
+        window.location.href="[[@{'/news/'+${type}}]]"+"?pNum=[[${page.pageNumber}+1]]";
+    });
+</script>
 </body>
 </html>

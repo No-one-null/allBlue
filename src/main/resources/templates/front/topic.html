@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>话题讨论</title>
@@ -30,6 +30,9 @@
             /*border-style: dashed;*/
             width: 100%;
         }
+        .prev-div-height{
+            height: 150px;
+        }
 
         .prev-img-div{
             border-style: double;
@@ -41,7 +44,7 @@
             margin-bottom: 5px;
         }
 
-        .pre-img{
+        .pre-img-div img{
             width: auto;
             height: auto;
             max-height: 100%;
@@ -56,10 +59,11 @@
     <p id="test" placeholder="测试用的" style="height: 600px;" readonly></p>
 </div>
 <div class="col-md-6">
-    <div class="panel panel-danger" style="width: 100%">
+    <div class="panel panel-danger" style="width: 100%" shiro:user>
         <div class="panel-heading">
             <h3 class="panel-title">发表动态</h3>
         </div>
+        <form id="my-form" th:action="@{/upload}" method="post" enctype="multipart/form-data">
         <div class="panel-body" style="width: 100%">
             <div class="topic"></div>
             <div class="topic-input">
@@ -76,29 +80,24 @@
                 <span class="glyphicon glyphicon-picture"></span>
             </button>
             <div hidden>
-                <input type="file" id="talk-img-input">
+                <input type="file" id="talk-img-input" name="file">
             </div>
             <button id="submit-btn" type="button" style="float:right;">发布</button>
         </div>
-        <div class="prev-div"></div>
+        <a id="21">
+        <div class="prev-div" οncοntextmenu="return false;" onselectstart="return false"></div></a>
+        </form>
     </div>
 </div>
 <div class="col-md-3">右
-    <textarea id="test-1" style="width: 100%;height: 600px;"></textarea>
+    <input id="test-file" type="file" >
+    <textarea id="test-1" style="width: 100%;height: 500px;"></textarea>
 </div>
 <script type="text/javascript">
     let tNum = 0;
     const maxSize=2*1024*1024;
     const maxNum=6;
-    function sizeStr(num) {
-        if(num>(1024*1024)){
-            return num/(1024*1024)+"M";
-        }
-        if(num>1024){
-            return num/1024+"K";
-        }
-        return num+"B";
-    }
+
     function upload() {
         let arr=document.getElementsByName("img");
         if(arr.length>=maxNum){
@@ -107,6 +106,7 @@
         }
         $("#talk-img-input").click();
     }
+
     $("#talk-img-input").change(function () {
         let img=document.getElementById("talk-img-input").files;
         let imgInput=document.getElementById("talk-img-input");
@@ -120,17 +120,36 @@
         let newHtml="";
         let oldHtml=$(".prev-div").html();
         newHtml+="<div class='prev-img-div' title='双击删除' ondblclick='removeE(this)'>";
-        newHtml+='<div hidden><input type="file"></div>';
-        newHtml+="<img class='pre-img' name='img' src='"+getObjectURL(img[0])+"'>";
+        newHtml+='<div hidden><input name="files" type="file"></div>';
+        newHtml+="<img name='img' src='"+getObjectURL(img[0])+"'>";
         newHtml+="</div>\n";
         newHtml+=oldHtml;
         $(".prev-div").html(newHtml);
-        let test=$("#test").html();
-        test+=img[0];
-        test+="<br>";
-        $("#test").html(test);
-        document.getElementById("talk-img-input").value=null;
+        // let test=$("#test").html();
+        // test+=img[0]+"<br>";
+        // test+=img[0].name+";";
+        // test+=sizeStr(img[0].size)+";";
+        // test+="<br>";
+        // $("#test").html(test);
+        let html=$("#test-1").html();
+        let new1="\n";
+        $("#test-1").html(new1+html);
+        // document.getElementById("talk-img-input").value=null;
+        preDivHeight();
     });
+
+    function preDivHeight() {
+        let arr=document.getElementsByName("img");
+        if(arr.length<=0){
+            $(".prev-div").height(1);
+        }
+        if(arr.length>0&&arr.length<=3){
+            $(".prev-div").height(150);
+        }
+        if(arr.length>3){
+            $(".prev-div").height(300);
+        }
+    }
 
     function checkArr(arr,text) {
         for (let i = 0; i < arr.length; i++) {
@@ -166,23 +185,25 @@
     });
 
     $("#submit-btn").click(function () {
-        $("#test-1").val($(".prev-div").html());
-        // let arr = document.getElementsByName("topic");
-        // if(!checkInput()){
-        //     alert("有未完成的输入！");
-        //     return;
-        // }
+        let arr = document.getElementsByName("topic");
+        let file=document.getElementById("test-file").files;
+        if($("#talk-content").val()==''){
+            alert("内容不能为空！");
+            return false;
+        }
+        $("#my-form").submit();
         // $.post("/topic/submit", {
-        //         topicStr: strArr(arr),
-        //         content: $("#talk-content").val()
-        //     }, function (data, status) {
-        //         if (status == 'success') {
-        //             alert(data + status);
-        //             clearInput();
-        //         } else {
-        //             alert(status);
-        //         }
-        //     });
+        //     file:file[0],
+        //     topicStr: strArr(arr),
+        //     content: $("#talk-content").val()
+        // }, function (data, status) {
+        //     if (status == 'success') {
+        //         alert(data + status);
+        //         window.location.href='[[@{/topic}]]';
+        //     } else {
+        //         alert(status);
+        //     }
+        // });
     });
 
     function strArr(arr) {
@@ -196,24 +217,19 @@
         return str;
     }
 
-    function clearInput() {
-        $("#talk-content").val("");
-        $(".topic").html("");
-        $("#talk-topic-text").val("");
-    }
-
-    function checkInput() {
-        if($("#talk-content").val()==''){
-            return false;
-        }
-        if($(".topic").html()==''){
-            return false;
-        }
-        return true;
-    }
-
     function removeE(obj) {
         obj.remove();
+        preDivHeight();
+    }
+
+    function sizeStr(num) {
+        if(num>(1024*1024)){
+            return Math.round(num/(1024*1024)*10)/10+"M";
+        }
+        if(num>1024){
+            return Math.round(num/1024*10)/10+"K";
+        }
+        return Math.round(num*10)/10+"B";
     }
 
     function getObjectURL(file) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -94,7 +95,12 @@ public class ShowController {
 
     @ResponseBody
     @PostMapping("/topic/submit")
-    public String submitTalk(HttpServletRequest request){
+    public String submitTalk(HttpServletRequest request, MultipartFile file){
+        if(file!=null){
+            System.out.println("file");
+        }else {
+            System.out.println("传不了");
+        }
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         Talk talk=new Talk();
         talk.setTopic(request.getParameter("topicStr"));
@@ -102,6 +108,23 @@ public class ShowController {
         talk.setUsername(currentUser.getUsername());
         System.out.println("talk["+talk+"]");
         return "成功";
+    }
+
+    @PostMapping("/upload")
+    public String upload(MultipartFile[] files,MultipartFile file){
+        if(files==null){
+            System.out.println("失败！");
+        }else {
+            System.out.println("成功！");
+        }
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file1 = files[i];
+            //获取文件名
+            String fileName = file1.getOriginalFilename();
+            System.out.println(fileName);
+        }
+        System.out.println("file的名字"+file.getOriginalFilename());
+        return "redirect:/topic";
     }
 
     @RequestMapping("/acInfo/{id}")

@@ -2,17 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhao.mapper.AcItemsMapper">
     <select id="selectAll" resultType="acItems">
-        select * from ac_items
+        select *
+        from ac_items
         where status = 1
     </select>
     <select id="selectByPage" resultType="acItems">
-        select * from ac_items
+        select *
+        from ac_items
         where status = 1
         limit #{pageStart},#{pageSize}
     </select>
     <select id="selectCount" resultType="long">
-        select count(*) from ac_items
-        where status=1
+        select count(*)
+        from ac_items
+        where status = 1
     </select>
     <select id="selectByParam" resultType="acItems">
         select * from ac_items
@@ -40,8 +43,8 @@
         <if test="seq!=null">
             ORDER BY ${field} ${seq}
         </if>
-        <if test="end!=0">
-            limit #{start},#{end}
+        <if test="size!=0">
+            limit #{start},#{size}
         </if>
     </select>
     <select id="sort" resultType="acItems">
@@ -53,41 +56,59 @@
             AND category = #{category}
         </if>
         ORDER BY `count` DESC,rating DESC
-        <if test="end!=0">
-            limit #{start},#{end}
+        <if test="size!=0">
+            limit #{start},#{size}
         </if>
     </select>
     <select id="selectById" resultType="acItems" parameterType="Integer">
-        select * from ac_items
+        select *
+        from ac_items
         where id = #{id}
-        and status=1
+          and status = 1
     </select>
     <select id="selectLastItem" resultType="acItems">
-        select * from ac_items order by id DESC limit 1
+        select *
+        from ac_items
+        order by id DESC
+        limit 1
     </select>
     <select id="selectLastName" resultType="acItems">
-        select * from ac_items
-        where status=1
-        and name = #{word}
-        order by id DESC limit 1
+        select *
+        from ac_items
+        where status = 1
+          and name = #{word}
+        order by id DESC
+        limit 1
+    </select>
+    <select id="selectByNames" resultType="acItems">
+        SELECT * FROM ac_items
+        WHERE status=1
+        AND `name`=#{name}
+        AND `year`=#{year}
+        AND `author`=#{author}
+        AND `category`=#{category}
     </select>
     <insert id="insertAcItem" parameterType="acItems">
-        insert into ac_items(name,info,author,year,category,image)
-        values(#{name},#{info},#{author},#{year},#{category},#{image})
+        insert into ac_items(name, info, author, year, category, image)
+        values (#{name}, #{info}, #{author}, #{year}, #{category}, #{image})
     </insert>
     <update id="updateById" parameterType="acItems">
         update ac_items
-        SET name=#{name},author=#{author},year=#{year},info=#{info},image=#{image}
-        where id=#{id}
+        SET name=#{name},author=#{author},year=#{year},info=#{info},image=#{image},
+            category=#{category},country=#{country}
+        where id = #{id}
     </update>
-    <update id="updateDelete" parameterType="Integer">
+    <update id="updateStatus" parameterType="int">
         update ac_items
-        set status=0
-        where id=#{id}
+        set status=#{status}
+        <if test="status=0">
+            ,image=''
+        </if>
+        where id = #{id}
     </update>
     <update id="updateRating">
         update ac_items
         SET rating=#{rating}
-        WHERE id=#{acId}
+        WHERE id = #{acId}
     </update>
 </mapper>

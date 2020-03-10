@@ -10,7 +10,8 @@
         <result property="newsType" column="news_type"/>
     </resultMap>
     <select id="selectAll" resultMap="acNewsMap">
-        SELECT * FROM ac_news
+        SELECT *
+        FROM ac_news
         ORDER BY news_date DESC
     </select>
     <select id="selectByParams" resultMap="acNewsMap">
@@ -30,35 +31,25 @@
         </if>
     </select>
     <select id="CountAll" resultType="long">
-        SELECT COUNT(*) FROM ac_news
+        SELECT COUNT(*)
+        FROM ac_news
     </select>
     <select id="selectByPage" resultMap="acNewsMap">
-        SELECT * FROM ac_news
-        ORDER BY news_date DESC
+        SELECT *
+        FROM ac_news
+        ORDER BY status DESC ,news_date DESC
         LIMIT #{0},#{1}
     </select>
     <select id="selectOneById" parameterType="int" resultMap="acNewsMap">
-        SELECT * FROM ac_news
-        WHERE news_id=#{0}
+        SELECT *
+        FROM ac_news
+        WHERE news_id = #{0}
     </select>
     <select id="selectById" parameterType="int" resultMap="acNewsMap">
-        SELECT * FROM ac_news
-        WHERE news_id=#{0}
-        AND status>0
-    </select>
-    <select id="selectFirstId" resultType="int">
-        SELECT MIN(news_id) FROM ac_news
-    </select>
-    <select id="selectLastId" resultType="int">
-        SELECT MAX(news_id) FROM ac_news
-    </select>
-    <select id="selectNextId" resultType="int" parameterType="int">
-        SELECT MIN(news_id) FROM ac_news
-        WHERE news_id<![CDATA[>]]>#{id}
-    </select>
-    <select id="selectPrevId" resultType="int" parameterType="int">
-        SELECT MAX(news_id) FROM ac_news
-        WHERE news_id<![CDATA[<]]>#{id}
+        SELECT *
+        FROM ac_news
+        WHERE news_id = #{0}
+          AND status > 0
     </select>
     <select id="selectByKeyword" resultMap="acNewsMap">
         SELECT * FROM ac_news
@@ -70,7 +61,13 @@
         values (#{newsTitle}, #{newsAuthor}, #{newsContent}, #{newsDate}, #{newsType})
     </insert>
     <update id="updateStatus" parameterType="int">
-        UPDATE ac_news SET status=#{status}
+        UPDATE ac_news
+        SET status=#{status}
         WHERE news_id = #{id}
+    </update>
+    <update id="updateContent">
+        UPDATE ac_news
+        SET news_content=#{content}
+        WHERE news_id=#{id}
     </update>
 </mapper>

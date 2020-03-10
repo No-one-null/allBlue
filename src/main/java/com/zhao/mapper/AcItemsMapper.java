@@ -17,21 +17,23 @@ public interface AcItemsMapper {
     List<AcItems> selectByParam(@Param("field") String field, @Param("word") String word);
 
     List<AcItems> selectByParams(@Param("field") String field, @Param("word") String word, @Param("seq") String seq,
-                                 @Param("start") int start, @Param("end") int end);
+                                 @Param("start") int start, @Param("size") int size);
 
-    List<AcItems> sort(@Param("category") String category, @Param("start") int start, @Param("end") int end);
+    List<AcItems> sort(@Param("category") String category, @Param("start") int start, @Param("size") int size);
 
     AcItems selectById(Integer id);
 
     AcItems selectLastItem();
 
-    void updateById(AcItems acItems);
+    int updateById(AcItems acItems);
 
-    void updateDelete(Integer id);
+    int updateStatus(@Param("id") int id,@Param("status")int status);
 
     int updateRating(@Param("rating") float rating, @Param("acId") int acId);
 
     AcItems selectLastName(String word);
 
     List<AcItems> selectByKey(@Param("keyword") String keyword);
+
+    List<AcItems> selectByNames(AcItems acItems);
 }

@@ -1,78 +1,104 @@
 package com.zhao.pojo;
 
 
+import java.util.Date;
+
 public class Comment {
 
-  private int id;
-  private int fromUid;
-  private int toUid;
-  private String content;
-  private String topic;
-  private int tid;
+    private int id;
+    private int topicId;
+    private int uid;
+    private User user;
+    private int toUid;
+    private User toUser;
+    private String content;
+    private Date time;
+    private int status;
 
-  @Override
-  public String toString() {
-    return "Comment{" +
-            "id=" + id +
-            ", fromUid=" + fromUid +
-            ", toUid=" + toUid +
-            ", content='" + content + '\'' +
-            ", topic='" + topic + '\'' +
-            ", tid=" + tid +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", topicId=" + topicId +
+                ", uid=" + uid +
+                ", user=" + user +
+                ", toUid=" + toUid +
+                ", toUser=" + toUser +
+                ", content='" + content + '\'' +
+                ", time=" + time +
+                ", status=" + status +
+                '}';
+    }
 
-  public int getId() {
-    return id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public int getTopicId() {
+        return topicId;
+    }
 
-  public int getFromUid() {
-    return fromUid;
-  }
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
+    }
 
-  public void setFromUid(int fromUid) {
-    this.fromUid = fromUid;
-  }
+    public int getUid() {
+        return uid;
+    }
 
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
-  public int getToUid() {
-    return toUid;
-  }
+    public User getUser() {
+        return user;
+    }
 
-  public void setToUid(int toUid) {
-    this.toUid = toUid;
-  }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
+    public int getToUid() {
+        return toUid;
+    }
 
-  public String getContent() {
-    return content;
-  }
+    public void setToUid(int toUid) {
+        this.toUid = toUid;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public User getToUser() {
+        return toUser;
+    }
 
+    public void setToUser(User toUser) {
+        this.toUser = toUser;
+    }
 
-  public String getTopic() {
-    return topic;
-  }
+    public String getContent() {
+        return content;
+    }
 
-  public void setTopic(String topic) {
-    this.topic = topic;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
+    public Date getTime() {
+        return time;
+    }
 
-  public int getTid() {
-    return tid;
-  }
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
-  public void setTid(int tid) {
-    this.tid = tid;
-  }
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>话题管理</title>
+    <script type="text/javascript">
+        const pathName="[[@{/back/topic}]]";
+    </script>
+</head>
+<body>
+<!-- 导航栏-->
+<div th:replace="/back/back :: head"></div>
+<!-- 左侧栏 -->
+<div th:replace="/back/user/userInfo :: left"></div>
+<!-- 动态举报 -->
+<div class="col-sm-10 col-sm-offset-2">
+    <div class="panel panel-info">
+        <!-- 路径导航 -->
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="#">话题管理</a></li>
+                <li class="active">全部话题</li>
+            </ol>
+        </div>
+        <!-- Table -->
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>tid</th>
+            <th>uid</th>
+            <th>内容</th>
+            <th>话题</th>
+            <th>时间</th>
+            <th>被举报次数</th>
+            <th>操作</th>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${pages.list}">
+                <td th:text="${t.tid}"></td>
+                <td th:text="${t.uid}"></td>
+                <td th:text="${#strings.abbreviate(t.content,30)}"></td>
+                <td th:text="${t.topic}"></td>
+                <td th:text="${#dates.format(t.time,'yyy/MM/dd HH:mm:ss')}"></td>
+                <td th:text="${t.countComplaint}"></td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm" th:switch="${t.status}"
+                                th:onclick="|showContent('topic',${t.tid});|">
+                            <span style="color: red" th:case=0>未审核</span>
+                            <span style="color: blue" th:case=1>已通过</span>
+                            <span style="color: black" th:case=*>已隐藏</span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-default dropdown-toggle"
+                                data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:void(0);" th:onclick="|submitEdit('topic',${t.tid},'hide')|">隐藏</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:void(0);" th:onclick="|submitEdit('topic',${t.tid},'pass')|">通过</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:replace="/back/back :: page"></div>
+    </div><!-- /.panel panel-success -->
+</div><!-- /.emp_info -->
+<div th:replace="/back/topic/complaint_list :: topic-model"></div>
+</body>
+<script type="text/javascript">
+    const showTalk="[[@{/back/showTalk}]]";
+    const topicCheck="[[@{/back/topicCheck}]]";
+</script>
+</html>

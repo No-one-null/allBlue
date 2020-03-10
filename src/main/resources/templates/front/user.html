@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>我的主页</title>
+</head>
 <body>
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-2" style="border-right-color: #0000CD;border-right-style: double;height: 100%;
 position: fixed;text-align: center;">
-    <img class="img-rounded img-thumbnail" style="height: 100px;"
-         th:src="${#strings.isEmpty(session.currentUser.photo)}?'images/no-one.jpg':'images/cover/'+${session.currentUser.photo}"></img>
+    <img class="img-rounded img-thumbnail" alt="头像" style="height: 100px;"
+         th:src="${#strings.isEmpty(session.currentUser.photo)}?
+         '/images/no-one.jpg':'/images/avatar/'+${session.currentUser.photo}">
     <h4>[[${session.currentUser.username}]]</h4>
     UID：<span class="badge">[[${session.currentUser.uid}]]</span>
     <ul class="nav nav-pills nav-stacked">
@@ -16,36 +21,7 @@ position: fixed;text-align: center;">
     </ul>
 </div>
 <div class="col-md-offset-2 col-md-8" style="background-color: #F0FFFF;">
-    <p>
-        李白（701年5月19日－762年11月30日）[1]，字太白，号青莲居士，中国唐朝诗人，自言祖籍陇西成纪（今甘肃省天水市秦安县），先世西凉武昭王李暠之后，与李唐皇室同宗。幼时内迁，寄籍剑南道绵州（今四川省江油市昌隆县）。另外，郭沫若研究认为李白出生于吉尔吉斯碎叶河上的碎叶城，属唐安西都护府（今楚河州托克马克市），该说有一定影响[2]。有“诗仙”、“诗侠”、“酒仙”、“谪仙人”等称呼，活跃于盛唐[3]，为杰出的浪漫主义诗人。与杜甫合称“李杜”[4]。被贺知章惊呼为“天上谪仙”。</p>
-    <h1>噫吁嚱，危乎高哉，蜀道之难，难于上青天！<br>
-        蚕丛及鱼凫，开国何茫然。<br>
-        尔来四万八千岁，不与秦塞通人烟。<br>
-        西当太白有鸟道，可以横绝峨眉巅。
-        <br>地崩山摧壮士死，然后天梯石栈相钩连。<br>
-        上有六龙回日之高标，下有冲波逆折之回川。<br>
-        黄鹤之飞尚不得过，猿猱欲度愁攀援。<br>
-        青泥何盘盘，百步九折萦岩峦。<br>
-        扪参历井仰胁息，以手抚膺坐长叹。<br>
-        问君西游何时还，畏途巉岩不可攀。<br>
-        但见悲鸟号古木，雄飞雌从绕林间。<br>
-        又闻子规啼夜月，愁空山。<br>
-        蜀道之难难于上青天，使人听此凋朱颜。<br>
-        连峯去天不盈尺，枯松倒挂倚绝壁。<br>
-        飞湍瀑流争喧豗，砯厓转石万壑雷。<br>
-        其险也如此，嗟尔远道之人胡为乎来哉。<br>
-        剑阁峥嵘而崔嵬，一夫当关，万夫莫开。<br>
-        所守或匪亲，化为狼与豺.<br>
-        朝避猛虎， 夕避长蛇。<br>
-        磨牙吮血，杀人如麻。<br>
-        锦城虽云乐，不如早还家。<br>
-        蜀道之难难于上青天，侧身西望长咨嗟。<br>
-    </h1>
 </div>
-<img class="bottom-right" th:src="@{/images/character/LuoTianyi.gif}">
+<img alt="notTing" class="bottom-right" th:src="@{/images/character/LuoTianyi.gif}">
 </body>
-<head>
-    <meta charset="utf-8">
-    <title>我的主页</title>
-</head>
 </html>

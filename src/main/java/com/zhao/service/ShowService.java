@@ -1,10 +1,9 @@
 package com.zhao.service;
 
-import com.zhao.pojo.AcItems;
-import com.zhao.pojo.AcNews;
-import com.zhao.pojo.Mark;
+import com.zhao.pojo.*;
 import com.zhao.util.PageInfo;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ShowService {
@@ -27,7 +26,23 @@ public interface ShowService {
 
     List<Mark> allComments(String acId);
 
-    PageInfo showPage(String path, String type,String pNum,String pSize);
+    PageInfo showPage(String path, String type, String pNum, String pSize);
 
     AcNews showNews(String nid);
+
+    int addTalk(Talk talk);
+
+    List<Talk> showAllTalk();
+
+    Talk showTalk(String tid);
+
+    boolean addComment(Comment comment);
+
+    List<Comment> showComments(String tid);
+
+    boolean delComment(String id);
+
+    String removeTalk(String tid) throws IOException;
+
+    String sendComplaint(Complaint complaint);
 }

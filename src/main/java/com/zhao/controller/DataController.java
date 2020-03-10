@@ -7,27 +7,23 @@ import com.zhao.pojo.User;
 import com.zhao.service.DataService;
 import com.zhao.service.LoginService;
 
-import com.zhao.util.CommonUtil;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
-import static com.zhao.util.Constant.TYPE_ARRAY;
 
 @Controller
 @RequestMapping("/back")
@@ -37,19 +33,11 @@ public class DataController {
     @Resource
     private DataService dataServiceImpl;
 
-    CommonUtil commonUtil = new CommonUtil();
-
-    /**
-     * 分页获取信息
-     *
-     * @param model
-     * @param path
-     * @return
-     */
+    /*分页获取信息*/
     @RequestMapping("/{path}List{pSize}/p{pNum}")
-    public String show(Model model, @PathVariable String path, @PathVariable String pNum, @PathVariable String pSize) {
+    public String show(Model model, @PathVariable String path,
+                       @PathVariable String pNum, @PathVariable String pSize) {
         String str = ERR404;
-        System.out.println(pNum + pSize);
         if (path.equals("user")) {
             str = "/back/user/userInfo";
         }
@@ -59,15 +47,24 @@ public class DataController {
         if (path.equals("news")) {
             str = "/back/acNews/acNews";
         }
+        if (path.equals("topic")) {
+            str = "/back/topic/topic_list";
+        }
+        if (path.equals("complaint")) {
+            str = "/back/topic/complaint_list";
+        }
+        if(path.equals("topic")){
+            str="/back/topic/topic_list";
+        }
         PageInfo pageInfo = dataServiceImpl.showPage(path, pNum, pSize);
         model.addAttribute("pages", pageInfo);
-//        System.out.println(pageInfo);
         return str;
     }
 
     @RequestMapping("/{path}/info")
-    public String showAll(Model model, @PathVariable String path) {
+    public String showAll(@PathVariable String path) {
         String str = "redirect:/back/" + path + "List/p1";
+        System.out.println(str);
         return str;
     }
 
@@ -76,14 +73,7 @@ public class DataController {
         return "redirect:/back/newsList/p1";
     }
 
-    /**
-     * 关键词搜索
-     *
-     * @param model
-     * @param word
-     * @param path
-     * @return
-     */
+    /*关键词搜索*/
     @RequestMapping("/{path}/search={word}")
     public String find(Model model, @PathVariable String word, @PathVariable String path) {
         List<?> list = new ArrayList<>();
@@ -106,10 +96,6 @@ public class DataController {
 
     /**
      * 用户详情页
-     *
-     * @param uid
-     * @param model
-     * @return
      */
     @RequestMapping("/user/uid={uid}")
     public String userDetail(@PathVariable String uid, Model model) {
@@ -120,17 +106,14 @@ public class DataController {
     }
 
     /**
-     * 增加条目
-     *
-     * @param request
-     * @param path
-     * @param model
-     * @return
+     * 跳转新增页
      */
     @RequestMapping("/add{path}")
-    public String add(HttpServletRequest request, @PathVariable String path, Model model) {
-        String str = "/error/error404";
+    public String add(@PathVariable String path, Model model, AcItems acItems) {
+        System.out.println(acItems);//不使用会报警告
+        String str = ERR404;
         if (path.equalsIgnoreCase("Items")) {
+            model.addAttribute("countries",COMMON_COUNTRY);
             str = "back/acInfo/ac_add";
         }
         if (path.equalsIgnoreCase("News")) {
@@ -141,27 +124,57 @@ public class DataController {
     }
 
     @RequestMapping("/addOne")
-    public String addOk(HttpServletRequest request, MultipartFile file, @Valid AcItems acItems,
-                        BindingResult result, Model model) throws IOException, ServletException {
+    public String addOk(MultipartFile file, @Valid AcItems acItems, BindingResult result, Model model) {
+        String message = "";
         if (!result.hasErrors()) {
-            if (file.getSize() > 0) {
-                String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-                String fileName = UUID.randomUUID().toString() + suffix;
-                upload(file, fileName, request);
-                acItems.setImage(fileName);
-            } else {
-                acItems.setImage("");
+            try {
+                message = dataServiceImpl.addAcItems(file, acItems);
+            } catch (IOException e) {
+                e.printStackTrace();
+                message = "图片上传失败!";
             }
-            System.out.println(acItems);
-            int addResult = dataServiceImpl.addAcItems(acItems);
-            if (addResult > 0) {
-                return "redirect:/back/addSuccess";
-            } else {
-                return "/back/acInfo/ac_add";
-            }
-        } else {
-            return "/back/acInfo/ac_add";
         }
+        model.addAttribute("message", message);
+        return "/back/acInfo/ac_add";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public String editItem(@PathVariable String id, Model model) {
+        AcItems ac = dataServiceImpl.findById(Integer.valueOf(id));
+        model.addAttribute("ac", ac);
+        model.addAttribute("countries",COMMON_COUNTRY);
+        return "/back/acInfo/ac_edit";
+    }
+
+    @ResponseBody
+    @RequestMapping("/editOk")
+    public Map<String,Object> editOk(@Valid AcItems acItems, MultipartFile file, BindingResult result) {
+        System.out.println(acItems);
+        String message;
+        Map<String,Object> map=new HashMap<>();
+        if (!result.hasErrors()) {
+            try {
+                message=dataServiceImpl.updateOne(acItems,file);
+            } catch (IOException e) {
+                message="上传图片时出错!";
+                e.printStackTrace();
+            }
+        }else {
+            message="传入数据错误!";
+        }
+        map.put("message", message);
+        return map;
+    }
+
+    @RequestMapping("/deleteOne/{id}")
+    public String deleteOne(@PathVariable String id) {
+        try {
+            boolean b=dataServiceImpl.DeleteOne(Integer.parseInt(id));
+            System.out.println(b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/back/ac/info";
     }
 
     @ResponseBody
@@ -183,6 +196,7 @@ public class DataController {
     @RequestMapping("/showNews{id}")
     public String showNews(Model model, @PathVariable String id) {
         AcNews acNews = dataServiceImpl.findNewsById(id);
+        model.addAttribute("type", TYPE_ARRAY);
         model.addAttribute("news", acNews);
         return "/back/acNews/detailsNews";
     }
@@ -198,72 +212,36 @@ public class DataController {
     }
 
     @ResponseBody
-    @RequestMapping("/nextNews")
-    public int nextNews(String id) {
-        int next = dataServiceImpl.findNextId(id);
-        return next;
+    @RequestMapping("/editNews")
+    public String nextNews(String id,String content) {
+        return dataServiceImpl.editNews(id,content);
     }
 
-    @RequestMapping("/addSuccess")
-    public String addSuccess(HttpServletRequest request, Model model) {
-        AcItems acItems = dataServiceImpl.findLastOne();
-        model.addAttribute("ac", acItems);
-        return "/back/acInfo/ac_add_ok";
-    }
-
-    @RequestMapping("/addSuccess/{name}")
-    public String addOK(HttpServletRequest request, Model model, @PathVariable String name) {
-        AcItems acItems = dataServiceImpl.findLastOne(name);
-        model.addAttribute("ac", acItems);
-        return "/back/acInfo/ac_add_ok";
-    }
-
-    @RequestMapping("/edit/{id}")
-    public String editItem(@PathVariable String id, Model model) {
-        AcItems ac = dataServiceImpl.findById(Integer.valueOf(id));
-        model.addAttribute("ac", ac);
-        return "/back/acInfo/ac_edit";
-    }
-
-    @RequestMapping("/editOk")
-    public String editOk(@Valid AcItems acItems, BindingResult result, MultipartFile file,
-                         HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!result.hasErrors()) {
-            String fileName = "";
-            if (!acItems.getImage().equals("")) {
-                fileName = acItems.getImage();
-            }
-            if (file.getSize() > 0) {
-                String prefix = UUID.randomUUID().toString();
-                String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-                fileName = prefix + suffix;
-                upload(file, fileName, request);
-                acItems.setImage(fileName);
-            } else {
-                System.out.println("不修改图片");
-            }
-            dataServiceImpl.updateOne(acItems);
-        } else {
-//            return "/back/acInfo/ac_edit";
+    @ResponseBody
+    @RequestMapping("/showTalk")
+    public Map<String, Object> show(String type, String tid) {
+        Map<String, Object> map = new HashMap<>();
+        if (!isNumber(tid)) {
+            map.put("message", "数据传输错误!");
+            return map;
         }
-        return "redirect:/back/edit/" + acItems.getId();
+        map = dataServiceImpl.findTalk(type, Integer.parseInt(tid));
+        return map;
     }
 
-    @RequestMapping("/deleteOne/{id}")
-    public String deleteOne(@PathVariable String id, HttpServletResponse response) {
-        dataServiceImpl.DeleteOne(Integer.valueOf(id));
-        return "redirect:/back/ac/info";
-    }
-
-    public void upload(MultipartFile file, String fileName, HttpServletRequest request) {
-        String proj = System.getProperty("user.dir");
-        String path = request.getServletContext().getRealPath("images") + "/cover/";
-        String fullPath = path + fileName;
-        try {
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(fullPath));
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(proj + "/src/main/resources/static/images/cover/" + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+    @ResponseBody
+    @PostMapping("/topicCheck")
+    public Map<String, Object> complaint(String type, String tid, String deal, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("currentUser");
+        Map<String, Object> map = new HashMap<>();
+        if (!isNumber(tid)) {
+            map.put("message", "数据传输错误!");
+            return map;
         }
+        System.out.println(type + tid + deal);
+        String message = dataServiceImpl.checkTopic(type, Integer.parseInt(tid), deal, user.getUid());
+        map.put("message", message);
+        return map;
     }
+
 }

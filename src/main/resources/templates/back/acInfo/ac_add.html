@@ -1,91 +1,123 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>动漫信息</title>
 </head>
 <body>
-<div>
-    <!-- 导航栏-->
-    <div th:replace="/back/back :: head"></div>
-    <!-- 中间部分（包括左边栏和员工/部门表单显示部分） -->
-    <div class="back_body" style="position:relative; top:-15px;">
+<!-- 导航栏-->
+<div th:replace="/back/back :: head"></div>
 
-        <!-- 左侧栏 -->
-        <div th:replace="/back/acInfo/ac_Info :: left"></div>
+<!-- 左侧栏 -->
+<div th:replace="/back/acInfo/ac_Info :: left"></div>
 
-        <!-- 中间员工表格信息展示内容 -->
-        <div class="mainInfo col-sm-10">
-
-            <div class="panel panel-success">
-                <!-- 路径导航 -->
-                <div class="panel-heading">
-                    <ol class="breadcrumb">
-                        <li><a href="#">动漫信息</a></li>
-                        <li class="active">动漫新增</li>
-                    </ol>
+<div class="panel panel-success col-sm-10 col-sm-offset-2">
+    <!-- 路径导航 -->
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="#">动漫信息</a></li>
+            <li class="active">动漫新增</li>
+        </ol>
+    </div>
+    <form class="form-horizontal" role="form" th:action="@{/back/addOne}" method="post"
+          enctype="multipart/form-data">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">名称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="请输入作品名">
+                    <span style="color: red;" th:errors="${acItems.name}"></span>
                 </div>
-                <form class="form-horizontal" role="form" th:action="@{/back/addOne}" method="post"
-                      enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">名称</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入作品名">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="author" class="col-sm-2 control-label">作者</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <input type="text" class="form-control" id="author" name="author" placeholder="请输入作者名">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="year" class="col-sm-2 control-label">年份</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <input type="text" class="form-control" id="year" name="year" placeholder="请输入年份">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="info" class="col-sm-2 control-label">简介</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <textarea class="form-control" rows="5" id="info" name="info"
-                                      placeholder="请输入简介"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="file" class="col-sm-2 control-label">封面&nbsp/&nbsp海报</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <input type="file" id="file" name="file">
-                            <img id="preImg" th:src="@{/images/null.png}" height="100px">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">类别</label>
-                        <div class="col-sm-10" style="width: 33%">
-                            <label class="radio-inline">
-                                <input type="radio" name="category" id="category1" value="A" checked>动画
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="category" id="category2" value="C">漫画
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-success" style="width: 100px;margin-left: 30px">确定
-                            </button>
-                            <button type="reset" class="btn btn-warning" style="width: 100px;margin-left: 100px">重置
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            </div>
+            <div class="form-group">
+                <label for="author" class="col-sm-2 control-label">作者</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="author" name="author" placeholder="请输入作者名">
+                    <span style="color: red;" th:errors="${acItems.author}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="year" class="col-sm-2 control-label">年份</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="year" name="year" placeholder="请输入年份">
+                    <span style="color: red;" th:errors="${acItems.year}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="info" class="col-sm-2 control-label">简介</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" rows="10" id="info" name="info" maxlength="200"
+                              placeholder="请输入简介"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">类别</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="category" id="category1" value="A" checked>动画
+                    </label>
+                    <label class="radio-inline" style="margin-left: 100px">
+                        <input type="radio" name="category" id="category2" value="C">漫画
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
-</div><!-- /.container -->
-<script>
-    $("#image").change(function () {
-        // $("#preImg").attr("src","file:///"+$("#image").val());
-    })
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="country" class="col-sm-2 control-label">国家/地区</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="country" name="country"
+                           placeholder="请输入国家或地区" list="countries" />
+                    <datalist id="countries">
+                        <option th:each="c : ${countries}" th:value="${c}">
+                    </datalist>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="file" class="col-sm-2 control-label">封面&nbsp;/&nbsp;海报</label>
+                <div class="col-sm-8" style="text-align: center;width: 300px;height: 300px;">
+                    <input type="file" id="file" name="file" accept="image/*">
+                    <img id="preImg" th:src="@{/images/none.png}" alt="预览"
+                         style="max-width: 100%;max-height: 100%;width: auto;height: auto;">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12" style="text-align: center;margin-top: 10px">
+            <button type="submit" class="btn btn-success" style="width: 100px;">确定
+            </button>
+            <button type="reset" class="btn btn-info" style="width: 100px;margin-left: 250px">更多
+            </button>
+            <button type="reset" class="btn btn-warning" style="width: 100px;margin-left: 250px">重置
+            </button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    const maxSize = 2 * 1024 * 1024;
+    const $preImg = $("#preImg");
+    $("#file").change(function () {
+        let file = $(this)[0].files[0];
+        if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+            alert(file.type + "格式错误!暂时只支持jpg/png");
+            $(this)[0].value = '';
+            return;
+        }
+        if (file.size > maxSize) {
+            alert("图片过大!");
+            $preImg.attr("src", "[[@{/images/none.png}]]");
+            $(this)[0].value = '';
+            return;
+        }
+        $preImg.attr("src", getObjectURL(file));
+    });
+    $(document).ready(function () {
+        let message = '[[${message}]]';
+        if (message === "success") {
+            location.href = "[[@{/back/addItems}]]";
+            alert("新增成功!");
+        }else if (message!==""){
+            alert("新增失败!"+message);
+        }
+    });
 </script>
 </body>
 </html>

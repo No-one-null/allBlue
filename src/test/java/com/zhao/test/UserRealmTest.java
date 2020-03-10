@@ -1,5 +1,7 @@
 package com.zhao.test;
 
+import com.zhao.mapper.ComplaintMapper;
+import com.zhao.pojo.AcItems;
 import com.zhao.shiro.realm.AuthRealm;
 import com.zhao.util.CommonUtil;
 import org.apache.shiro.SecurityUtils;
@@ -48,17 +50,23 @@ public class UserRealmTest {
     }
 
     @Test
-    public void bTest() {
-        System.out.println(true || true);
-        System.out.println("1" + (false || false));
-        System.out.println(true || false);
-        System.out.println("2" + (true && true));
-        System.out.println(true && false);
-        System.out.println(false && false);
+    public void strTest() {
+        String str = "/20200225130036/1.jpg,/20200225130036/2.jpg,/20200225130036/3.jpg,/20200225130036/4.png,/20200225130036/5.png,/20200225130036/6.png";
+        System.out.println(str.substring(str.indexOf('/'), str.indexOf('/') + 1));
+        System.out.println(str.substring(0, str.indexOf('/', str.indexOf('/') + 1)));
     }
 
     @Test
     public void testNumber() {
         CommonUtil v = new CommonUtil();
+    }
+
+    @Test
+    public void test(){
+        StringBuilder str= new StringBuilder();
+        for (int i = 0; i < 100; i++) {
+            str.append(i).append(",");
+        }
+        System.out.println(str.substring(0,20));
     }
 }

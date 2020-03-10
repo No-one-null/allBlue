@@ -2,12 +2,17 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AllBlue动漫网</title>
+    <title th:text="${ac.name}"></title>
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
 </head>
 <body class="container">
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<a href="#" class="goTop"><img th:src="@{/images/icon/top.gif}"></a>
+<a href="#" class="goTop"><img th:src="@{/images/icon/top.gif}" alt="图标"></a>
 <div class="col-md-12 panel panel-info">
     <div class="title-div panel-heading">
         <h4><b><span th:text="${ac.name}"></span></b></h4>
@@ -18,16 +23,15 @@
             <img th:src="${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}"
                  class="img-rounded img-thumbnail" alt="封面/海报">
         </div>
-        <div class="list-group">
+        <ul class="list-group">
             <li class="list-group-item"><b>类别:</b><a href="#"> [[${ac.category=='A'?'动画':'漫画'}]]</a></li>
             <li class="list-group-item"><b th:text="${ac.category}=='C'?'作者:':'导演:'"></b><a href="#">
                 [[${ac.author}]]</a></li>
             <li class="list-group-item"><b>时间:</b><a href="#"> [[${ac.year}]]</a></li>
             <li class="list-group-item"><b>地域:</b><a href="#"> [[${ac.country}]]</a></li>
-            <li class="list-group-item" s><b>标签:</b><a href="#"> (少年漫画)</a></li>
-            <div hidden>有东西？</div>
+            <li class="list-group-item"><b>标签:</b><a href="#"> (少年漫画)</a></li>
             <input type="button" class="btn btn-default btn-block" value="更多">
-        </div>
+        </ul>
     </div>
     <div class="col-md-6 info-div">
         <pre th:if="${#strings.isEmpty(ac.info)}">暂无简介……<a href="#"><em>添加简介？</em></a></pre>
@@ -62,7 +66,7 @@
         <button type="button" class="btn btn-default btn-block" id="comment-btn">
             <span class="glyphicon glyphicon-thumbs-up"></span> 看看大家的吐槽
             <span class="glyphicon glyphicon-thumbs-down"></span></button>
-        <a name="comments" id="comments"></a>
+        <a id="comments" href="javascript:void(0);"></a>
     </div>
 </div>
 <!--评论区-->
@@ -70,7 +74,9 @@
 <!--评论分页-->
 <div class="col-md-12 comment-div-bottom">
     <div class="cell">
-        <input type="button" class="btn btn-primary left-btn" value="刷新">
+        <button type="button" class="btn btn-primary left-btn">
+            <span class="glyphicon glyphicon-repeat"></span>刷新
+        </button>
         <input type="button" class="btn btn-default right-btn" value="更多">
     </div>
 </div>
@@ -81,7 +87,9 @@
         </h3>
     </div>
     <div class="panel-body">
-        <textarea style="width: 100%;margin-top: 0" rows="5"></textarea>
+        <label>
+            <textarea style="width: 100%;margin-top: 0" rows="5"></textarea>
+        </label>
     </div>
 </div>
 <!-- 模态框（Modal） -->
@@ -119,7 +127,7 @@
                         </div>
                     </div>
                     <div class="from-group rating-star">
-                        <label class="control-label col-md-2">评分</label>
+                        <label for="rating" class="control-label col-md-2">评分</label>
                         <input type="checkbox" name="rating" id="rating" hidden>
                         <div class="col-md-10 rating">
                             <a href="#"><img th:src="@{/images/star-empty.gif}" alt="1"></a>
@@ -131,7 +139,7 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <label class="control-label col-md-2">吐槽</label>
+                        <label for="comment" class="control-label col-md-2">吐槽</label>
                         <textarea id="comment" name="comment" rows="5" class="col-md-10"></textarea>
                     </div>
                     <hr>
@@ -166,7 +174,7 @@
             {
                 acId: [[${ac.id}]]
             }, function (data, status) {
-                if (status == 'success') {
+                if (status === 'success') {
                     showRating(data.acRating, data.userNum);
                 } else {
                     alert("系统繁忙!");
@@ -221,7 +229,7 @@
     function addMark() {
         $("#progress").find(":radio").removeAttr("checked");
         $(".rating a").children().attr("src", "/images/star-empty.gif");
-        $("#myModalLabel").html("加入收藏")
+        $("#myModalLabel").html("加入收藏");
         $("#myModal").modal();
     }
 
@@ -229,7 +237,7 @@
     function editMark() {
         $.post("[[@{/myMark}]]", {acId: [[${ac.id}]]},
             function (data, status) {
-                if (status == "success") {
+                if (status === "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
                     let a = $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
                     $("#comment").val(data.myMark.comment);
@@ -278,7 +286,7 @@
     $(document).ready(function () {
         showComments();
         showRating([[${ac.rating}]], [[${userNum}]]);
-        if ('[[${session.currentUser}]]' != '') {
+        if ('[[${session.currentUser}]]' !== '') {
             myMark();
         }
         $(".left-btn").click(function () {

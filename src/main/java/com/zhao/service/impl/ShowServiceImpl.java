@@ -1,32 +1,38 @@
 package com.zhao.service.impl;
 
-import com.zhao.mapper.AcItemsMapper;
-import com.zhao.mapper.AcNewsMapper;
-import com.zhao.mapper.MarkMapper;
-import com.zhao.mapper.UserMapper;
-import com.zhao.pojo.AcItems;
-import com.zhao.pojo.AcNews;
-import com.zhao.pojo.Mark;
+import com.zhao.mapper.*;
+import com.zhao.pojo.*;
 import com.zhao.util.PageInfo;
 import com.zhao.service.ShowService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
-import static com.zhao.util.CommonUtil.isNumber;
+import static com.zhao.util.CommonUtil.*;
+import static com.zhao.util.Constant.*;
 
 @Service
 public class ShowServiceImpl implements ShowService {
     @Resource
     private AcItemsMapper acItemsMapper;
     @Resource
-    private UserMapper userMapper;
-    @Resource
     private MarkMapper markMapper;
     @Resource
     private AcNewsMapper acNewsMapper;
+    @Resource
+    private TalkMapper talkMapper;
+    @Resource
+    private CommentMapper commentMapper;
+    @Resource
+    private ComplaintMapper complaintMapper;
 
     @Override
     public AcItems findById(String id) {
@@ -57,10 +63,7 @@ public class ShowServiceImpl implements ShowService {
             flag = markMapper.insertMark(mark);
         }
         int flag2 = markMapper.updateMark(mark);
-        if (flag != 0 || flag2 != 0) {
-            return true;
-        }
-        return false;
+        return flag != 0 || flag2 != 0;
     }
 
     @Override
@@ -71,24 +74,24 @@ public class ShowServiceImpl implements ShowService {
     @Transactional
     @Override
     public float calRating(String acId, float rating) {
-        float newRating = markMapper.avgRating(Integer.valueOf(acId));
+        float newRating = markMapper.avgRating(Integer.parseInt(acId));
         float RealRating = (float) Math.round(newRating * 10) / 10;
         if (rating == RealRating) {
             return rating;
         } else {
-            acItemsMapper.updateRating(RealRating, Integer.valueOf(acId));
+            int result=acItemsMapper.updateRating(RealRating, Integer.parseInt(acId));
             return RealRating;
         }
     }
 
     @Override
     public int sumRating(String acId) {
-        return markMapper.countRating(Integer.valueOf(acId));
+        return markMapper.countRating(Integer.parseInt(acId));
     }
 
     @Override
     public List<Mark> allComments(String acId) {
-        return markMapper.selectComments(Integer.valueOf(acId));
+        return markMapper.selectComments(Integer.parseInt(acId));
     }
 
     @Override
@@ -108,7 +111,7 @@ public class ShowServiceImpl implements ShowService {
         int pageStart = pSize * (pNum - 1);
         if (path.equalsIgnoreCase("news")) {
             count = acNewsMapper.countNotAll(type);
-            pageInfo.setList(acNewsMapper.selectByParams(pageStart, pSize,type));
+            pageInfo.setList(acNewsMapper.selectByParams(pageStart, pSize, type));
         }
         pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
         System.out.println(pageInfo);
@@ -122,5 +125,92 @@ public class ShowServiceImpl implements ShowService {
         } else {
             return null;
         }
+    }
+
+    @Transactional
+    @Override
+    public int addTalk(Talk talk) {
+        talk.setTime(new Date());
+        return talkMapper.insertTalk(talk);
+    }
+
+    @Override
+    public List<Talk> showAllTalk() {
+        return talkMapper.selectAll(1,"time","DESC");
+    }
+
+    @Override
+    public Talk showTalk(String tid) {
+        if (tid != null && isNumber(tid)) {
+            return talkMapper.selectOne(Integer.parseInt(tid));
+        }
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public boolean addComment(Comment comment) {
+        comment.setTime(new Date());
+        int result = commentMapper.insertOne(comment);
+        return result == 1;
+    }
+
+    @Override
+    public List<Comment> showComments(String tid) {
+        if (tid != null && isNumber(tid)) {
+            return commentMapper.selectAll(Integer.parseInt(tid));
+        }
+        return null;
+    }
+
+    @Override
+    public boolean delComment(String id) {
+        if (!isNumber(id)) {
+            return false;
+        }
+        int flag = commentMapper.deleteOne(Integer.parseInt(id));
+        return flag > 0;
+    }
+
+    @Transactional
+    @Override
+    public String removeTalk(String tid) throws IOException {
+        if (!isNumber(tid)) {
+            return "数据传输失败!";
+        }
+        Talk talk = talkMapper.selectOne(Integer.parseInt(tid));
+        int result = talkMapper.deleteById(Integer.parseInt(tid));
+        if (result > 0) {
+            commentMapper.deleteByTid(Integer.parseInt(tid));
+            String pic = talk.getPictures();
+            if (!pic.equals("")) {
+                pic = pic.substring(0, pic.indexOf('/', pic.indexOf('/') + 1));
+                String path = UPLOAD_TOPIC + "/" + talk.getUser().getUid() + pic;
+                System.out.println("删除" + path);
+                File dir = new File(path);
+                if (dir.exists()) {
+                    FileUtils.forceDelete(dir);
+                }
+            }
+        } else {
+            return "删除失败!讨论不存在或者已经被删除!";
+        }
+        return "success";
+    }
+
+    @Transactional
+    @Override
+    public String sendComplaint(Complaint complaint) {
+        List<Complaint> list = complaintMapper.selByUidTid(complaint.getFromUid(),
+                complaint.getToId(), complaint.getToType());
+        if (list.size() > 0) {
+            return "您已举报过!";
+        }
+        complaint.setTime(new Date());
+        int flag = complaintMapper.insertOne(complaint);
+        if (flag <= 0) {
+            return "发送失败!";
+        }
+        return "success";
     }
 }

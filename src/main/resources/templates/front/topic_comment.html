@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'[@'+talk.user.username+']的讨论'}"></title>
+    <style type="text/css">
+        div {
+            /*border-style: dotted;*/
+        }
+
+        textarea {
+            resize: none;
+            width: 100%;
+        }
+
+        .img-div {
+            text-align: center;
+            width: 32%;
+            height: 150px;
+            float: left;
+            margin-left: 1%;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .div-img {
+            width: auto;
+            height: auto;
+            max-height: 100%;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class="col-md-3" style="position: fixed;">左
+    <a href="#comment-area">评论</a>
+</div>
+<div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-success">
+        <div class="panel-heading" style="width: 100%">
+            <img class="img-circle headImg"
+                 th:src="@{${#strings.isEmpty(talk.user.photo)?'/images/no-one.jpg':'/images/avatar/'+talk.user.photo}}"
+                 alt="用户头像">
+            <span class="panel-title" th:text="${talk.user.username}"></span>
+            <div class="pull-right">
+                <b>发表于:</b>[[${#dates.format(talk.time,'yyy年MM月dd日HH:mm:ss')}]]
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">分享</a></li>
+                        <li shiro:user class="divider"></li>
+                        <li shiro:user><a href="#">收藏</a></li>
+                        <li shiro:user>
+                            <a th:if="${talk.user.uid==session.currentUser.uid}"
+                               th:href="'javascript:removeTalk('+${talk.tid}+','+${talk.user.uid}+');'">删除
+                            </a>
+                            <a th:if="${talk.user.uid!=session.currentUser.uid}"
+                               href="#" data-toggle="modal" data-target="#complaint">举报
+                            </a>
+                        </li>
+                        <li shiro:hasRole="admin" class="divider"></li>
+                        <li shiro:hasRole="admin" role="presentation" class="dropdown-header">管理</li>
+                        <li shiro:hasRole="admin">
+                            <a role="menuitem" tabindex="-1" href="#">隐藏动态</a>
+                            <a role="menuitem" tabindex="-1" href="#">禁言用户</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="width: 100%">
+            <p class="p"><a th:href="@{#}" th:each="t : ${talk.topicArr}">#[[${t}]]#&nbsp;&nbsp;</a></p>
+            <p class="p">[[${talk.content}]]</p>
+            <div>
+                <div th:each="pic : ${talk.pictureArr}" class="img-div">
+                    <img th:src="@{'/topic/'+${talk.user.uid}+${pic}}" class="div-img" alt="配图">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" style="width: 100%">
+            <div th:if="${session.currentUser==null}" class="alert alert-danger" style="text-align: center;">
+                <a th:href="@{/login}"><em>评论前请登录……</em></a>
+            </div>
+            <form id="comment" method="post" th:if="${session.currentUser!=null}">
+                <input type="hidden" name="topicId" th:value="${talk.tid}">
+                <label for="content"><small>评论</small></label>
+                <textarea id="content" name="content" rows="3" maxlength="150" class="form-control"></textarea>
+                <div style="width: 100%">
+                    <img class="img-circle headImg" alt="用户头像"
+                         th:src="@{${#strings.isEmpty(session.currentUser.photo)?'/images/no-one.jpg':'/images/avatar/'+session.currentUser.photo}}">
+                    <button id="submit" class="btn btn-info btn-sm pull-right" type="button">发送</button>
+                </div>
+            </form><!-- /input-group -->
+        </div>
+    </div>
+    <a id="comment-area" href=""></a>
+    <div class="well well-sm" th:each="c : ${comments}">
+        <img class="img-circle headImg" alt="用户头像"
+             th:src="@{${#strings.isEmpty(c.user.photo)?
+                     '/images/no-one.jpg':'/images/avatar/'+c.user.photo}}">
+        <a href="#" th:text="${c.user.username}"></a>
+        <span th:if="${c.toUid!=0}">回复<a th:href="@{#}">@[[${c.toUser.username}]]</a></span>
+        ：[[${c.content}]]
+        <small class="pull-right">
+            <i th:text="${#dates.format(c.time,'yyy年MM月dd日HH:mm:ss')}"></i>
+            <input type="button" value="回复" class="btn btn-xs btn-warning"
+                   data-toggle="modal" th:data-target="${'#model'+c.id}">
+            <input type="button" value="删除" class="btn btn-xs btn-danger" shiro:user
+                   th:if="${(c.user.uid==session.currentUser.uid)}"
+                   th:onclick="'removeComment('+${c.id}+','+${c.user.uid}+')'">
+        </small>
+        <!--回复评论-->
+        <div class="modal fade" th:id="${'model'+c.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" th:id="${'modelLabel'+c.id}">回复<a
+                                th:href="@{#}">@[[${c.user.username}]]</a>:</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div shiro:guest class="alert alert-danger" style="text-align: center;">
+                            <a th:href="@{/login}"><em>评论前请登录……</em></a>
+                        </div>
+                        <form method="post" shiro:user th:id="${'form-c'+c.id}">
+                            <input type="hidden" name="topicId" th:value="${talk.tid}">
+                            <input type="hidden" name="toUid" th:value="${c.user.uid}">
+                            <p style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                <small><i>[[${c.content}]]</i></small>
+                            </p>
+                            <label for="fake"></label>
+                            <textarea id="fake" name="content" rows="3" maxlength="150" class="form-control"></textarea>
+                        </form><!-- /input-group -->
+                    </div>
+                    <div class="modal-footer" shiro:user>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="reply(this)">提交</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+    <!-- 投诉 -->
+    <div class="modal fade" id="complaint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">投诉</h4>
+                </div>
+                <form id="complaint-form" method="post" class="modal-body" style="height: 200px;">
+                    <input type="hidden" name="fromUid" th:value="${talk.user.uid}">
+                    <input type="hidden" name="toType" value="topic">
+                    <input type="hidden" name="toId" th:value="${talk.tid}">
+                    <h4>投诉原因</h4>
+                    <div th:each="c : ${complaints}"
+                         style="margin-left: 10%;width: 35%;float:left;border-style: outset;">
+                        <label>
+                            <input type="radio" name="reason" th:value="${c}">[[${c}]]
+                        </label>
+                    </div>
+                    <div style="margin-left: 10%;float:left;border-style: outset;">
+                        <label>
+                            <input name="reason" type="radio" id="other" value="other">其他
+                        </label>
+                        <input type="text" id="other-text">
+                        <label for="other-text"></label>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary"
+                            id="submit-complaint" disabled="disabled">提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<div class="col-md-offset-9 col-md-3" style="position: fixed;">右</div>
+<script type="text/javascript">
+    const $comment = $("#comment");
+    const $submit = $("#submit");
+    $submit.on("click", function () {
+        submit($comment);
+    });
+    $("#content").on("keydown", function (e) {
+        if (e.width === 13) {
+            $submit.click();
+        }
+    });
+
+    let $reasons = $(":radio[name='reason']");
+    $reasons.on("click", function () {
+        let $e = $(this)[0].id;
+        let $var = $(this).val();
+        $("#test").val($var + $e);
+        if ($e !== 'other') {
+            $complaint.removeAttr("disabled");
+            $otherInput.val('');
+            $("#other").val('');
+        } else {
+            $complaint.attr("disabled", "disabled");
+        }
+    });
+    const $otherInput = $("#other-text");
+
+    $otherInput.on("change keyup input", function () {
+        let other = $otherInput.val();
+        if (other !== '') {
+            $("#other").val(other);
+            $complaint.removeAttr("disabled");
+        } else {
+            $complaint.attr("disabled", "disabled");
+        }
+    });
+
+    const $complaint = $("#submit-complaint");
+    $complaint.on("click", function () {
+        let formData = new FormData($("#complaint-form")[0]);
+        let url = window.location.href;
+        formData.append("url", url);
+        $.ajax({
+            url: "[[@{/submit/complaint}]]",
+            method: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                if (data === 'success') {
+                    window.location.reload();
+                    return alert("举报成功！");
+                } else {
+                    return alert(data);
+                }
+            }, error: function (xhr) {
+                alert(xhr.status);
+            }
+        });
+    });
+
+    function reply(e) {
+        let $e = $(e).parents(".modal-content").find("form");
+        submit($e);
+    }
+
+    function submit($e) {
+        $.ajax({
+            url: "[[@{/submit/comment}]]",
+            method: "post",
+            data: $e.serialize(),
+            async: false,
+            success: function (data) {
+                if (data.search("!DOCTYPE html") !== -1) {
+                    window.location.href = "[[@{/login}]]";
+                    return alert("请登录!");
+                }
+                if (data === 'success') {
+                    alert("发送成功！");
+                    window.location.reload();
+                } else {
+                    return alert(data);
+                }
+            }, error: function () {
+                alert("发送失败……请重试！");
+            }
+        });
+    }
+
+    function removeComment(id, uid) {
+        if (confirm("删除回复?")) {
+            $.ajax({
+                url: "[[@{/remove/comment}]]",
+                method: "post",
+                data: {id: id, uid: uid},
+                async: false,
+                success: function (data) {
+                    if (data === 'success') {
+                        location.reload();
+                        return alert("删除成功!");
+                    } else {
+                        return alert(data);
+                    }
+                }
+            });
+        }
+    }
+
+    //删除talk
+    function removeTalk(id, uid) {
+        if (confirm("确认删除该讨论?")) {
+            $.ajax({
+                url: "/remove/talk",
+                method: "post",
+                data: {id: id, uid: uid},
+                async: false,
+                success: function (data) {
+                    if (data === 'success') {
+                        window.location.href = "[[@{/topic}]]";
+                        return alert("删除成功!");
+                    }
+                    return alert(data);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

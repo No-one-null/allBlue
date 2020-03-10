@@ -4,26 +4,31 @@
     <meta charset="utf-8">
     <title>[[${news.newsTitle}]]</title>
     <style type="text/css">
-        .info {
-            text-align: center;
-        }
 
         .info b {
             color: blue;
-        }
-
-        .content {
-            width: 65%;
-            position: relative;
-            left: 18%;
         }
 
         .content img {
             max-height: 400px;
         }
 
-        p {
-            text-indent: 2em;
+        .toolbar {
+            border: 1px solid #ccc;
+            background-color: #B0E0E6;
+            width: 75%;
+            position: relative;
+            left: 15%;
+            z-index: 201;
+        }
+
+        .text {
+            border: 1px solid #ccc;
+            height: 70%;
+            width: 75%;
+            position: relative;
+            left: 15%;
+            background-color: #F0FFFF;
         }
     </style>
 </head>
@@ -32,7 +37,7 @@
 <div th:replace="/back/back :: head"></div>
 <!-- 左侧栏 -->
 <div th:replace="/back/acNews/acNews :: left"></div>
-<div class="col-sm-10 mainInfo" style="height: 100%;">
+<div class="col-sm-10 col-sm-offset-2" style="height: 100%;">
     <div class="panel panel-warning" style="height: 95%;overflow: auto;">
         <!-- 路径导航 -->
         <div class="panel-heading">
@@ -42,32 +47,69 @@
                 <input id="edit-btn" type="button" style="position: absolute;right: 4%;width: 5%"
                        data-toggle="tooltip" title="修改">
             </ol>
+            <label for="status"></label>
             <select id="status" style="position: absolute;right: 4%;width: 5%;">
                 <option value=0>隐藏</option>
                 <option value=1>正常</option>
                 <option value=2>置顶</option>
             </select>
+            <strong>标题：</strong><span th:text="${news.newsTitle}"></span>
+            <strong style="margin-left: 50px">作者：</strong><span th:text="${news.newsAuthor}"></span>
+            <strong style="margin-left: 50px">发表日期：</strong>
+            <span th:text="${#dates.format(news.newsDate,'yyy/MM/dd HH:mm:ss')}"></span>
+            <label style="margin-left: 50px" for="news-type">类型：</label>
+            <select id="news-type">
+                <option th:each="t : ${type}" th:text="${t}" th:selected="${news.newsType eq t}">
+                </option>
+            </select>
         </div>
-        <div class="info">
-            <h3>[[${news.newsTitle}]]</h3>
-            <h4>[[${news.newsAuthor}]]</h4>
-            <span th:text="${#dates.format(news.newsDate,'yyy/MM/dd HH:mm:ss')}"></span><br>
-            <span class="badge" th:text="${news.newsType}"></span>
-        </div>
-        <hr>
         <!--正文-->
-        <div class="content" th:utext="${news.newsContent}"></div>
-        <input id="next-btn" type="button" style="position: absolute;right: 4%;bottom: 5%;width: 5%"
-               data-toggle="tooltip" title="修改" value="next">
+        <div id="editor-toolbar" class="toolbar"></div>
+        <div id="editor-text" class="text" th:utext="${news.newsContent}"></div>
+        <input id="submit-btn" type="button" data-toggle="tooltip" value="提交" class="btn btn-danger"
+               style="position: absolute;right: 4%;bottom: 5%;">
     </div><!-- /.panel panel-success -->
 </div>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！static/js/wangEditor.min.js-->
+<script type="text/javascript" th:src="@{/js/wangEditor.min.js}"></script>
 <script type="text/javascript">
-    $("#status").hide();
+    let E = window.wangEditor;
+    let editor = new E('#editor-toolbar', '#editor-text');
+    editor.customConfig.zIndex = 100;
+    // 或者 var editor = new E( document.getElementById('editor') )
+    // editor.customConfig.uploadImgServer = '/upload'
+    editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true;
+    // 隐藏“网络图片”tab
+    editor.customConfig.showLinkImg = false;
+    editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024;//限制大小
+    // // 限制一次最多上传 5 张图片
+    // editor.customConfig.uploadImgMaxLength = 5
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'italic',  // 斜体
+        'foreColor',  // 文字颜色
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'list',  // 列表
+        'image',  // 插入图片
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    editor.create();
+    $(document).ready(function () {
+        $("#status").hide();
+    });
     let flag = 0;
-    $("#edit-btn").val(status([[${news.status}]]));
+    const $edit=$("#edit-btn");
+    $edit.val(newsStatus([[${news.status}]]));
     //修改状态
-    $("#edit-btn").click(function () {
-        if (flag == 0) {
+    $edit.click(function () {
+        if (flag === 0) {
             flag++;
             $("#status").show();
             $("#edit-btn").val("修改");
@@ -78,27 +120,38 @@
                     status: status,
                     id: [[${news.newsId}]]
                 }, function (data, status) {
-                    if (data == "success") {
-                        alert("修改成功!");
-                        window.location.href = '[[@{/back/showNews}]]' + '[[${news.newsId}]]';
-                        return;
+                    if(status==='success'){
+                        if (data === "success") {
+                            alert("修改成功!");
+                            window.location.href = '[[@{/back/showNews}]]' + '[[${news.newsId}]]';
+                            return;
+                        }
+                        return alert(data + "，失败！");
+                    }else {
+                        alert("发送失败！请检查并重试");
                     }
-                    alert(data + "，失败！");
                 });
             }
         }
     });
-    //下一条
-    $("#next-btn").click(function () {
-        $.post("[[@{/back/nextNews}]]", {id: [[${news.newsId}]]},
-            function (data, status) {
-                if (status == "success") {
-                    // alert(data);
-                    window.location.href = "[[@{/back/showNews}]]" + data;
-                } else {
-                    alert(status);
+
+    //提交修改内容
+    $("#submit-btn").on("click",function () {
+        $.post("[[@{/back/editNews}]]",{
+            id:[[${news.newsId}]],
+            content:editor.txt.html()
+        },function (data,status) {
+            if(status==='success'){
+                if(data==='success'){
+                    alert("操作成功！");
+                    location.reload();
+                }else {
+                    alert(data);
                 }
-            });
+            }else {
+                alert("提交失败！请检查后重试！");
+            }
+        });
     });
 </script>
 </body>

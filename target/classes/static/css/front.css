@@ -1,3 +1,56 @@
+/**
+通用
+ */
+div {
+    /*查看边界*/
+    /*border-style: dashed;*/
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #F0F8FF;
+    padding-top: 60px;
+    height: 100%;
+    font-size: 150%;
+}
+
+button {
+    width: 75px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+/* 未访问链接*/
+a:visited {
+    text-decoration: none;
+}
+
+/* 已访问链接 */
+a:hover {
+    text-decoration: underline;
+}
+
+/* 鼠标移动到链接上 */
+a:active {
+    text-decoration: none;
+}
+
+/* 鼠标点击时 */
+
+
+/**/
+.p {
+    position: relative;
+    left: 2em;
+    width: 90%;
+    white-space: pre-wrap;
+}
+
 .main-body {
     background: url('../images/background/background.jpg') no-repeat center center fixed #87CEFA;
     background-size: cover;
@@ -30,29 +83,6 @@
 .backGround {
     background: url('../images/background/Weathering.With.You.jpg') no-repeat center center fixed #87CEFA;
     background-size: cover;
-}
-
-/**
-通用
- */
-div {
-    /*查看边界*/
-    /*border-style: dashed;*/
-}
-
-html {
-    height: 100%;
-}
-
-body {
-    background-color: #F0F8FF;
-    padding-top: 60px;
-    height: 100%;
-    font-size: 150%;
-}
-
-button {
-    width: 75px;
 }
 
 .btn-link {

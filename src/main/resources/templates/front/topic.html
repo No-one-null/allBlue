@@ -25,224 +25,307 @@
             margin: 0 auto;
         }
 
-        .prev-div{
+        .prev-div {
             text-align: center;
             /*border-style: dashed;*/
             width: 100%;
-        }
-        .prev-div-height{
             height: 150px;
         }
 
-        .prev-img-div{
+        .prev-img-div {
             border-style: double;
             border-color: #0000FF;
             background-color: #F5FFFA;
-            width: 33%;
+            width: 32%;
             height: 150px;
             float: left;
+            margin-left: 1%;
             margin-bottom: 5px;
+            position: relative;
         }
 
-        .pre-img-div img{
+        .img-div {
+            text-align: center;
+            width: 32%;
+            height: 150px;
+            float: left;
+            margin-left: 1%;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .div-img {
             width: auto;
             height: auto;
             max-height: 100%;
             max-width: 100%;
+        }
+
+        .del-img-btn {
+            width: 40%;
+            float: top;
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     </style>
 </head>
 <body>
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<div class="col-md-3">左
-    <p id="test" placeholder="测试用的" style="height: 600px;" readonly></p>
-</div>
-<div class="col-md-6">
-    <div class="panel panel-danger" style="width: 100%" shiro:user>
+<div class="col-md-3" style="position: fixed;">左</div>
+<div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-danger" style="width: 100%">
         <div class="panel-heading">
             <h3 class="panel-title">发表动态</h3>
         </div>
-        <form id="my-form" th:action="@{/upload}" method="post" enctype="multipart/form-data">
-        <div class="panel-body" style="width: 100%">
-            <div class="topic"></div>
-            <div class="topic-input">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="talk-topic-text">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default add-topic" type="button">添加话题</button>
-                    </span>
-                </div><!-- /input-group -->
-            </div>
-            <textarea id="talk-content" name="content" rows="5" maxlength="200" placeholder="请输入……(200字以内)"></textarea>
-            <button type="button" style="float:left;" onclick="upload()"
-                    data-toggle="tooltip" title="添加图片">
-                <span class="glyphicon glyphicon-picture"></span>
-            </button>
-            <div hidden>
-                <input type="file" id="talk-img-input" name="file">
-            </div>
-            <button id="submit-btn" type="button" style="float:right;">发布</button>
+        <div class="panel-body" style="text-align: center;" shiro:guest>
+            <a th:href="@{/login}"><em>登录后才可发布动态……</em></a>
         </div>
-        <a id="21">
-        <div class="prev-div" οncοntextmenu="return false;" onselectstart="return false"></div></a>
+        <form id="my-form" method="post" enctype="multipart/form-data" shiro:user>
+            <div class="panel-body" style="width: 100%">
+                <div class="topic"></div>
+                <div class="topic-input">
+                    <div class="input-group">
+                        <label for="talk-topic-text"></label>
+                        <input type="text" class="form-control" id="talk-topic-text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default add-topic" type="button">添加话题</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div>
+                <label for="talk-content"></label>
+                <textarea id="talk-content" name="content" rows="8" maxlength="500" placeholder="请输入……"></textarea>
+                <div style="width: 100%;text-align: center;">
+                    <button id="pic-add-btn" type="button" style="float:left;" onclick="openDiv(this)"
+                            data-toggle="tooltip" title="添加图片">
+                        <span class="glyphicon glyphicon-picture"></span>
+                    </button>
+                    还可以输入<span class="badge" id="word-num">300</span>字
+                    <!--, 还可以添加<span class="badge" id="pic-num">6</span>张图,
+                    还可以添加<span class="badge" id="topic-num">5</span>个话题-->
+                    <button id="submit-btn" type="button" style="float:right;">发布</button>
+                </div>
+            </div>
+            <div class="prev-div" hidden></div>
         </form>
     </div>
+    <div class="panel panel-warning" th:each="list :${talksList}">
+        <div class="panel-heading" style="width: 100%">
+            <img class="img-circle headImg"
+                 th:src="@{${#strings.isEmpty(list.user.photo)?'/images/no-one.jpg':'/images/avatar/'+list.user.photo}}"
+                 alt="用户头像">
+            <span class="panel-title" th:text="${list.user.username}"></span>
+            <div class="pull-right">
+                <b>发表于:</b>[[${#dates.format(list.time,'yyy年MM月dd日HH:mm:ss')}]]
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">分享</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{'/topic/t'+${list.tid}}">更多</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="width: 100%">
+            <p class="p"><a th:href="@{#}" th:each="t : ${list.topicArr}">&nbsp;#[[${t}]]#&nbsp;</a></p>
+            <p class="p" th:text="${list.content}"></p>
+            <div>
+                <div th:each="pic : ${list.pictureArr}" class="img-div">
+                    <img th:src="@{'/topic/'+${list.user.uid}+${pic}}" class="div-img" alt="配图">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" style="width: 100%">
+            <a th:href="@{'/topic/t'+${list.tid}}" target="_blank">
+                <button style="width: 33%">
+                    <span class="glyphicon glyphicon-edit"></span>评论
+                </button>
+            </a>
+            <button style="width: 33%;float: right">
+                <span class="glyphicon glyphicon-thumbs-up"></span>点赞
+            </button>
+        </div>
+    </div>
 </div>
-<div class="col-md-3">右
-    <input id="test-file" type="file" >
-    <textarea id="test-1" style="width: 100%;height: 500px;"></textarea>
-</div>
+<div class="col-md-offset-9 col-md-3" style="position: fixed;">右</div>
 <script type="text/javascript">
     let tNum = 0;
-    const maxSize=2*1024*1024;
-    const maxNum=6;
+    const maxSize = 2 * 1024 * 1024;
+    const maxNum = 6;
 
-    function upload() {
-        let arr=document.getElementsByName("img");
-        if(arr.length>=maxNum){
-            alert("最多添加"+maxNum+"张图!");
-            return;
-        }
-        $("#talk-img-input").click();
-    }
+    const $talkContent = $("#talk-content");
+    let maxlength = $talkContent.attr("maxlength");
+    $("#word-num").html(maxlength);
 
-    $("#talk-img-input").change(function () {
-        let img=document.getElementById("talk-img-input").files;
-        let imgInput=document.getElementById("talk-img-input");
-        if(img[0].type != 'image/png' && img[0].type != 'image/jpeg' && img[0].type != 'image/gif'){
-            return alert("图片上传格式不正确");
-        }
-        if(img[0].size>maxSize){
-            return alert("图片太大！请不要超过"+sizeStr(maxSize));
-        }
-        let pic=document.getElementById("talk-img-input").value;
-        let newHtml="";
-        let oldHtml=$(".prev-div").html();
-        newHtml+="<div class='prev-img-div' title='双击删除' ondblclick='removeE(this)'>";
-        newHtml+='<div hidden><input name="files" type="file"></div>';
-        newHtml+="<img name='img' src='"+getObjectURL(img[0])+"'>";
-        newHtml+="</div>\n";
-        newHtml+=oldHtml;
-        $(".prev-div").html(newHtml);
-        // let test=$("#test").html();
-        // test+=img[0]+"<br>";
-        // test+=img[0].name+";";
-        // test+=sizeStr(img[0].size)+";";
-        // test+="<br>";
-        // $("#test").html(test);
-        let html=$("#test-1").html();
-        let new1="\n";
-        $("#test-1").html(new1+html);
-        // document.getElementById("talk-img-input").value=null;
-        preDivHeight();
+    $talkContent.bind("input focus keyup", function () {
+        let wordNum = $("#talk-content").val();
+        $("#word-num").html(maxlength - wordNum.trim().length);
     });
 
-    function preDivHeight() {
-        let arr=document.getElementsByName("img");
-        if(arr.length<=0){
-            $(".prev-div").height(1);
+    function comment(id) {
+        window.location.href = "[[@{'/topic/t'}]]" + id;
+    }
+
+    //图片上传
+    function newImgDiv() {
+        return "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
+            "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
+            "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
+            "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
+            "</div>";
+    }
+
+    function openDiv(obj) {
+        let arr = document.getElementsByName("files");
+        if (arr.length >= maxNum) {
+            alert("最多添加" + maxNum + "张图!");
+            return;
         }
-        if(arr.length>0&&arr.length<=3){
+        const $prev = $(".prev-div");
+        $(obj).html("添加");
+        $prev.show();
+        let flag = 0;
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].files[0] == null) {
+                flag++;
+            }
+        }
+        if (flag >= 1) {
+            return alert("有未使用的格子!");
+        }
+        $prev.prepend(newImgDiv());
+        preDivHeight();
+    }
+
+    function showDelBtn(obj) {
+        $(obj).find("input[type='button']").show();
+    }
+
+    function hideDelBtn(obj) {
+        $("#test-1").val("鼠标离开");
+        $(obj).find("input[type='button']").hide();
+    }
+
+    function addPic(obj) {
+        let $obj = $(obj);
+        $obj.parent();
+        $obj.parent().find("input").eq(0).click();
+    }
+
+    function changeFile(obj) {
+        let file = obj.files;
+        if (file[0].type !== 'image/png' && file[0].type !== 'image/jpeg' && file[0].type !== 'image/gif') {
+            alert("格式不正确!");
+            $(obj).parents(".prev-img-div").find("img").attr("src", "[[@{/images/icon/upload.png}]]");
+            obj.value = "";
+            return;
+        }
+        if (file[0].size > maxSize) {
+            alert("图片太大！请不要超过" + sizeStr(maxSize));
+            $(obj).parents(".prev-img-div").find("img").attr("src", "[[@{/images/icon/upload.png}]]");
+            obj.value = "";
+            return;
+        }
+        $(obj).parents(".prev-img-div").find("img").attr("src", getObjectURL(file[0]));
+    }
+
+    function preDivHeight() {
+        let arr = document.getElementsByName("files");
+        if (arr.length <= 0) {
+            $(".prev-div").height(1);
+            $("#pic-add-btn").html("<span class='glyphicon glyphicon-picture'></span>");
+        }
+        if (arr.length > 0 && arr.length <= 3) {
             $(".prev-div").height(150);
         }
-        if(arr.length>3){
+        if (arr.length > 3) {
             $(".prev-div").height(300);
         }
     }
 
-    function checkArr(arr,text) {
+    function checkArr(arr, text) {
         for (let i = 0; i < arr.length; i++) {
-            if (arr[i].value == text) {
+            if (arr[i].value === text) {
                 return false;
             }
         }
         return true;
     }
 
-    $(".add-topic").click(function () {
-        let text = $("#talk-topic-text").val();
-        $("#talk-topic-text").val('');
+    $(".add-topic").bind("click", function () {
+        const $topicInput = $("#talk-topic-text");
+        let text = $topicInput.val();
+        $topicInput.val('');
         let arr = document.getElementsByName("topic");
         if (arr.length >= 5) {
             alert("太多了！！");
             return;
         }
-        if (text == '') {
+        if (text === '') {
             alert("不能为空！");
             return;
         }
-        if (!checkArr(arr,text)) {
+        if (!checkArr(arr, text)) {
             alert("重复了！");
             return;
         }
-        let html = $(".topic").html();
+        const $topic = $(".topic");
+        let html = $topic.html();
         html += "<input style='margin-right: 10px;' name='topic' type='button' value='" + text + "' " +
             " onclick='removeE(this)'>";
         tNum++;
-        $(".topic").html(html);
-        $("#talk-topic-text").focus();
+        $topic.html(html);
+        $topicInput.focus();
     });
 
-    $("#submit-btn").click(function () {
-        let arr = document.getElementsByName("topic");
-        let file=document.getElementById("test-file").files;
-        if($("#talk-content").val()==''){
+    $("#submit-btn").on("click", function () {
+        if ($("#talk-content").val() === '') {
             alert("内容不能为空！");
             return false;
         }
-        $("#my-form").submit();
-        // $.post("/topic/submit", {
-        //     file:file[0],
-        //     topicStr: strArr(arr),
-        //     content: $("#talk-content").val()
-        // }, function (data, status) {
-        //     if (status == 'success') {
-        //         alert(data + status);
-        //         window.location.href='[[@{/topic}]]';
-        //     } else {
-        //         alert(status);
-        //     }
-        // });
-    });
-
-    function strArr(arr) {
-        let str = "";
-        for (let i = 0; i < arr.length; i++) {
-            str += arr[i].value;
-            if (i != arr.length - 1) {
-                str += ",";
+        let formData = new FormData($("#my-form")[0]);
+        let arr = document.getElementsByName("topic");
+        formData.append("topicStr", strArrE(arr));
+        $.ajax({
+            async: false,
+            type: "post",
+            url: "[[@{/topic/submit}]]",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data, status) {
+                if (status === 'success') {
+                    if (data === 'success') {
+                        window.location.href = "[[@{/topic}]]";
+                        return alert("发送成功!");
+                    } else {
+                        return alert(data);
+                    }
+                } else {
+                    alert("系统繁忙,请重试!");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.status + "," + status + "," + error + "系统繁忙,请重试!!")
             }
-        }
-        return str;
-    }
+        });
+    });
 
     function removeE(obj) {
         obj.remove();
         preDivHeight();
     }
 
-    function sizeStr(num) {
-        if(num>(1024*1024)){
-            return Math.round(num/(1024*1024)*10)/10+"M";
+    $(document).ready(function () {
+        if ('[[${message}]]' !== "") {
+            alert('[[${message}]]');
+            window.location.href = "[[@{/topic}]]";
         }
-        if(num>1024){
-            return Math.round(num/1024*10)/10+"K";
-        }
-        return Math.round(num*10)/10+"B";
-    }
-
-    function getObjectURL(file) {
-        let url = null ;
-        if (window.createObjectURL!=undefined) { // basic
-            url = window.createObjectURL(file) ;
-        } else if (window.URL!=undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file) ;
-        } else if (window.webkitURL!=undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file) ;
-        }
-        return url ;
-    }
+    });
 </script>
 </body>
 </html>

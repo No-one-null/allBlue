@@ -4,17 +4,17 @@ $(document).ready(function () {
     导航栏
      */
     $("#navbar-head").children("li").removeAttr("class");
-    if (title == "动漫信息") {
+    if (title === "动漫信息") {
         $("#nav-acInfo").attr("class", "active");
     }
-    if (title == "动漫资讯") {
+    if (title === "动漫资讯") {
         $("#nav-acNews").attr("class", "active");
     }
-    if (title == "用户管理") {
+    if (title === "用户管理") {
         $("#nav-user").attr("class", "active");
     }
-    if (title == "留言管理") {
-        $("#nav-comment").attr("class", "active");
+    if (title === "话题管理") {
+        $("#nav-user").attr("class", "active");
     }
     /**跳页**/
     $("#pNum-btn").click(function () {
@@ -50,22 +50,22 @@ $(document).ready(function () {
     $("#search-input").focus();
     $("#search-button").click(function () {
         var input = $("#search-input").val();
-        if (input == "") {
+        if (input === "") {
             alert("不能为空! ");
             return false;
         }
-        if (input == "%") {
+        if (input === "%") {
             input = "%25";
         }
         window.location.href = pathName + "/search=" + input;
     });
     $("#search-input").keydown(function (e) {//当按下按键时
-        if (e.which == 13) {//.which属性判断按下的是哪个键，回车键的键位序号为13
+        if (e.which === 13) {//.which属性判断按下的是哪个键，回车键的键位序号为13
             $('#search-button').trigger("click");//触发搜索按钮的点击事件
         }
     });
     $("#pSize-text").keydown(function (e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             $('#pSize-btn').trigger("click");
         }
     });
@@ -80,25 +80,25 @@ function clickPage(object) {
     let pSize = parseInt(pSizeStr);
     let pTotalStr = $("#pTotal").text();
     let pTotal = parseInt(pTotalStr);
-    if (text == "首页") {
+    if (text === "首页") {
         if (pNum <= 1) {
             alert("已经是第一页!");
             return false;
         }
         pNum = 1;
-    } else if (text == "尾页") {
+    } else if (text === "尾页") {
         if (pNum >= pTotal) {
             alert("已经是最后一页");
             return false;
         }
         pNum = pTotal;
-    } else if (text == "上一页") {
+    } else if (text === "上一页") {
         if (pNum <= 1) {
             alert("已经是第一页!");
             return false;
         }
         pNum--;
-    } else if (text == "下一页") {
+    } else if (text === "下一页") {
         if (pNum >= pTotal) {
             alert("已经是最后一页");
             return false;
@@ -119,12 +119,10 @@ function date(timestamp) {
     let Y = dates.getFullYear();
     let M = (dates.getMonth() + 1) < 10 ? '0' + (dates.getMonth() + 1) : dates.getMonth() + 1;
     let D = dates.getDate() < 10 ? '0' + dates.getDate() : dates.getDate();
-    let date = Y + "/" + M + "/" + D;
-    return date;
+    return Y + "/" + M + "/" + D;
 }
 
-
-function status(num) {
+function newsStatus(num) {
     switch (num) {
         case 2:
             return "置顶";
@@ -134,5 +132,58 @@ function status(num) {
             return "隐藏";
         default:
             return "异常";
+    }
+}
+
+/*查看talk*/
+function showContent(type, tid) {
+    $.post(showTalk, {
+        type: type,
+        tid: tid
+    }, function (data, status) {
+        if (status === "success") {
+            if (data.message !== "success") {
+                alert(data.message);
+                location.reload();
+            } else {
+                $("#editModelLabel").text(type + tid + "【" + data.object.uid + "," + data.object.user.username + "】");
+                $("#editTopic").text(data.object.content);
+                $("#editModel").modal();
+            }
+        } else {
+            alert("查询失败!");
+        }
+    });
+}
+
+/*审核状态修改*/
+function submitEdit(type, tid, deal) {
+    let word = "";
+    if (deal === "pass") {
+        word = "通过";
+    }
+    if (deal === "hide") {
+        word = "隐藏";
+    }
+    if (!confirm("确定" + word + "【" + type + tid + "】？")) {
+        return;
+    }
+    $.post(topicCheck, {
+        type: type,
+        tid: tid,
+        deal: deal
+    }, function (data, status) {
+        if (status === 'success') {
+            alert(data.message);
+            location.reload();
+        } else {
+            alert("上传失败")
+        }
+    });
+}
+
+function exit() {
+    if (confirm("确定退出?")) {
+        location.href = exitUrl;
     }
 }

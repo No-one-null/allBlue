@@ -7,9 +7,8 @@ body {
     height: 96%;
 }
 
-div {
-    /*查看边界, 方便布局*/
-    /*border-style: solid;*/
+textarea{
+    resize: none;
 }
 
 p {
@@ -36,7 +35,7 @@ p img {
     vertical-align: middle;
 }
 
-button {
+.button {
     width: 100px;
 }
 
@@ -67,4 +66,8 @@ button.btn-edit {
 /**分页**/
 .page-information {
     float: left;
+}
+
+.center {
+    text-align: center;
 }

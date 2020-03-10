@@ -1,14 +1,22 @@
 package com.zhao.pojo;
 
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.Past;
+import java.util.Objects;
 
 public class AcItems {
 
     private int id;
-    @NotEmpty
+    @NotBlank
+    @Length(max = 50,min = 1)
     private String name;
+    @NotBlank
+    @Length(max = 50,min = 1)
     private String author;
+    @Length(max = 4)
     private String year;
     private String info;
     private String image;
@@ -19,18 +27,35 @@ public class AcItems {
     private int count;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AcItems acItems = (AcItems) o;
+        return Objects.equals(name, acItems.name) &&
+                Objects.equals(author, acItems.author) &&
+                Objects.equals(year, acItems.year) &&
+                Objects.equals(info, acItems.info) &&
+                Objects.equals(category, acItems.category) &&
+                Objects.equals(country, acItems.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, author, year, info, category, country);
+    }
+
+    @Override
     public String toString() {
         return "AcItems{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", year='" + year + '\'' +
-                ", info='" + info + '\'' +
+//                ", info='" + info + '\'' +
                 ", image='" + image + '\'' +
                 ", category='" + category + '\'' +
                 ", country='" + country + '\'' +
                 ", rating=" + rating +
-                ", status=" + status +
                 ", count=" + count +
                 '}';
     }

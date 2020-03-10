@@ -7,23 +7,39 @@
         <association property="user" select="com.zhao.mapper.UserMapper.selectById" column="uid"/>
     </resultMap>
     <select id="selectById" resultMap="markMap">
-        SELECT * FROM mark
+        SELECT *
+        FROM mark
         WHERE ac_id = #{acId}
-        AND uid = #{uid}
+          AND uid = #{uid}
     </select>
     <select id="selectComments" parameterType="int" resultMap="markMap">
-        SELECT * FROM user,mark
-        WHERE ac_id=#{0} AND mark.uid=user.uid AND `comment`!=''
+        SELECT *
+        FROM user,
+             mark
+        WHERE ac_id = #{0}
+          AND mark.uid = user.uid
+          AND `comment` != ''
         ORDER BY `create_date` DESC
     </select>
     <select id="countComment" resultType="int">
-        SELECT COUNT(`comment`) FROM `mark` WHERE `ac_id`=#{acId} AND `comment`!=''
+        SELECT COUNT(`comment`)
+        FROM `mark`
+        WHERE `ac_id` = #{acId}
+          AND `comment` != ''
     </select>
     <select id="countRating" resultType="int">
-        SELECT COUNT(`rating`) FROM `mark` WHERE `ac_id`=#{acId} AND `rating`>=1 AND rating <![CDATA[<=]]>5
+        SELECT COUNT(`rating`)
+        FROM `mark`
+        WHERE `ac_id` = #{acId}
+          AND `rating` >= 1
+          AND rating <![CDATA[<=]]> 5
     </select>
     <select id="avgRating" resultType="float">
-        SELECT AVG(`rating`) FROM `mark` WHERE `ac_id`=#{acId} AND `rating`>=1 AND rating <![CDATA[<=]]>5
+        SELECT AVG(`rating`)
+        FROM `mark`
+        WHERE `ac_id` = #{acId}
+          AND `rating` >= 1
+          AND rating <![CDATA[<=]]> 5
     </select>
     <insert id="insertMark">
         INSERT INTO mark (uid, ac_id)

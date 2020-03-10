@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class CommonUtil {
 
-    public static final Boolean isNumber(String str){
-        if(str==null){
+    public static Boolean isNumber(String str) {
+        if (str == null) {
             return false;
         }
         // 正整数
@@ -21,12 +21,22 @@ public class CommonUtil {
         return matcher.matches();
     }
 
-    public static final Boolean isExist(String[] arr,String str){
-        for (String item: arr){
-            if(item.equals(str)){
+    public static Boolean isExist(String[] arr, String str) {
+        for (String item : arr) {
+            if (item.equals(str)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str != null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
     }
 }

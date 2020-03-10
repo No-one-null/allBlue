@@ -1146,8 +1146,8 @@
     </collation>
     <table id="290" parent="2" name="ac_items"/>
     <table id="291" parent="2" name="ac_news"/>
-    <table id="292" parent="2" name="category"/>
-    <table id="293" parent="2" name="comment"/>
+    <table id="292" parent="2" name="comment"/>
+    <table id="293" parent="2" name="complaint"/>
     <table id="294" parent="2" name="mark"/>
     <table id="295" parent="2" name="role"/>
     <table id="296" parent="2" name="talk"/>
@@ -1249,8 +1249,8 @@
     <column id="314" parent="291" name="news_date">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
     <column id="315" parent="291" name="news_type">
       <Position>6</Position>
@@ -1265,250 +1265,338 @@
       <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="317" parent="291" name="PRIMARY">
+    <column id="317" parent="291" name="updatetime">
+      <Position>8</Position>
+      <DataType>datetime|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="318" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>news_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="318" parent="292" name="c_id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="319" parent="292" name="class">
-      <Position>2</Position>
-      <DataType>varchar(25)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="320" parent="292" name="category">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="321" parent="292" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>c_id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="322" parent="293" name="id">
+    <column id="319" parent="292" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="323" parent="293" name="tid">
+    <column id="320" parent="292" name="topic_id">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="324" parent="293" name="from_user">
+    <column id="321" parent="292" name="uid">
       <Position>3</Position>
-      <DataType>varchar(50)|0s</DataType>
+      <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="293" name="to_user">
+    <column id="322" parent="292" name="to_uid">
       <Position>4</Position>
-      <DataType>varchar(50)|0s</DataType>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="326" parent="293" name="content">
+    <column id="323" parent="292" name="content">
       <Position>5</Position>
-      <DataType>varchar(200)|0s</DataType>
+      <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="327" parent="293" name="PRIMARY">
+    <column id="324" parent="292" name="status">
+      <Position>6</Position>
+      <DataType>tinyint(5) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>1</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="325" parent="292" name="time">
+      <Position>7</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="326" parent="292" name="tid">
+      <ColNames>topic_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="327" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="328" parent="294" name="uid">
+    <column id="328" parent="293" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="294" name="ac_id">
+    <column id="329" parent="293" name="from_uid">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="294" name="comment">
+    <column id="330" parent="293" name="to_type">
+      <Position>3</Position>
+      <DataType>varchar(25)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="331" parent="293" name="to_id">
+      <Position>4</Position>
+      <DataType>int(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="332" parent="293" name="url">
+      <Position>5</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="333" parent="293" name="reason">
+      <Position>6</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="334" parent="293" name="update_uid">
+      <Position>7</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="335" parent="293" name="update_time">
+      <Position>8</Position>
+      <DataType>datetime|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+    </column>
+    <column id="336" parent="293" name="time">
+      <Position>9</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="337" parent="293" name="status">
+      <Position>10</Position>
+      <DataType>tinyint(5)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="338" parent="293" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="339" parent="294" name="uid">
+      <Position>1</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="340" parent="294" name="ac_id">
+      <Position>2</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="341" parent="294" name="comment">
       <Position>3</Position>
       <DataType>varchar(150)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="294" name="rating">
+    <column id="342" parent="294" name="rating">
       <Position>4</Position>
       <DataType>int(5)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="332" parent="294" name="tag">
+    <column id="343" parent="294" name="tag">
       <Position>5</Position>
       <DataType>varchar(100)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="333" parent="294" name="progress">
+    <column id="344" parent="294" name="progress">
       <Position>6</Position>
       <DataType>int(25)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="334" parent="294" name="create_date">
+    <column id="345" parent="294" name="create_date">
       <Position>7</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <key id="335" parent="294" name="PRIMARY">
+    <index id="346" parent="294" name="ac_id">
+      <ColNames>ac_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="347" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>uid
 ac_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="336" parent="295" name="id">
+    <column id="348" parent="295" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="295" name="name">
+    <column id="349" parent="295" name="name">
       <Position>2</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="338" parent="295" name="PRIMARY">
+    <key id="350" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="339" parent="296" name="tid">
+    <column id="351" parent="296" name="tid">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="340" parent="296" name="content">
+    <column id="352" parent="296" name="uid">
       <Position>2</Position>
-      <DataType>varchar(200)|0s</DataType>
+      <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="296" name="pictures">
+    <column id="353" parent="296" name="content">
       <Position>3</Position>
-      <DataType>varchar(200)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="342" parent="296" name="username">
-      <Position>4</Position>
-      <DataType>varchar(50)|0s</DataType>
+      <DataType>varchar(500)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="296" name="time">
+    <column id="354" parent="296" name="pictures">
+      <Position>4</Position>
+      <DataType>varchar(200)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="355" parent="296" name="time">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="296" name="topic">
+    <column id="356" parent="296" name="topic">
       <Position>6</Position>
-      <DataType>varchar(50)|0s</DataType>
+      <DataType>varchar(54)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="345" parent="296" name="PRIMARY">
+    <column id="357" parent="296" name="status">
+      <Position>7</Position>
+      <DataType>smallint(5)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="358" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>tid</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="346" parent="297" name="uid">
+    <column id="359" parent="297" name="uid">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="297" name="username">
+    <column id="360" parent="297" name="username">
       <Position>2</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="348" parent="297" name="password">
+    <column id="361" parent="297" name="password">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="297" name="birth">
+    <column id="362" parent="297" name="birth">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="297" name="email">
+    <column id="363" parent="297" name="email">
       <Position>5</Position>
       <DataType>varchar(25)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="297" name="gender">
+    <column id="364" parent="297" name="gender">
       <Position>6</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="297" name="photo">
+    <column id="365" parent="297" name="photo">
       <Position>7</Position>
       <DataType>varchar(50)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="297" name="status">
+    <column id="366" parent="297" name="status">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="354" parent="297" name="PRIMARY">
+    <index id="367" parent="297" name="username">
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="368" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>uid</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="355" parent="298" name="id">
+    <key id="369" parent="297" name="username">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>username</UnderlyingIndexName>
+    </key>
+    <column id="370" parent="298" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="298" name="username">
+    <column id="371" parent="298" name="username">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="298" name="role">
+    <column id="372" parent="298" name="role">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="358" parent="298" name="PRIMARY">
+    <key id="373" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

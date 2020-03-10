@@ -44,7 +44,7 @@
 <div th:replace="/back/back :: head"></div>
 <!-- 左侧栏 -->
 <div th:replace="/back/acNews/acNews :: left"></div>
-<div class="col-sm-10 mainInfo" style="height: 100%;">
+<div class="col-sm-10 col-sm-offset-2" style="height: 100%;">
     <div class="panel panel-warning" style="height: 95%;overflow: auto;">
         <!-- 路径导航 -->
         <div class="panel-heading">
@@ -57,14 +57,13 @@
         </div>
         <!--编辑内容-->
         <div id="title" class="title-div">
-            <span class="badge">标题：</span>
+            <label for="news-title">标题：</label>
             <input id="news-title" type="text" class="new-input" placeholder="请输入标题">
-            <span class="badge">类型：</span>
+            <br>
+            <label for="news-type">类型：</label>
             <select id="news-type">
                 <option th:each="t : ${type}">[[${t}]]</option>
             </select>
-            <span class="badge">作者：</span>
-            <input id="news-author" type="text" class="new-input" placeholder="请输入作者名"><br>
             <h4>正文</h4>
         </div>
         <div id="editor-toolbar" class="toolbar"></div>
@@ -77,24 +76,17 @@
             $(document).ready(function () {
                 $("#news-title").focus();
             });
-            let num = 0;
-            $("#editor-text").click(function () {
-                if (num <= 0) {
-                    num++;
-                    // editor.txt.html('');
-                }
-            });
-            let E = window.wangEditor
-            let editor = new E('#editor-toolbar', '#editor-text')
-            editor.customConfig.zIndex = 100
+            let E = window.wangEditor;
+            let editor = new E('#editor-toolbar', '#editor-text');
+            editor.customConfig.zIndex = 100;
             // 或者 var editor = new E( document.getElementById('editor') )
             // editor.customConfig.uploadImgServer = '/upload'
-            editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
+            editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
             // 忽略粘贴内容中的图片
-            editor.customConfig.pasteIgnoreImg = true
+            editor.customConfig.pasteIgnoreImg = true;
             // 隐藏“网络图片”tab
-            editor.customConfig.showLinkImg = false
-            editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024//限制大小
+            editor.customConfig.showLinkImg = false;
+            editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024;//限制大小
             // // 限制一次最多上传 5 张图片
             // editor.customConfig.uploadImgMaxLength = 5
             editor.customConfig.menus = [
@@ -109,38 +101,33 @@
                 'image',  // 插入图片
                 'undo',  // 撤销
                 'redo'  // 重复
-            ]
+            ];
 
-            editor.create()
+            editor.create();
 
             $("#submit-btn").click(function () {
                 let html = editor.txt.html();
-                let text = editor.txt.text();
                 let title = $("#news-title").val();
                 let author = $("#news-author").val();
                 let type = $("#news-type").val();
-                if (title == '') {
+                if (title === '') {
                     alert("请输入标题！");
                     return false;
                 }
-                if (text == '') {
+                if (text === '') {
                     alert("请输入内容！");
                     return false;
                 }
-                if (author == '') {
-                    author = '[[${session.currentUser.username}]]';
-                }
+                author = '[[${session.currentUser.username}]]';
                 $.post("/back/submitNews", {
                     html: html,
                     title: title,
                     author: author,
                     type: type
                 }, function (data, status) {
-                    if (status == 'success') {
-                        if (data == "success") {
-                            editor.txt.html('');
-                            $("#news-title").val('');
-                            $("#news-author").val('');
+                    if (status === 'success') {
+                        if (data === "success") {
+                            location.reload();
                             alert("发布成功！");
                             return;
                         }

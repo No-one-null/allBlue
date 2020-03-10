@@ -3,8 +3,9 @@ package com.zhao.controller;
 import com.zhao.pojo.*;
 import com.zhao.service.DataService;
 import com.zhao.service.ShowService;
-import com.zhao.service.LoginService;
 import com.zhao.util.PageInfo;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
@@ -27,25 +27,24 @@ import static com.zhao.util.Constant.*;
 @Controller
 public class ShowController {
     @Resource
-    private LoginService loginServiceImpl;
-    @Resource
     private DataService dataServiceImpl;
     @Resource
     private ShowService showServiceImpl;
 
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
-        List animes = showServiceImpl.sort("A", 0, 16);
+        System.out.println(request.getServletContext().getRealPath(""));
+        List<AcItems> animes = showServiceImpl.sort("A", 0, 12);
         model.addAttribute("animes", animes);
-        List comics = showServiceImpl.sort("C", 0, 16);
+        List<AcItems> comics = showServiceImpl.sort("C", 0, 12);
         model.addAttribute("comics", comics);
         return "/index";
     }
 
     @RequestMapping("/ac/{category}")
     public String category(@PathVariable String category, Model model) {
-        String path = ERR404;
-        List list=new ArrayList();
+        String path;
+        List<?> list = null;
         if (category.equalsIgnoreCase("comic")) {
             path = "C";
             list = showServiceImpl.findByParam("category", path, null, 0, 0);
@@ -54,10 +53,10 @@ public class ShowController {
             path = "A";
             list = showServiceImpl.findByParam("category", path, null, 0, 0);
         }
-        if(category.equalsIgnoreCase("news")){
+        if (category.equalsIgnoreCase("news")) {
             return "redirect:/news/all";
         }
-        if(category.equalsIgnoreCase("topic")){
+        if (category.equalsIgnoreCase("topic")) {
             return "redirect:/topic";
         }
         model.addAttribute("list", list);
@@ -66,69 +65,220 @@ public class ShowController {
     }
 
     @RequestMapping("/news/{type}")
-    public String news(@PathVariable String type,Model model,String pNum){
-        if(!isExist(TYPE_ARRAY,type)&&!type.equals("all")){
+    public String news(@PathVariable String type, Model model, String pNum) {
+        if (!isExist(TYPE_ARRAY, type) && !type.equals("all")) {
             return ERR404;
         }
-        PageInfo pi=new PageInfo();
-        pi=showServiceImpl.showPage("news",type,pNum,"10");
-        model.addAttribute("page",pi);
-        model.addAttribute("menu",TYPE_ARRAY);
-        model.addAttribute("type",type);
+        PageInfo pi = showServiceImpl.showPage("news", type, pNum, "10");
+        model.addAttribute("page", pi);
+        model.addAttribute("menu", TYPE_ARRAY);
+        model.addAttribute("type", type);
         return "/front/news";
     }
 
     @RequestMapping("/news/article/{nid}")
-    public String showNews(Model model, @PathVariable String nid){
-        AcNews news=showServiceImpl.showNews(nid);
-        if(news==null){
+    public String showNews(Model model, @PathVariable String nid) {
+        AcNews news = showServiceImpl.showNews(nid);
+        if (news == null) {
             return ERR404;
         }
-        model.addAttribute("news",news);
+        model.addAttribute("news", news);
         return "/front/news_content";
     }
 
     @RequestMapping("/topic")
-    public String showTopic(){
+    public String showTopic(Model model) {
+        List<Talk> talks = showServiceImpl.showAllTalk();
+        model.addAttribute("talksList", talks);
         return "/front/topic";
     }
 
+    /**
+     * 上传图片和话题
+     *
+     * @param files   图片
+     * @param request 获取数据
+     * @return 返回提示
+     * @throws IOException 文件操作异常
+     */
     @ResponseBody
     @PostMapping("/topic/submit")
-    public String submitTalk(HttpServletRequest request, MultipartFile file){
-        if(file!=null){
-            System.out.println("file");
-        }else {
-            System.out.println("传不了");
+    public String upload(MultipartFile[] files, HttpServletRequest request) throws IOException {
+        String message = "success";
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            return "请登录!";
         }
-        User currentUser = (User) request.getSession().getAttribute("currentUser");
-        Talk talk=new Talk();
+        StringBuilder pictures = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyyMMddHHmmss");
+        String userPath = UPLOAD_TOPIC + "/" + user.getUid();
+        File userDir = new File(userPath);
+        if (!userDir.exists()) {
+            boolean res = userDir.mkdirs();
+            if (!res) {
+                System.out.println("用户文件夹创建失败");
+            } else {
+                System.out.println("创建用户文件夹");
+            }
+        }
+        String newPath = "/" + sdf.format(new Date());
+        String pathname = userPath + newPath;
+        File dir = new File(pathname);
+        if (files != null) {
+            if (!dir.exists()) {
+                boolean result = dir.mkdirs();
+                if (!result) {
+                    return "文件夹创建失败!";
+                }
+            }
+            int index = 0;
+            for (int i = files.length - 1; i >= 0; i--) {
+                if (files[i].getSize() <= 0) {
+                    continue;
+                }
+                //获取文件名
+                String oldName = files[i].getOriginalFilename();
+                System.out.println("files[" + i + "]的名字:" + oldName);
+                String suffix = files[i].getOriginalFilename().substring(oldName.lastIndexOf("."));
+                try {
+                    String newName = "/" + (++index) + suffix;
+                    files[i].transferTo(new File(pathname, newName));
+                    pictures.append(newPath).append(newName).append(",");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "上传失败!";
+                }
+            }
+            if (!pictures.toString().equals("")) {
+                pictures = new StringBuilder(pictures.substring(0, pictures.length() - 1));
+            } else {
+                FileUtils.forceDelete(dir);
+            }
+        }
+        Talk talk = new Talk();
+        talk.setPictures(pictures.toString());
         talk.setTopic(request.getParameter("topicStr"));
-        talk.setContent(request.getParameter("content"));
-        talk.setUsername(currentUser.getUsername());
-        System.out.println("talk["+talk+"]");
-        return "成功";
+        String content = request.getParameter("content");
+        if (content.length() > CONTENT_MAXSIZE) {
+            content = content.substring(0, CONTENT_MAXSIZE);
+        }
+        talk.setContent(content);
+        talk.setUid(user.getUid());
+        System.out.println(talk);
+        int flag = 0;
+        try {
+            flag = showServiceImpl.addTalk(talk);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (flag == 0) {
+                if (dir.exists()) {
+                    FileUtils.forceDelete(dir);
+                }
+                message = "保存失败!请检查输入是否有误";
+            }
+        }
+        return message;
     }
 
-    @PostMapping("/upload")
-    public String upload(MultipartFile[] files,MultipartFile file){
-        if(files==null){
-            System.out.println("失败！");
-        }else {
-            System.out.println("成功！");
+    /**
+     * 显示话题和评论
+     *
+     * @param model Model接口
+     * @param tid   话题id
+     * @return 路径
+     */
+    @RequestMapping("/topic/t{tid}")
+    public String talk(Model model, @PathVariable String tid) {
+        Talk talk = showServiceImpl.showTalk(tid);
+        if (talk == null) {
+            return "redirect:/topic";
         }
-        for (int i = 0; i < files.length; i++) {
-            MultipartFile file1 = files[i];
-            //获取文件名
-            String fileName = file1.getOriginalFilename();
-            System.out.println(fileName);
+        List<Comment> comments = showServiceImpl.showComments(tid);
+        if (comments == null) {
+            return ERR404;
         }
-        System.out.println("file的名字"+file.getOriginalFilename());
-        return "redirect:/topic";
+        model.addAttribute("complaints", COMPLAINT_ARRAY);
+        model.addAttribute("comments", comments);
+        model.addAttribute("talk", talk);
+        return "/front/topic_comment";
+    }
+
+    @ResponseBody
+    @PostMapping("/submit/complaint")
+    public String submit(Complaint complaint, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("currentUser");
+        complaint.setFromUid(user.getUid());
+        System.out.println(complaint);
+        String message = showServiceImpl.sendComplaint(complaint);
+        if (message == null) {
+            return "失败";
+        }
+        return message;
+    }
+
+    @ResponseBody
+    @PostMapping("/submit/comment")
+    public String submitComment(Comment comment, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            return "请登录!";
+        }
+        String content = comment.getContent();
+        if (content.trim().equals("")) {
+            return "内容不能为空!";
+        } else {
+            content = replaceBlank(content);
+            if (content.length() > CONTENT_MAXSIZE) {
+                content = content.substring(0, COMMENT_MAXSIZE);
+            }
+            comment.setContent(content);
+        }
+        comment.setUid(user.getUid());
+        System.out.println(comment);
+        boolean flag = showServiceImpl.addComment(comment);
+        if (!flag) {
+            return "发送失败！";
+        }
+        return "success";
+    }
+
+    @ResponseBody
+    @PostMapping("/remove/{s}")
+    public String delete(HttpServletRequest request, String id, String uid, @PathVariable String s) {
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            return "请登录!";
+        }
+        if (id == null || uid == null) {
+            return "数据传输错误!";
+        }
+        if (!uid.equals("" + user.getUid())) {
+            return "你没有权限删除该评论!";
+        }
+        if (s.equals("talk")) {
+            String message;
+            try {
+                message = showServiceImpl.removeTalk(id);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "删除文件失败!";
+            }
+            return message;
+        }
+        if (s.equals("comment")) {
+            boolean flag = showServiceImpl.delComment(id);
+            if (!flag) {
+                return "删除失败!评论不存在或已经被删除!";
+            }
+            return "success";
+        }
+        return "404";
     }
 
     @RequestMapping("/acInfo/{id}")
-    public String findId(@PathVariable String id, Model model, HttpServletRequest request) {
+    public String findId(@PathVariable String id, Model model) {
         AcItems ac = dataServiceImpl.findById(Integer.valueOf(id));
 //        System.out.println(ac);
         model.addAttribute("ac", ac);
@@ -144,20 +294,24 @@ public class ShowController {
 
     @RequestMapping("/error{num}")
     public String error(@PathVariable String num) {
-        String page = "/error/error" + num;
+        String page = "/error/error404";
+        if (num != null && !num.equals("")) {
+            page = "/error/error" + num;
+        }
+        System.out.println(page);
         return page;
     }
 
     @RequestMapping("/mark")
     @ResponseBody
-    public String addMark(Mark mark, HttpServletRequest request, HttpServletResponse response) {
+    public String addMark(Mark mark, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         if (currentUser == null) {
             return "请先登录!";
         }
         mark.setUid(currentUser.getUid());
         String acId = request.getParameter("acId");
-        mark.setAcId(Integer.valueOf(acId));
+        mark.setAcId(Integer.parseInt(acId));
         System.out.println(mark);
         Boolean flag = showServiceImpl.addMark(mark);
         if (flag) {
@@ -187,7 +341,7 @@ public class ShowController {
         Map<String, Object> map = new HashMap<>();
         String acId = request.getParameter("acId");
         User currentUser = (User) request.getSession().getAttribute("currentUser");
-        Mark mark = showServiceImpl.findMarkOne(Integer.valueOf(acId), currentUser.getUid());
+        Mark mark = showServiceImpl.findMarkOne(Integer.parseInt(acId), currentUser.getUid());
         System.out.println(mark);
         map.put("myMark", mark);
         return map;
@@ -202,10 +356,5 @@ public class ShowController {
         map.put("comment", marks);
 //        System.out.println("acId:" + acId + "marks:" + marks);
         return map;
-    }
-
-    @RequestMapping("/test")
-    public String test() {
-        return "/back/user/userSearch";
     }
 }

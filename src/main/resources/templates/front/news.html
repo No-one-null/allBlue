@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <title>动漫资讯</title>
     <style type="text/css">
-        p{
-            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
         /* 未访问链接*/
         .cell a:link {
             color: #0000FF;
@@ -34,15 +37,17 @@
             text-decoration: none;
             text-shadow: 5px 5px 5px white;
         }
-        .left-button{
+
+        .left-button {
             height: 100%;
             width: 15%;
-            float:left;
+            float: left;
         }
-        .right-button{
+
+        .right-button {
             height: 100%;
             width: 15%;
-            float:right;
+            float: right;
         }
     </style>
 </head>
@@ -59,7 +64,7 @@
     <div th:each="n,num : ${page.list}"
          th:style="'height: 150px;border-style: dotted;'+(${num.index%2==0}?'':'background-color: #E0FFFF')">
         <div class="col-md-3" style="height: 100%;">
-            <a href="#"><img src="/images/none.png" style="max-height: 100%;"></a>
+            <a href="#"><img src="/images/none.png" style="max-height: 100%;" alt="题图"></a>
         </div>
         <div class="col-md-9" style="height: 100%;display: table;margin: 0 auto;">
             <div class="cell">
@@ -86,13 +91,13 @@
     </div>
 </div>
 <script type="text/javascript">
-    const v="#"+"[[${type}]]";
-    $(v).attr("class","active");
+    const v = "#" + "[[${type}]]";
+    $(v).attr("class", "active");
     $(".left-button").click(function () {
-        window.location.href="[[@{'/news/'+${type}}]]"+"?pNum=[[${page.pageNumber}-1]]";
+        window.location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}-1]]";
     });
     $(".right-button").click(function () {
-        window.location.href="[[@{'/news/'+${type}}]]"+"?pNum=[[${page.pageNumber}+1]]";
+        window.location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}+1]]";
     });
 </script>
 </body>

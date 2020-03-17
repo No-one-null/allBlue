@@ -9,10 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.Valid;
 import javax.validation.constraints.Past;
 import java.util.Date;
+import java.util.Objects;
 
 public class User {
     private int uid;
     @NotBlank
+    @Length(min = 1, max = 25)
     private String username;
     @NotEmpty
     @Length(min = 6, max = 12)
@@ -20,11 +22,43 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past
     private Date birth;
+    @NotBlank
     @Email
+    @Length(max = 25)
     private String email;
-    private String gender;
+    private String gender = "M";
     private String photo;
     private Boolean remember = false;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", birth=" + birth +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) &&
+                Objects.equals(birth, user.birth) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(gender, user.gender) &&
+                Objects.equals(photo, user.photo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, birth, email, gender, photo);
+    }
 
     public Boolean isRemember() {
         return remember;
@@ -88,18 +122,5 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", birth=" + birth +
-                ", email='" + email + '\'' +
-                ", gender='" + gender + '\'' +
-                ", photo='" + photo + '\'' +
-                '}';
     }
 }

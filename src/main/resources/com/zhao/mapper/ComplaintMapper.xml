@@ -29,8 +29,9 @@
         LIMIT #{pageStart},#{pageSize}
     </select>
     <select id="countByTalk" resultType="int">
-        SELECT COUNT(*) FROM complaint
-        WHERE to_id=#{0}
+        SELECT COUNT(*)
+        FROM complaint
+        WHERE to_id = #{0}
     </select>
     <select id="countAll" resultType="long">
         SELECT COUNT(*)

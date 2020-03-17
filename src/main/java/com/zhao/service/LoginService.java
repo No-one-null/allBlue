@@ -16,7 +16,7 @@ public interface LoginService {
 
     User showOne(String uid);
 
-    int addUser(User user);
+    String addUser(User user);
 
     List checkRoles(String username);
 }

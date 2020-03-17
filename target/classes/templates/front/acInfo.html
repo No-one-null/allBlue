@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${ac.name}"></title>
-    <style>
-        textarea {
-            resize: none;
-        }
-    </style>
+    <link th:replace="/index :: icon"/>
 </head>
 <body class="container">
 <!-- 导航栏-->
@@ -19,17 +15,27 @@
     </div>
     <!--详情-->
     <div class="col-md-6 detail-div">
-        <div class="img-div">
-            <img th:src="${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}"
+        <div class="img-div-3 back-snow text-center">
+            <img th:src="@{${#strings.isEmpty(ac.image)?'/images/none.png':'/images/cover/'+ac.image}}"
                  class="img-rounded img-thumbnail" alt="封面/海报">
         </div>
         <ul class="list-group">
-            <li class="list-group-item"><b>类别:</b><a href="#"> [[${ac.category=='A'?'动画':'漫画'}]]</a></li>
-            <li class="list-group-item"><b th:text="${ac.category}=='C'?'作者:':'导演:'"></b><a href="#">
-                [[${ac.author}]]</a></li>
-            <li class="list-group-item"><b>时间:</b><a href="#"> [[${ac.year}]]</a></li>
-            <li class="list-group-item"><b>地域:</b><a href="#"> [[${ac.country}]]</a></li>
-            <li class="list-group-item"><b>标签:</b><a href="#"> (少年漫画)</a></li>
+            <li class="list-group-item">
+                <b>类别:</b>
+                <a th:href="@{'/ac/'+${ac.category}}" th:text="${ac.category=='anime'?'动画':'漫画'}"></a>
+            </li>
+            <li class="list-group-item"><b th:text="${ac.category}=='comic'?'作者:':'导演:'"></b>
+                <span th:each="a : ${ac.author.split(';')}">
+                    <a th:href="@{'/search?s='+${a}+'&conditions=author'}" th:text="${a}"></a>　
+                </span>
+            </li>
+            <li class="list-group-item"><b>时间:</b>
+                <a th:href="@{'/search?s='+${ac.year}+'&conditions=year'}" th:text="${ac.year}"></a>
+            </li>
+            <li class="list-group-item"><b>地域:</b>
+                <a th:href="@{'/search?s='+${ac.country}+'&conditions=country'}" th:text="${ac.country}"></a>
+            </li>
+            <li class="list-group-item"><b>标签:</b><i> (例:少年漫画)</i></li>
             <input type="button" class="btn btn-default btn-block" value="更多">
         </ul>
     </div>
@@ -40,7 +46,8 @@
     </div>
     <!--链接-->
     <div class="col-md-6 link-div">
-        观看链接
+        <h6 class="text-center">相关链接</h6>
+        <a target="_blank" th:href="@{'https://www.baidu.com/s?wd='+${ac.name}}">更多…</a>
     </div>
     <!--    收藏和评分-->
     <div class="col-md-6 mark-div">
@@ -190,7 +197,7 @@
             type: "post",
             async: "false",
             success: function (data) {
-                var html = "<div style='width: 33%;float: left;'>我的评价:";
+                let html = "<div style='width: 33%;float: left;'>我的评价:";
                 if (data.myMark == null) {
                     html += "<a onclick='addMark()' href='#' " +
                         "class='data-toggle='tooltip' title='添加评价'>未评价</a>";
@@ -223,12 +230,12 @@
                 showComments();
             }
         });
-    };
+    }
 
     //添加收藏
     function addMark() {
         $("#progress").find(":radio").removeAttr("checked");
-        $(".rating a").children().attr("src", "/images/star-empty.gif");
+        $(".rating a").children().attr("src", "[[@{/images/star-empty.gif}]]");
         $("#myModalLabel").html("加入收藏");
         $("#myModal").modal();
     }
@@ -253,7 +260,7 @@
     function showComments() {
         $.post("[[@{/showComments}]]", {acId: [[${ac.id}]]},
             function (data, status) {
-                if (status == 'success') {
+                if (status === 'success') {
                     let html = "";
                     if (data.comment.length <= 0) {
                         $(".comment-div").addClass("no-found");
@@ -261,7 +268,7 @@
                         $(".comment-div").removeClass("no-found");
                     }
                     if (data.comment.length < 12 && data.comment.length > 0) {
-                        html += "<img class='not-much' src='/images/character/Kanna.gif'>";
+                        html += "<img class='not-much' src='[[@{/images/character/Kanna.gif}]]' alt='评论太少'>";
                     }
                     if (data.comment.length > 0) {
                         for (let i = 0; i < data.comment.length; i++) {
@@ -281,7 +288,7 @@
                     alert("失败");
                 }
             });
-    };
+    }
 
     $(document).ready(function () {
         showComments();
@@ -294,17 +301,17 @@
         });
         $(".rating a").click(function () {
             $("#rating").attr("checked", "true");
-            $(this).siblings().children().attr("src", "/images/star-empty.gif");
-            $(this).prevAll().children().attr("src", "/images/star-full.gif");
-            $(this).children().attr("src", "/images/star-full.gif");
-            var num = $(this).children().attr("alt");
+            $(this).siblings().children().attr("src", "[[@{/images/star-empty.gif}]]");
+            $(this).prevAll().children().attr("src", "[[@{/images/star-full.gif}]]");
+            $(this).children().attr("src", "[[@{/images/star-full.gif}]]");
+            let num = $(this).children().attr("alt");
             $("#rating").attr("value", parseInt(num));
         });
         $(".submit").click(function () {
             $("#myModal").modal('hide');
-            $.post('/mark?acId=[[${ac.id}]]', $("#mark-form").serialize(),
+            $.post('[[@{/mark?acId=}+${ac.id}]]', $("#mark-form").serialize(),
                 function (data, status) {
-                    if (status == 'success') {
+                    if (status === 'success') {
                         alert(data);
                         myMark();
                         queryRatingData();

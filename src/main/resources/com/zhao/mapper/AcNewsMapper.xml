@@ -37,7 +37,7 @@
     <select id="selectByPage" resultMap="acNewsMap">
         SELECT *
         FROM ac_news
-        ORDER BY status DESC ,news_date DESC
+        ORDER BY status DESC, news_date DESC
         LIMIT #{0},#{1}
     </select>
     <select id="selectOneById" parameterType="int" resultMap="acNewsMap">
@@ -60,14 +60,11 @@
         insert into ac_news (news_title, news_author, news_content, news_date, news_type)
         values (#{newsTitle}, #{newsAuthor}, #{newsContent}, #{newsDate}, #{newsType})
     </insert>
-    <update id="updateStatus" parameterType="int">
-        UPDATE ac_news
-        SET status=#{status}
-        WHERE news_id = #{id}
-    </update>
     <update id="updateContent">
         UPDATE ac_news
-        SET news_content=#{content}
-        WHERE news_id=#{id}
+        SET news_content=#{content},
+            news_type=#{type},
+            status=#{status}
+        WHERE news_id = #{id}
     </update>
 </mapper>

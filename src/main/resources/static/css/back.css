@@ -7,7 +7,7 @@ body {
     height: 96%;
 }
 
-textarea{
+textarea {
     resize: none;
 }
 
@@ -70,4 +70,33 @@ button.btn-edit {
 
 .center {
     text-align: center;
+}
+
+/**wangEditor**/
+.toolbar {
+    border: 1px solid #ccc;
+    background-color: #B0E0E6;
+    width: 75%;
+    position: relative;
+    left: 15%;
+    z-index: 201;
+}
+
+.text {
+    border: 1px solid #ccc;
+    height: 72%;
+    width: 75%;
+    position: relative;
+    left: 15%;
+    background-color: #F0FFFF;
+}
+
+.table {
+    display: table;
+    margin: 0 auto;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
 }

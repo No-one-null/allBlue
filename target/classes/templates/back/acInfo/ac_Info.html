@@ -68,7 +68,7 @@
                 <tbody>
                 <tr th:each="ac : ${pages.list}">
                     <td th:text="${ac.id}"></td>
-                    <td th:text="${ac.category=='A'?'动画':'漫画'}"></td>
+                    <td th:text="${ac.category=='anime'?'动画':'漫画'}"></td>
                     <td th:text="${ac.name}"></td>
                     <td th:text="${ac.author}"></td>
                     <td th:text="${ac.year}"></td>
@@ -80,7 +80,7 @@
             </table>
             <div th:replace="/back/back :: page"></div>
         </div><!-- /.panel panel-success -->
-    </div><!-- /.emp_info -->
-</div><!-- /.back_body -->
+    </div>
+</div>
 </body>
 </html>

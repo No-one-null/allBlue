@@ -8,6 +8,7 @@ import com.zhao.util.PageInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -34,24 +36,21 @@ public class ShowController {
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
         System.out.println(request.getServletContext().getRealPath(""));
-        List<AcItems> animes = showServiceImpl.sort("A", 0, 12);
-        model.addAttribute("animes", animes);
-        List<AcItems> comics = showServiceImpl.sort("C", 0, 12);
-        model.addAttribute("comics", comics);
+        List<AcItems> anime = showServiceImpl.sort("anime", 0, 12);
+        List<AcItems> comic = showServiceImpl.sort("comic", 0, 12);
+        Map<String, Object> map = new HashMap<>();
+        map.put("anime", anime);
+        map.put("comic", comic);
+        model.addAttribute("acMap", map);
         return "/index";
     }
 
     @RequestMapping("/ac/{category}")
-    public String category(@PathVariable String category, Model model) {
-        String path;
-        List<?> list = null;
-        if (category.equalsIgnoreCase("comic")) {
-            path = "C";
-            list = showServiceImpl.findByParam("category", path, null, 0, 0);
-        }
-        if (category.equalsIgnoreCase("anime")) {
-            path = "A";
-            list = showServiceImpl.findByParam("category", path, null, 0, 0);
+    public String redirect(@PathVariable String category) {
+        if (category.equalsIgnoreCase("anime") || category.equalsIgnoreCase("comic")) {
+            String str = "redirect:/ac/" + category + "/p1";
+            System.out.println(str);
+            return str;
         }
         if (category.equalsIgnoreCase("news")) {
             return "redirect:/news/all";
@@ -59,9 +58,18 @@ public class ShowController {
         if (category.equalsIgnoreCase("topic")) {
             return "redirect:/topic";
         }
-        model.addAttribute("list", list);
-        path = "/front/" + category;
-        return path;
+        return ERR404;
+    }
+
+    @RequestMapping("/ac/{category}/p{page}")
+    public String category(@PathVariable String category, @PathVariable String page,
+                           Model model) {
+        PageInfo pageInfo = showServiceImpl.showAcItems(category, "name", "ASC", page);
+        if (pageInfo == null) {
+            return ERR404;
+        }
+        model.addAttribute("page", pageInfo);
+        return "/front/ac";
     }
 
     @RequestMapping("/news/{type}")
@@ -190,15 +198,12 @@ public class ShowController {
      * @return 路径
      */
     @RequestMapping("/topic/t{tid}")
-    public String talk(Model model, @PathVariable String tid) {
-        Talk talk = showServiceImpl.showTalk(tid);
+    public String talk(Model model, @PathVariable String tid, HttpServletRequest request) {
+        Talk talk = showServiceImpl.showTalk(tid, request);
         if (talk == null) {
-            return "redirect:/topic";
-        }
-        List<Comment> comments = showServiceImpl.showComments(tid);
-        if (comments == null) {
             return ERR404;
         }
+        List<Comment> comments = showServiceImpl.showComments(tid);
         model.addAttribute("complaints", COMPLAINT_ARRAY);
         model.addAttribute("comments", comments);
         model.addAttribute("talk", talk);
@@ -279,7 +284,10 @@ public class ShowController {
 
     @RequestMapping("/acInfo/{id}")
     public String findId(@PathVariable String id, Model model) {
-        AcItems ac = dataServiceImpl.findById(Integer.valueOf(id));
+        AcItems ac = dataServiceImpl.findById(id);
+        if (ac == null) {
+            return ERR404;
+        }
 //        System.out.println(ac);
         model.addAttribute("ac", ac);
         int userNum = showServiceImpl.sumRating(ac.getId() + "");
@@ -287,8 +295,21 @@ public class ShowController {
         return "/front/acInfo";
     }
 
-    @RequestMapping("/userInfo")
-    public String userInfo() {
+    @RequestMapping("/u{uid}")
+    public String userInfo(@PathVariable String uid) {
+        String path = "redirect:/u" + uid + "/info";
+        System.out.println(path);
+        return path;
+    }
+
+    @RequestMapping("/u{uid}/{page}")
+    public String userInfo(@PathVariable String uid, @PathVariable String page, Model model, User user) {
+        System.out.println("排除异常" + user);
+        Map<String, Object> map = showServiceImpl.showUserInfo(uid, page);
+        if (map == null) {
+            return ERR404;
+        }
+        model.addAttribute("map", map);
         return "/front/user";
     }
 
@@ -323,10 +344,9 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping("/rating")
-    public Map<String, Object> rating(HttpServletRequest request) {
+    public Map<String, Object> rating(HttpServletRequest request,String acId) {
         Map<String, Object> map = new HashMap<>();
-        String acId = request.getParameter("acId");
-        System.out.println(acId);
+        System.out.println("acId"+acId);
         AcItems ac = showServiceImpl.findById(acId);
         float acRating = showServiceImpl.calRating(acId, ac.getRating());
         map.put("acRating", acRating);
@@ -354,7 +374,53 @@ public class ShowController {
         String acId = request.getParameter("acId");
         List<Mark> marks = showServiceImpl.allComments(acId);
         map.put("comment", marks);
-//        System.out.println("acId:" + acId + "marks:" + marks);
         return map;
+    }
+
+    @RequestMapping("/submit/user")
+    public String submitUser(@Valid User user, BindingResult result, MultipartFile file,
+                             Model model, HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        if (user.getUid() != currentUser.getUid()) {
+            return ERR403;
+        }
+        System.out.println(user + file.getOriginalFilename());
+        if (!result.hasErrors()) {
+            String message;
+            try {
+                message = showServiceImpl.updateUser(user, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                message = "文件操作异常!";
+            }
+            if (message.equalsIgnoreCase("success")) {
+                User current = showServiceImpl.showUser(user.getUid());
+                request.getSession().setAttribute("currentUser", current);
+                return "redirect:/u" + user.getUid();
+            } else {
+                model.addAttribute("message", message);
+            }
+        }
+        Map<String, Object> map = showServiceImpl.showUserInfo(user.getUid() + "", "info");
+        map.put("user", user);
+        model.addAttribute("map", map);
+        return "/front/user";
+    }
+
+    @RequestMapping("/search")
+    public String search(String s, String conditions, String sort, Model model) {
+        model.addAttribute("keyword", s);
+        model.addAttribute("sort", sort);
+        model.addAttribute("conditions", conditions);
+        model.addAttribute("more", OPEN_CLOSE);
+        String str = "";
+        if (s != null) {
+            str = s.trim();
+        } else {
+            return "/front/results";
+        }
+        List<?> list = showServiceImpl.findByWord(conditions, str, sort);
+        model.addAttribute("list", list);
+        return "/front/results";
     }
 }

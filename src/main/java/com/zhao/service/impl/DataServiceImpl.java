@@ -69,10 +69,10 @@ public class DataServiceImpl implements DataService {
             count = complaintMapper.countAll();
             pageInfo.setList(complaintMapper.selectByPage(pageStart, pSize));
         }
-        if(tbName.equals("topic")){
-            count=talkMapper.countTalk(-1);
-            pageInfo.setList(talkMapper.selectByPage(pageStart,pSize,2,
-                    "status","ASC"));
+        if (tbName.equals("topic")) {
+            count = talkMapper.countTalk(-1);
+            pageInfo.setList(talkMapper.selectByPage(pageStart, pSize, 2,
+                    "status", "ASC"));
         }
         pageInfo.setCount(count);
         pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
@@ -87,6 +87,9 @@ public class DataServiceImpl implements DataService {
         List<?> list = acItemsMapper.selectByNames(acItems);
         if (list.size() > 0) {
             return "作品可能已存在!";
+        }
+        if (acItems.getInfo().length() > 300) {
+            return "简介太长！";
         }
         if (file.getSize() > 0) {
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
@@ -139,8 +142,11 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public AcItems findById(Integer id) {
-        return acItemsMapper.selectById(id);
+    public AcItems findById(String id) {
+        if (!isNumber(id)) {
+            return null;
+        }
+        return acItemsMapper.selectById(Integer.valueOf(id));
     }
 
     @Transactional
@@ -154,7 +160,7 @@ public class DataServiceImpl implements DataService {
         String fileName;
         if (file.getSize() > 0) {
             if (!acItems.getImage().equals("")) {
-                String dir=UPLOAD_COVER+acItems.getImage();
+                String dir = UPLOAD_COVER + acItems.getImage();
                 FileUtils.forceDelete(new File(dir));
                 System.out.println(dir);
             }
@@ -166,7 +172,7 @@ public class DataServiceImpl implements DataService {
         } else {
             System.out.println("不修改图片");
         }
-        System.out.println("\n【"+acItems+"】\n");
+        System.out.println("\n【" + acItems + "】\n");
         int result = acItemsMapper.updateById(acItems);
         if (result > 0) {
             message = "success";
@@ -179,15 +185,14 @@ public class DataServiceImpl implements DataService {
     @Transactional
     @Override
     public boolean DeleteOne(int id) throws IOException {
-        AcItems ac=acItemsMapper.selectById(id);
-        if(!ac.getImage().equals("")){
-            FileUtils.forceDelete(new File(UPLOAD_COVER+ac.getImage()));
+        AcItems ac = acItemsMapper.selectById(id);
+        if (!ac.getImage().equals("")) {
+            FileUtils.forceDelete(new File(UPLOAD_COVER + ac.getImage()));
         }
-        int flag=acItemsMapper.updateStatus(id,0);
+        int flag = acItemsMapper.updateStatus(id, 0);
         return flag > 0;
     }
 
-    @Transactional
     @Override
     public Boolean addNews(AcNews acNews) {
         acNews.setNewsDate(new Date());
@@ -204,26 +209,16 @@ public class DataServiceImpl implements DataService {
         }
     }
 
-    @Transactional
     @Override
-    public Boolean updNews(String id, String status) {
-        if (id != null && status != null) {
-            int flag = acNewsMapper.updateStatus(Integer.parseInt(id), Integer.parseInt(status));
-            return flag != 0;
-        }
-        return false;
-    }
-
-    @Override
-    public String editNews(String id,String content) {
-        if(!isNumber(id)){
+    public String editNews(String id, String content, String type, String status) {
+        if (!isNumber(id)) {
             return "错误的数据！";
         }
-        if(content.length()>16777215){
-            return "内容过长！";
+        if (content.length() > 16777215) {
+            return "内容过多！请删除一些图片或文字";
         }
-        int result = acNewsMapper.updateContent(Integer.parseInt(id),content);
-        if(result>0){
+        int result = acNewsMapper.updateContent(Integer.parseInt(id), content, type, Integer.parseInt(status));
+        if (result > 0) {
             return "success";
         }
         return "数据库更新失败！";
@@ -262,12 +257,31 @@ public class DataServiceImpl implements DataService {
             int flag = talkMapper.updateStatus(tid, status);
             if (flag > 0) {
                 int update = complaintMapper.updateStatus(1, tid, type, uid);
-                return "成功！受影响投诉记录"+update+"条";
-            }else {
-                return "修改"+type+"失败!";
+                return "成功！受影响投诉记录" + update + "条";
+            } else {
+                return "修改" + type + "失败!";
             }
         } else {
             return "参数错误!";
         }
+    }
+
+    @Override
+    public Map<String, Object> showUserAndRoles(String uid) {
+        if (!isNumber(uid)) {
+            return null;
+        }
+        User user = userMapper.selectById(Integer.parseInt(uid));
+        if (user == null) {
+            return null;
+        }
+        List<String> roles = userMapper.selectRolesByUsername(user.getUsername());
+        if (roles.size() <= 0) {
+            roles.add("user");
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("roles", roles);
+        return map;
     }
 }

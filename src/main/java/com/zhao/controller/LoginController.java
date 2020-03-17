@@ -13,6 +13,7 @@ import org.apache.shiro.subject.Subject;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 @Controller
 public class LoginController {
@@ -71,33 +72,32 @@ public class LoginController {
     }
 
     @RequestMapping("/save")
-    public String saveUser(@Valid User user, BindingResult result, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            return "/register";
-        }
-        Boolean isExist = loginServiceImpl.isExistName(user.getUsername());
-        if (isExist) {
-            request.setAttribute("errInfo", "用户名已存在");
-            return "/register";
-        }
+    public String saveUser(@Valid User user, BindingResult result,
+                           Model model, HttpServletRequest request) {
         String sessionCode = (String) request.getSession().getAttribute("verifyCode");
         String userCode = request.getParameter("verifyCode");
+        Set<String> errors = new HashSet<>();
         if (!sessionCode.equals(userCode)) {
-            System.out.println("失败");
-            request.setAttribute("errInfo", "验证码错误");
-            return "/register";
+            errors.add("验证码错误");
         }
-        Md5Hash md5Hash = new Md5Hash(user.getPassword(), user.getUsername());
-        user.setPassword(md5Hash.toString());
-        loginServiceImpl.addUser(user);
-        return "redirect:/login";
+        if (!result.hasErrors()) {
+            String message = loginServiceImpl.addUser(user);
+            if (message.equals("success")) {
+                return "redirect:/login";
+            } else {
+                errors.add(message);
+            }
+        } else {
+            errors.add("参数错误");
+        }
+        model.addAttribute("errors", errors);
+        model.addAttribute("user", user);
+        return "/register";
     }
 
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
-        System.out.println(currentUser);
-//        System.out.println("currentUser="+currentUser);
         if (currentUser != null) {
             return "redirect:/LoginSuccess";
         } else {
@@ -108,26 +108,25 @@ public class LoginController {
     @PostMapping("/doLogin")
     public String login(User user, HttpSession session, HttpServletRequest request) {
         System.out.println("传入:" + user.getUsername() + user.getPassword() + user.isRemember());
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         System.out.println(token);
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
         try {
             token.setRememberMe(user.isRemember());
             subject.login(token);
             session.setAttribute("user", subject.getPrincipal());
             User users = loginServiceImpl.findUserByName(user.getUsername());
             session.setAttribute("currentUser", users);
-            System.out.println(user.getUsername() + "在" + sdf.format(date) + "登录成功!");
+            System.out.println(user.getUsername() + "在" + sdf.format(new Date()) + "登录成功!");
             return "redirect:/LoginSuccess";
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            System.out.println(user.getUsername() + "在" + sdf.format(date) + "登录失败!");
-            request.setAttribute("errLogin", "登陆失败!请检查用户名或密码");
-            return "/login";
+            request.setAttribute("error", "请检查用户名或密码……");
+            System.out.println(user.getUsername() + "在" + sdf.format(new Date()) + "登录失败!");
         }
+        return "/login";
 //        System.out.println("isAuthenticationToken:"+subject.isAuthenticated());
     }
 
@@ -137,9 +136,12 @@ public class LoginController {
     }
 
     @RequestMapping("/exit")
-    public String exit(HttpServletRequest request, HttpServletResponse response) {
+    public String exit(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        System.out.println(subject.toString());
+        subject.logout();// session 会销毁，在SessionListener监听session销毁，清理权限缓存
+//        if (subject.isAuthenticated()) {
+//        }
         return "/login";
     }
 }

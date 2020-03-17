@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="table_items" style="text-align: center">
-                        找到<span class="badge" th:text="${listSize}"></span>条记录。
+                        找到<span class="badge" th:text="${list.size()}"></span>条记录。
                     </div>
                 </div>
                 <div class="alert alert-warning" th:if="${#lists.isEmpty(list)}">
@@ -54,9 +54,9 @@
                 <div th:if="!${#lists.isEmpty(list)}">
                     <table class="table table-bordered table-hover">
                         <thead>
-                        <th width="50">序号</th>
-                        <th width="150">封面/海报</th>
                         <th>ID</th>
+                        <th>封面/海报</th>
+                        <th>分类</th>
                         <th>作品名</th>
                         <th>作者/导演</th>
                         <th>出版/放映时间</th>
@@ -64,13 +64,12 @@
                         </thead>
                         <tbody>
                         <tr th:each="ac,var : ${list}">
-                            <td th:text="${var.index}+1"></td>
-                            <td>
-                                <img id="preImg"
-                                     th:src="@{${#strings.isEmpty(ac.image)}?'/images/none.png':'/images/cover/'+${ac.image}}"
-                                     height="50px">
-                            </td>
                             <td th:text="${ac.id}"></td>
+                            <td>
+                                <img th:src="@{'/images/'+${#strings.isEmpty(ac.image)?'none.png':'cover/'+ac.image}}"
+                                     height="50px" alt="封面/海报">
+                            </td>
+                            <td th:text="${ac.category=='anime'?'动画':'漫画'}"></td>
                             <td th:text="${ac.name}"></td>
                             <td th:text="${ac.author}"></td>
                             <td th:text="${ac.year}"></td>
@@ -82,10 +81,8 @@
                     </table>
                 </div>
             </div><!-- /.panel panel-success -->
-        </div><!-- /.emp_info -->
-
-    </div><!-- /.hrms_body -->
-
+        </div>
+    </div>
 </div><!-- /.container -->
 </body>
 </html>

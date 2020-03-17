@@ -10,6 +10,7 @@
         select *
         from ac_items
         where status = 1
+        ORDER BY CONVERT(`name` USING gbk) COLLATE gbk_chinese_ci
         limit #{pageStart},#{pageSize}
     </select>
     <select id="selectCount" resultType="long">
@@ -17,13 +18,14 @@
         from ac_items
         where status = 1
     </select>
-    <select id="selectByParam" resultType="acItems">
-        select * from ac_items
-        <where>
-            status=1
-            and ${field} like #{word}
+    <select id="countByParam" resultType="long">
+        SELECT COUNT(*)
+        FROM ac_items
+        WHERE status=1
+        <if test="field!=null and field!=''">
+            AND ${field} LIKE #{word}
             <bind name="word" value="'%'+word+'%'"/>
-        </where>
+        </if>
     </select>
     <select id="selectByKey" resultType="acItems">
         select * from ac_items
@@ -33,6 +35,28 @@
             <bind name="keyword" value="'%'+keyword+'%'"/>
         </where>
     </select>
+    <select id="selectByParam" resultType="acItems">
+        select * from ac_items
+        <where>
+            status=1
+            <if test="field==null or field=='' or field=='all'">
+                AND CONCAT(`name`,`author`,`info`,`country`) LIKE #{word}
+                <bind name="word" value="'%'+word+'%'"/>
+            </if>
+            <if test="field!=null and field!='' and field!='all'">
+                AND ${field} like #{word}
+                <bind name="word" value="'%'+word+'%'"/>
+            </if>
+        </where>
+        <if test="orderField!=null and orderField!=''">
+            <if test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
+                ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
+            </if>
+            <if test="orderField!='name' and orderField!='author' and orderField!='year' and orderField!='country'">
+                ORDER BY ${orderField} ${orderType}
+            </if>
+        </if>
+    </select>
     <select id="selectByParams" resultType="acItems">
         select * from ac_items
         <where>
@@ -40,8 +64,13 @@
             and ${field} LIKE #{word}
             <bind name="word" value="'%'+word+'%'"/>
         </where>
-        <if test="seq!=null">
-            ORDER BY ${field} ${seq}
+        <if test="orderField!=null and orderField!=''">
+            <if test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
+                ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
+            </if>
+            <if test="orderField!='name' and orderField!='author' and orderField!='year' and orderField!='country'">
+                ORDER BY ${orderField} ${orderType}
+            </if>
         </if>
         <if test="size!=0">
             limit #{start},#{size}
@@ -81,21 +110,27 @@
         limit 1
     </select>
     <select id="selectByNames" resultType="acItems">
-        SELECT * FROM ac_items
-        WHERE status=1
-        AND `name`=#{name}
-        AND `year`=#{year}
-        AND `author`=#{author}
-        AND `category`=#{category}
+        SELECT *
+        FROM ac_items
+        WHERE status = 1
+          AND `name` = #{name}
+          AND `year` = #{year}
+          AND `author` = #{author}
+          AND `category` = #{category}
     </select>
     <insert id="insertAcItem" parameterType="acItems">
-        insert into ac_items(name, info, author, year, category, image)
-        values (#{name}, #{info}, #{author}, #{year}, #{category}, #{image})
+        insert into ac_items(name, info, author, year, category, image, country)
+        values (#{name}, #{info}, #{author}, #{year}, #{category}, #{image}, #{country})
     </insert>
     <update id="updateById" parameterType="acItems">
         update ac_items
-        SET name=#{name},author=#{author},year=#{year},info=#{info},image=#{image},
-            category=#{category},country=#{country}
+        SET name=#{name},
+            author=#{author},
+            year=#{year},
+            info=#{info},
+            image=#{image},
+            category=#{category},
+            country=#{country}
         where id = #{id}
     </update>
     <update id="updateStatus" parameterType="int">

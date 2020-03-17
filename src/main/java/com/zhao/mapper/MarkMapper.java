@@ -10,11 +10,13 @@ public interface MarkMapper {
 
     Mark selectById(@Param("acId") int acId, @Param("uid") int uid);
 
+    List<Mark> selectComments(int acId);
+
+    List<Mark> selectByUid(@Param("uid") int uid, @Param("orderField") String orderField, @Param("orderType") String orderType);
+
     int updateMark(Mark acMark);
 
     int countRating(@Param("acId") int acId);
 
     float avgRating(@Param("acId") int acId);
-
-    List<Mark> selectComments(int acId);
 }

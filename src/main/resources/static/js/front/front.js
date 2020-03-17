@@ -14,18 +14,19 @@ $(document).ready(function () {
     if (tag === "话题讨论") {
         $tag.eq(3).attr("class", "active");
     }
-    $(".btn-search").on("click", function () {
-        let test = $(".input-search").val();
-        if (test === "") {
-            alert("不能为空!");
+    $("#nav-search").on("submit", function () {
+        if ($("#search-input").val() === "") {
+            location.href = searchUrl;
+            return false;
         }
+        return true;
     });
 });
 
 //注销登录
 function quit() {
     if (confirm("确认退出？")) {
-        window.location.href = "/exit";
+        location.href = exitUrl;
     }
 }
 

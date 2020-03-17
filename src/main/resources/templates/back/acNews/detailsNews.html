@@ -12,24 +12,6 @@
         .content img {
             max-height: 400px;
         }
-
-        .toolbar {
-            border: 1px solid #ccc;
-            background-color: #B0E0E6;
-            width: 75%;
-            position: relative;
-            left: 15%;
-            z-index: 201;
-        }
-
-        .text {
-            border: 1px solid #ccc;
-            height: 70%;
-            width: 75%;
-            position: relative;
-            left: 15%;
-            background-color: #F0FFFF;
-        }
     </style>
 </head>
 <body>
@@ -43,30 +25,30 @@
         <div class="panel-heading">
             <ol class="breadcrumb">
                 <li><a href="#">动漫资讯</a></li>
-                <li class="active">详情</li>
-                <input id="edit-btn" type="button" style="position: absolute;right: 4%;width: 5%"
-                       data-toggle="tooltip" title="修改">
+                <li>详情</li>
+                <li class="active" th:text="${'《'+news.newsTitle+'》'}"></li>
             </ol>
-            <label for="status"></label>
-            <select id="status" style="position: absolute;right: 4%;width: 5%;">
-                <option value=0>隐藏</option>
-                <option value=1>正常</option>
-                <option value=2>置顶</option>
-            </select>
-            <strong>标题：</strong><span th:text="${news.newsTitle}"></span>
+            <div style="position: absolute;right: 4%;">
+                <label for="news-type">类型：</label>
+                <select id="news-type">
+                    <option th:each="t : ${type}" th:text="${t}" th:selected="${news.newsType eq t}">
+                    </option>
+                </select>
+                <label style="margin-left: 50px" for="status">状态：</label>
+                <select id="status">
+                    <option th:selected="${news.status==0}" value=0>隐藏</option>
+                    <option th:selected="${news.status==1}" value=1>正常</option>
+                    <option th:selected="${news.status==2}" value=2>置顶</option>
+                </select>
+            </div>
             <strong style="margin-left: 50px">作者：</strong><span th:text="${news.newsAuthor}"></span>
             <strong style="margin-left: 50px">发表日期：</strong>
             <span th:text="${#dates.format(news.newsDate,'yyy/MM/dd HH:mm:ss')}"></span>
-            <label style="margin-left: 50px" for="news-type">类型：</label>
-            <select id="news-type">
-                <option th:each="t : ${type}" th:text="${t}" th:selected="${news.newsType eq t}">
-                </option>
-            </select>
         </div>
         <!--正文-->
         <div id="editor-toolbar" class="toolbar"></div>
         <div id="editor-text" class="text" th:utext="${news.newsContent}"></div>
-        <input id="submit-btn" type="button" data-toggle="tooltip" value="提交" class="btn btn-danger"
+        <input id="submit-btn" type="button" data-toggle="tooltip" value="提交修改" class="btn btn-danger"
                style="position: absolute;right: 4%;bottom: 5%;">
     </div><!-- /.panel panel-success -->
 </div>
@@ -101,57 +83,31 @@
         'redo'  // 重复
     ];
     editor.create();
-    $(document).ready(function () {
-        $("#status").hide();
-    });
-    let flag = 0;
-    const $edit=$("#edit-btn");
-    $edit.val(newsStatus([[${news.status}]]));
-    //修改状态
-    $edit.click(function () {
-        if (flag === 0) {
-            flag++;
-            $("#status").show();
-            $("#edit-btn").val("修改");
-        } else {
-            if (confirm("确定修改？")) {
-                let status = $("#status").val();
-                $.post("[[@{/back/editStatus}]]", {
-                    status: status,
-                    id: [[${news.newsId}]]
-                }, function (data, status) {
-                    if(status==='success'){
-                        if (data === "success") {
-                            alert("修改成功!");
-                            window.location.href = '[[@{/back/showNews}]]' + '[[${news.newsId}]]';
-                            return;
-                        }
-                        return alert(data + "，失败！");
-                    }else {
-                        alert("发送失败！请检查并重试");
-                    }
-                });
-            }
-        }
-    });
 
     //提交修改内容
-    $("#submit-btn").on("click",function () {
-        $.post("[[@{/back/editNews}]]",{
-            id:[[${news.newsId}]],
-            content:editor.txt.html()
-        },function (data,status) {
-            if(status==='success'){
-                if(data==='success'){
-                    alert("操作成功！");
-                    location.reload();
-                }else {
-                    alert(data);
+    $("#submit-btn").on("click", function () {
+        if (editor.txt.html().length > 2000000) {
+            return alert("内容太多！请减少图片或文字……");
+        }
+        if (confirm("确认提交?")) {
+            $.post("[[@{/back/editNews}]]", {
+                id: [[${news.newsId}]],
+                content: editor.txt.html(),
+                type: $("#news-type").val(),
+                status: $("#status").val()
+            }, function (data, status) {
+                if (status === 'success') {
+                    if (data === 'success') {
+                        alert("操作成功！");
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                } else {
+                    alert("提交失败！请检查后重试！");
                 }
-            }else {
-                alert("提交失败！请检查后重试！");
-            }
-        });
+            });
+        }
     });
 </script>
 </body>

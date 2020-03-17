@@ -11,10 +11,13 @@ public interface TalkMapper {
     long countTalk(int status);
 
     List<Talk> selectAll(@Param("status") int status,
-                         @Param("orderField")String orderField,@Param("orderType")String orderType);
+                         @Param("orderField") String orderField, @Param("orderType") String orderType);
 
-    List<Talk> selectByPage(@Param("pStart")int pStart,@Param("pSize")int pSize,@Param("status") int status,
-                         @Param("orderField")String orderField,@Param("orderType")String orderType);
+    List<Talk> selectByPage(@Param("pStart") int pStart, @Param("pSize") int pSize, @Param("status") int status,
+                            @Param("orderField") String orderField, @Param("orderType") String orderType);
+
+    List<Talk> selectByUid(@Param("uid") int uid,
+                           @Param("orderField") String orderField, @Param("orderType") String orderType);
 
     Talk selectOne(@Param("tid") int tid);
 

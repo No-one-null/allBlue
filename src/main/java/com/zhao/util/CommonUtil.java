@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class CommonUtil {
 
     public static Boolean isNumber(String str) {
-        if (str == null) {
+        if (str == null || str.equals("")) {
             return false;
         }
         // 正整数

@@ -4,8 +4,13 @@
     <resultMap id="talkMap" type="Talk">
         <id column="tid" property="tid"/>
         <result column="uid" property="uid"/>
-<!--        <association property="countComplaint" select="com.zhao.mapper.ComplaintMapper.countByTalk" column="tid"/>-->
+        <!--        <association property="countComplaint" select="com.zhao.mapper.ComplaintMapper.countByTalk" column="tid"/>-->
         <association property="user" select="com.zhao.mapper.UserMapper.selectById" column="uid"/>
+    </resultMap>
+    <resultMap id="myTalk" type="Talk">
+        <id column="tid" property="tid"/>
+        <id column="ac_id" property="acId"/>
+        <association property="ac" column="ac_id"/>
     </resultMap>
     <insert id="insertTalk" parameterType="Talk">
         INSERT INTO talk (uid,content,pictures,time,topic)
@@ -32,6 +37,13 @@
             ORDER BY ${orderField} ${orderType}
         </if>
         LIMIT #{pStart},#{pSize}
+    </select>
+    <select id="selectByUid" resultType="talk">
+        SELECT * FROM talk
+        WHERE uid=#{uid}
+        <if test="orderField != null and orderField != '' and orderType != null and orderType != ''">
+            ORDER BY ${orderField} ${orderType}
+        </if>
     </select>
     <select id="selectOne" resultMap="talkMap">
         SELECT * FROM talk

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>动漫资讯</title>
+    <link th:replace="/index :: icon"/>
     <style type="text/css">
         p {
             white-space: nowrap;
@@ -64,7 +65,7 @@
     <div th:each="n,num : ${page.list}"
          th:style="'height: 150px;border-style: dotted;'+(${num.index%2==0}?'':'background-color: #E0FFFF')">
         <div class="col-md-3" style="height: 100%;">
-            <a href="#"><img src="/images/none.png" style="max-height: 100%;" alt="题图"></a>
+            <a href="#"><img th:src="@{/images/none.png}" style="max-height: 100%;" alt="题图"></a>
         </div>
         <div class="col-md-9" style="height: 100%;display: table;margin: 0 auto;">
             <div class="cell">
@@ -86,7 +87,11 @@
     </div>
     <div style="height: 50px;text-align: center">
         <button class="left-button" th:if="${page.pageNumber>1}">上一页</button>
-        <form id="pageForm" hidden><input name="pNum" th:value="${page.pageNumber}"></form>
+        <form id="pageForm" hidden>
+            <label>
+                <input name="pNum" th:value="${page.pageNumber}">
+            </label>
+        </form>
         <button class="right-button" th:if="${page.pageNumber}<${page.total}" type="button">下一页</button>
     </div>
 </div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${category eq 'comic'}">全部漫画</title>
+    <title th:if="${category eq 'anime'}">全部动画</title>
+    <link th:replace="/index :: icon"/>
+</head>
+<body class="back-Miku">
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class="col-md-offset-2 col-md-8">
+    <div th:each="ac,num : ${page.list}" class="col-md-3 ac-div">
+        <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail">
+            <p th:text="${num.index+1}"></p>
+            <img th:src="@{'/images/'+${#strings.isEmpty(ac.image)?'none.png':'cover/'+ac.image}}"
+                 alt="通用的占位符缩略图">
+            <div class="caption">
+                <h4 th:text="${ac.name}"></h4><br>
+                <p th:text="${ac.info}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="well bottom-right">
+    <button type="button" class="btn btn-success" id="prev"
+            th:disabled="${page.pageNumber==1}">
+        <span></span>上一页
+    </button>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span th:text="${'第'+page.pageNumber+'页'}"></span>
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <button type="button" class="pull-right btn btn-success" id="next"
+            th:disabled="${page.pageNumber==page.total}">
+        下一页
+    </button>
+</div>
+<script type="text/javascript">
+    $("#prev").click(function () {
+        location.href = "[[@{/ac/}]][[${category}]]/p[[${page.pageNumber-1}]]";
+    });
+    $("#next").click(function () {
+        location.href = "[[@{/ac/}]][[${category}]]/p[[${page.pageNumber+1}]]";
+    });
+</script>
+</body>
+</html>

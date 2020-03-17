@@ -14,13 +14,12 @@ public interface AcNewsMapper {
 
     List<AcNews> selectByPage(int start, int end);
 
-    int updateContent(@Param("id")int id,@Param("content")String content);
+    int updateContent(@Param("id") int id, @Param("content") String content,
+                      @Param("type") String type, @Param("status") int status);
 
     long CountAll();
 
     List<AcNews> selectByKeyword(@Param("keyword") String keyword);
-
-    int updateStatus(@Param("id") int id, @Param("status") int status);
 
     List<AcNews> selectByParams(@Param("start") int start, @Param("size") int size, @Param("type") String type);
 

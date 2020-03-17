@@ -11,7 +11,7 @@ public interface UserMapper {
 
     List<User> selectByPage(@Param("pageStart") int pageStart, @Param("pageSize") int pageSize);
 
-    List<User> selectByName(@Param("username") String username);
+    User selectByName(@Param("username") String username, @Param("status") int status);
 
     User selectUserByName(@Param("username") String username);
 
@@ -26,5 +26,11 @@ public interface UserMapper {
 
     int insertUser(User user);
 
-    List selectRolesByUsername(String username);
+    List<String> selectRolesByUsername(String username);
+
+    long countField(@Param("field") String field, @Param("key") String key);
+
+    List<User> selectByKey(@Param("field") String field, @Param("key") String key);
+
+    int updateUser(User user);
 }

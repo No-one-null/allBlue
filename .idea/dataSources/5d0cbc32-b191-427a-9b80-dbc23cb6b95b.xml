@@ -1246,28 +1246,28 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </column>
-    <column id="314" parent="291" name="news_date">
+    <column id="314" parent="291" name="news_type">
       <Position>5</Position>
-      <DataType>datetime|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
-    </column>
-    <column id="315" parent="291" name="news_type">
-      <Position>6</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="291" name="status">
+    <column id="315" parent="291" name="news_date">
+      <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="316" parent="291" name="updatetime">
       <Position>7</Position>
+      <DataType>datetime|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+    </column>
+    <column id="317" parent="291" name="status">
+      <Position>8</Position>
       <DataType>smallint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>1</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="317" parent="291" name="updatetime">
-      <Position>8</Position>
-      <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <key id="318" parent="291" name="PRIMARY">

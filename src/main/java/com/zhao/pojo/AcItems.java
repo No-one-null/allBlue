@@ -11,13 +11,14 @@ public class AcItems {
 
     private int id;
     @NotBlank
-    @Length(max = 50,min = 1)
+    @Length(max = 50, min = 1)
     private String name;
     @NotBlank
-    @Length(max = 50,min = 1)
+    @Length(max = 50, min = 1)
     private String author;
     @Length(max = 4)
     private String year;
+    @Length(max = 300)
     private String info;
     private String image;
     private String category;
@@ -92,14 +93,6 @@ public class AcItems {
         this.year = year;
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
     public String getImage() {
         return image;
     }
@@ -146,5 +139,30 @@ public class AcItems {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        if (info.length() > 300) {
+            info = info.substring(0, 300);
+        }
+        this.info = info;
+    }
+
+    public String star(int rating) {
+        StringBuilder str = new StringBuilder("暂无");
+        if (rating > 0) {
+            str = new StringBuilder();
+            for (int i = 0; i < rating; i++) {
+                str.append('★');
+            }
+            for (int i = rating; i < 5; i++) {
+                str.append('☆');
+            }
+        }
+        return str.toString();
     }
 }

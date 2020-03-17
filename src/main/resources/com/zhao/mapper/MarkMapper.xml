@@ -6,11 +6,23 @@
         <result column="create_date" property="createDate"/>
         <association property="user" select="com.zhao.mapper.UserMapper.selectById" column="uid"/>
     </resultMap>
+    <resultMap id="myMark" type="mark">
+        <result column="ac_id" property="acId"/>
+        <result column="create_date" property="createDate"/>
+        <association property="acItems" column="ac_id" select="com.zhao.mapper.AcItemsMapper.selectById"/>
+    </resultMap>
     <select id="selectById" resultMap="markMap">
         SELECT *
         FROM mark
         WHERE ac_id = #{acId}
           AND uid = #{uid}
+    </select>
+    <select id="selectByUid" resultMap="myMark">
+        SELECT * FROM mark
+        WHERE uid=#{uid}
+        <if test="orderField != null and orderField != '' and orderType != null and orderType != ''">
+            ORDER BY ${orderField} ${orderType}
+        </if>
     </select>
     <select id="selectComments" parameterType="int" resultMap="markMap">
         SELECT *

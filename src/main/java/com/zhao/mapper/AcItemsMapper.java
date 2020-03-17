@@ -12,11 +12,15 @@ public interface AcItemsMapper {
 
     long selectCount();
 
+    long countByParam(@Param("field") String field, @Param("word") String word);
+
     List<AcItems> selectByPage(@Param("pageStart") Integer pageStart, @Param("pageSize") Integer pageSize);
 
-    List<AcItems> selectByParam(@Param("field") String field, @Param("word") String word);
+    List<AcItems> selectByParam(@Param("field") String field, @Param("word") String word,
+                                @Param("orderField") String orderField, @Param("orderType") String orderType);
 
-    List<AcItems> selectByParams(@Param("field") String field, @Param("word") String word, @Param("seq") String seq,
+    List<AcItems> selectByParams(@Param("field") String field, @Param("word") String word,
+                                 @Param("orderField") String orderField, @Param("orderType") String orderType,
                                  @Param("start") int start, @Param("size") int size);
 
     List<AcItems> sort(@Param("category") String category, @Param("start") int start, @Param("size") int size);
@@ -27,7 +31,7 @@ public interface AcItemsMapper {
 
     int updateById(AcItems acItems);
 
-    int updateStatus(@Param("id") int id,@Param("status")int status);
+    int updateStatus(@Param("id") int id, @Param("status") int status);
 
     int updateRating(@Param("rating") float rating, @Param("acId") int acId);
 

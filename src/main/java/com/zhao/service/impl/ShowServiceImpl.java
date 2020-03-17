@@ -4,6 +4,7 @@ import com.zhao.mapper.*;
 import com.zhao.pojo.*;
 import com.zhao.util.PageInfo;
 import com.zhao.service.ShowService;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
 
 @Service
 public class ShowServiceImpl implements ShowService {
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private AcItemsMapper acItemsMapper;
     @Resource
@@ -40,13 +42,32 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<AcItems> findByWord(String field, String word) {
-        return acItemsMapper.selectByParam(field, word);
-    }
-
-    @Override
-    public List<AcItems> findByParam(String field, String word, String seq, int start, int end) {
-        return acItemsMapper.selectByParams(field, word, seq, 0, end);
+    public PageInfo showAcItems(String path, String orderField, String orderType, String page) {
+        String word;
+        switch (path) {
+            case "anime":
+                word = "A";
+                break;
+            case "comic":
+                word = "C";
+                break;
+            default:
+                word = path;
+        }
+        PageInfo pageInfo = new PageInfo();
+        int pSize = 16;
+        int pNum = 1;
+        if (isNumber(page)) {
+            pNum = Integer.parseInt(page);
+        }
+        pageInfo.setPageNumber(pNum);
+        pageInfo.setPageSize(pSize);
+        int pStart = pSize * (pNum - 1);
+        long count = acItemsMapper.countByParam("category", word);
+        List<AcItems> list = acItemsMapper.selectByParams("category", word, orderField, orderType, pStart, pSize);
+        pageInfo.setList(list);
+        pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
+        return pageInfo;
     }
 
     @Override
@@ -75,12 +96,14 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public float calRating(String acId, float rating) {
         float newRating = markMapper.avgRating(Integer.parseInt(acId));
-        float RealRating = (float) Math.round(newRating * 10) / 10;
-        if (rating == RealRating) {
+        float realRating = (float) Math.round(newRating * 10) / 10;
+        System.out.println("newRating"+newRating+"RealRating"+realRating);
+        if (rating == realRating) {
             return rating;
         } else {
-            int result=acItemsMapper.updateRating(RealRating, Integer.parseInt(acId));
-            return RealRating;
+            int result = acItemsMapper.updateRating(realRating, Integer.parseInt(acId));
+            System.out.println(result);
+            return realRating;
         }
     }
 
@@ -136,13 +159,20 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public List<Talk> showAllTalk() {
-        return talkMapper.selectAll(1,"time","DESC");
+        return talkMapper.selectAll(1, "time", "DESC");
     }
 
     @Override
-    public Talk showTalk(String tid) {
+    public Talk showTalk(String tid, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("currentUser");
         if (tid != null && isNumber(tid)) {
-            return talkMapper.selectOne(Integer.parseInt(tid));
+            Talk talk = talkMapper.selectOne(Integer.parseInt(tid));
+            if (talk.getStatus() >= 2 && talk.getUid() != user.getUid()) {
+                return null;
+            } /*else {
+                System.out.println(talk.getStatus() <= 0 && talk.getUid() != user.getUid());
+            }*/
+            return talk;
         }
         return null;
     }
@@ -212,5 +242,107 @@ public class ShowServiceImpl implements ShowService {
             return "发送失败!";
         }
         return "success";
+    }
+
+    @Override
+    public Map<String, Object> showUserInfo(String uid, String page) {
+        if (!isNumber(uid)) {
+            return null;
+        }
+        if (page == null || page.equals("")) {
+            page = "info";
+        }
+        System.out.println(uid);
+        int id = Integer.parseInt(uid);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            return null;
+        }
+        map.put("user", user);
+        List<String> roles = userMapper.selectRolesByUsername(user.getUsername());
+        map.put("roles", roles);
+        if (page.equalsIgnoreCase("talk")) {
+            List<Talk> talks = talkMapper.selectByUid(id, "time", "DESC");
+            map.put("talks", talks);
+        } else if (page.equalsIgnoreCase("mark")) {
+            List<Mark> marks = markMapper.selectByUid(id, "create_date", "DESC");
+            map.put("marks", marks);
+        } else if (page.equalsIgnoreCase("info")) {
+            System.out.println("编辑用户信息");
+        } else {
+            return null;
+        }
+        return map;
+    }
+
+    @Override
+    public String updateUser(User user, MultipartFile file) throws IOException {
+        User original = userMapper.selectById(user.getUid());
+        if (original.equals(user) && file.getSize() <= 0) {
+            return "没有修改内容!";
+        }
+        String email = user.getEmail();
+        if (!email.equalsIgnoreCase(original.getEmail())) {
+            long num = userMapper.countField("email", email);
+            if (num > 0) {
+                return "邮箱已存在!";
+            }
+        }
+        String fileName = user.getPhoto();
+        if (file.getSize() > 0) {
+            String prefix = user.getUid() + "-" + System.currentTimeMillis();
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            if (!isExist(ACCEPT_IMAGES, suffix)) {
+                return "文件格式不正确!";
+            }
+            fileName = prefix + suffix;
+            file.transferTo(new File(UPLOAD_AVATAR, fileName));
+            user.setPhoto(fileName);
+            if (!original.getPhoto().equals("")) {
+                String dir = UPLOAD_AVATAR + original.getPhoto();
+                FileUtils.forceDelete(new File(dir));
+            }
+        }
+        System.out.println(fileName + original.getPhoto());
+        int flag = userMapper.updateUser(user);
+        if (flag > 0) {
+            return "success";
+        }
+        if (!fileName.equals(original.getPhoto())) {
+            String str = UPLOAD_AVATAR + fileName;
+            FileUtils.forceDelete(new File(str));
+        }
+        return "数据库更新失败!";
+    }
+
+    @Override
+    public User showUser(int uid) {
+        return userMapper.selectById(uid);
+    }
+
+    @Override
+    public List<?> findByWord(String conditions, String word, String order) {
+        List<?> list = new ArrayList<>();
+        if (word == null || word.trim().equals("")) {
+            return list;
+        }
+        String field;
+        String key = word;
+        if (conditions == null || conditions.equals("")) {
+            field = "all";
+        } else {
+            field = conditions;
+        }
+        if (isExist(WILDCARD, word)) {
+            key = "\\" + word;
+        }
+        String orderField = order;
+        if (order == null || order.equals("") || order.equals("default")) {
+            orderField = "name";
+        }
+        list = acItemsMapper.selectByParam(field, key, orderField, "ASC");
+        return list;
     }
 }

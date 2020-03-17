@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${'[@'+talk.user.username+']的讨论'}"></title>
+    <link th:replace="/index :: icon"/>
     <style type="text/css">
         div {
             /*border-style: dotted;*/
@@ -11,23 +12,6 @@
         textarea {
             resize: none;
             width: 100%;
-        }
-
-        .img-div {
-            text-align: center;
-            width: 32%;
-            height: 150px;
-            float: left;
-            margin-left: 1%;
-            margin-bottom: 5px;
-            position: relative;
-        }
-
-        .div-img {
-            width: auto;
-            height: auto;
-            max-height: 100%;
-            max-width: 100%;
         }
     </style>
 </head>
@@ -51,7 +35,7 @@
                         <span class="glyphicon glyphicon-th-list"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">分享</a></li>
+                        <li th:unless="${talk.status>=2}"><a href="#">分享</a></li>
                         <li shiro:user class="divider"></li>
                         <li shiro:user><a href="#">收藏</a></li>
                         <li shiro:user>
@@ -71,6 +55,13 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="alert alert-danger alert-dismissable" th:if="${talk.status>=2}">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-hidden="true">
+                &times;
+            </button>
+            因用户举报，本动态已被管理员隐藏！请删除动态或更改内容后重新发布。
         </div>
         <div class="panel-body" style="width: 100%">
             <p class="p"><a th:href="@{#}" th:each="t : ${talk.topicArr}">#[[${t}]]#&nbsp;&nbsp;</a></p>

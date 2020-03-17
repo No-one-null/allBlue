@@ -13,25 +13,7 @@
         }
 
         .new-input {
-            width: 20%;
-        }
-
-        .toolbar {
-            border: 1px solid #ccc;
-            background-color: #B0E0E6;
-            width: 75%;
-            position: relative;
-            left: 15%;
-            z-index: 201;
-        }
-
-        .text {
-            border: 1px solid #ccc;
-            height: 70%;
-            width: 75%;
-            position: relative;
-            left: 15%;
-            background-color: #F0FFFF;
+            width: 50%;
         }
 
         i {
@@ -54,18 +36,18 @@
                 <input id="submit-btn" type="button" value="发布"
                        style="position: absolute;right: 4%;width: 100px">
             </ol>
+            <!--编辑内容-->
+            <div id="title" class="title-div">
+                <label for="news-title">标题：</label>
+                <input id="news-title" type="text" class="new-input" placeholder="请输入标题">
+                <br>
+                <label for="news-type">类型：</label>
+                <select id="news-type">
+                    <option th:each="t : ${type}">[[${t}]]</option>
+                </select>
+            </div>
         </div>
-        <!--编辑内容-->
-        <div id="title" class="title-div">
-            <label for="news-title">标题：</label>
-            <input id="news-title" type="text" class="new-input" placeholder="请输入标题">
-            <br>
-            <label for="news-type">类型：</label>
-            <select id="news-type">
-                <option th:each="t : ${type}">[[${t}]]</option>
-            </select>
-            <h4>正文</h4>
-        </div>
+        <!--        <h4 style="text-align: center;">正文</h4>-->
         <div id="editor-toolbar" class="toolbar"></div>
         <div id="editor-text" class="text"></div>
         <!--        <div style="height: 5%;"></div>-->
@@ -107,32 +89,44 @@
 
             $("#submit-btn").click(function () {
                 let html = editor.txt.html();
+                if (html != null) {
+                    alert(html.length);
+                }
+                let text = editor.txt.text();
                 let title = $("#news-title").val();
-                let author = $("#news-author").val();
                 let type = $("#news-type").val();
                 if (title === '') {
                     alert("请输入标题！");
-                    return false;
+                    return;
                 }
                 if (text === '') {
                     alert("请输入内容！");
-                    return false;
+                    return;
                 }
-                author = '[[${session.currentUser.username}]]';
-                $.post("/back/submitNews", {
-                    html: html,
-                    title: title,
-                    author: author,
-                    type: type
-                }, function (data, status) {
-                    if (status === 'success') {
-                        if (data === "success") {
-                            location.reload();
-                            alert("发布成功！");
-                            return;
+                if (html.length > 2000000) {
+                    return alert("内容太多！请减少图片或文字……");
+                }
+                $.ajax({
+                    url: "[[@{/back/submitNews}]]",
+                    method: "post",
+                    async: false,
+                    data: {
+                        newsContent: html,
+                        newsTitle: title,
+                        newsAuthor: '[[${session.currentUser.username}]]',
+                        newsType: type
+                    }, success: function (data, status) {
+                        if (status === 'success') {
+                            if (data === "success") {
+                                location.reload();
+                                alert("发布成功！");
+                            } else {
+                                alert(data);
+                            }
                         }
+                    }, error: function (xhr) {
+                        alert("提交失败，请重试！");
                     }
-                    alert("提交失败，请重试！")
                 });
             });
         </script>

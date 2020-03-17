@@ -10,3 +10,12 @@ function getObjectURL(file) {
     }
     return url;
 }
+
+//搜索
+function search(word, conditions) {
+    if (word === '') {
+        alert("不能为空!");
+        return;
+    }
+    location.href = searchUrl + "/" + word + "?conditions=" + conditions;
+}

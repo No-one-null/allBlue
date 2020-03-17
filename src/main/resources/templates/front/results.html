@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${list!=null}" th:text="${' '+keyword+' 的搜索结果'}"></title>
+    <title th:if="${list==null}">搜索</title>
+    <link th:replace="/index :: icon"/>
+</head>
+<body>
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-success">
+        <form role="form" th:action="@{/search}" method="get" id="main-form"
+              class="bs-example bs-example-form panel-heading text-center">
+            <div class="input-group col-md-offset-2 col-md-9">
+                <label for="search"></label>
+                <input type="text" class="form-control" id="search" name="s" placeholder="按回车搜索"
+                       autofocus th:value="${keyword}">
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default">搜索动漫
+                    </button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="#">搜索话题</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">搜索资讯</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">搜索用户</a>
+                        </li>
+                    </ul>
+                </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+            <button id="more" type="button" class="btn btn-link btn-sm" th:text="${more.open}"></button>
+            <div name="more" class="back-snow form-group" th:hidden="${conditions==null||#strings.isEmpty(conditions)}">
+                <h5 class="back-purple">按条件搜索</h5>
+                <label class="radio-inline">
+                    <input type="radio" th:checked="${conditions eq 'name'}" name="conditions" value="name">名字
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" th:checked="${conditions eq 'author'}" name="conditions" value="author">作者
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" th:checked="${conditions eq 'year'}" name="conditions" value="year">年份
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" th:checked="${conditions eq 'info'}" name="conditions" value="info">简介
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" th:checked="${conditions eq 'country'}" name="conditions" value="country">国家/地区
+                </label><br>
+                <button id="clean-conditions" type="submit" class="btn btn-link btn-sm">清空条件
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button type="submit" class="btn btn-link btn-sm">确认
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+            </div>
+            <div name="more" class="back-white form-group" th:hidden="${sort==null||#strings.isEmpty(sort)}">
+                <h5 class="back-green">按条件排序</h5>
+                <label class="radio-inline">
+                    <input type="radio" name="sort" th:checked="${sort eq 'name'}" value="name">名字
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sort" th:checked="${sort eq 'author'}" value="author">作者
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sort" th:checked="${sort eq 'year'}" value="year">年份
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sort" th:checked="${sort eq 'country'}" value="country">国家/地区
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sort" th:checked="${sort eq 'rating'}" value="rating">评分
+                </label><br>
+                <button id="clean-sort" type="submit" class="btn btn-link btn-sm">还原默认
+                    <span class="glyphicon glyphicon-repeat"></span>
+                </button>
+                <button id="sort" type="submit" class="btn btn-link btn-sm">确认
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+            </div>
+        </form>
+        <div class="alert alert-warning text-center" th:if="${list==null}">
+            输入关键词进行搜索
+        </div>
+        <div class="alert alert-danger text-center panel-body" th:if="${list!=null&&#lists.isEmpty(list)}">
+            没有结果……换关键词试试。
+        </div>
+        <div class="alert alert-info text-center" th:unless="${#lists.isEmpty(list)}">
+            找到<span class="badge" th:text="${list.size()}"></span>条记录。
+        </div>
+        <div class="well" th:unless="${#lists.isEmpty(list)}" th:each="ac : ${list}">
+            <a target="_blank" th:href="@{'/acInfo/'+${ac.id}}">
+                <img class="cover" alt="封面/海报" th:title="${ac.name}"
+                     th:src="@{'/images/cover/'+${#strings.isEmpty(ac.image)?'none.png':ac.image}}">
+            </a>
+            <div class="pull-right col-md-9">
+                <h4>
+                    <small th:switch="${ac.category}">
+                        <span th:case="comic">[漫画]</span>
+                        <span th:case="anime">[动画]</span>
+                        <span th:case="*">[其他]</span>
+                    </small>
+                    <a target="_blank" th:href="@{'/acInfo/'+${ac.id}}">
+                        <b th:text="${ac.name}"></b>
+                    </a>
+                </h4>
+                <span th:text="${ac.author}"></span>
+                /<em th:text="${ac.year}"></em>
+                /<i th:text="${ac.country}"></i><br>
+                <p>
+                    <i style="color: gold;background-color: white;"
+                       th:text="${'['+ac.star(ac.rating)+ac.rating+']'}"></i>
+                    <small th:text="${ac.info}"></small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="#" class="bottom-right" th:fragment="top">
+    <img alt="Top" th:src="@{/images/character/LuoTianyi.gif}" title="回到顶部">
+</a>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#search").select();
+        $("#main-form").on("submit", function () {
+            if ($("#search").val() === '') {
+                alert("不能为空!");
+                return false;
+            }
+            return true;
+        });
+        $("#clean-conditions").click(function () {
+            $("input[name='conditions']").removeAttr("checked");
+        });
+        $("#clean-sort").click(function () {
+            $("input[name='sort']").removeAttr("checked");
+        });
+        let flag = $("div[name='more'][hidden]").length;
+        $("#text").val(flag);
+        const $more = $("#more");
+        if (flag < 1) {
+            $more.text("[[${more.close}]]");
+        }
+        $more.click(function () {
+            if ($(this).text() === '[[${more.open}]]') {
+                $("div[name='more']").show();
+                $(this).text('[[${more.close}]]');
+            } else {
+                $("div[name='more']").hide();
+                $(this).text('[[${more.open}]]');
+            }
+        })
+    });
+</script>
+</html>

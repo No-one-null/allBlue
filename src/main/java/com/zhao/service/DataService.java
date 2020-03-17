@@ -24,9 +24,9 @@ public interface DataService {
 
     List<AcItems> allAcItems();
 
-    AcItems findById(Integer id);
+    AcItems findById(String id);
 
-    String updateOne(AcItems acItems,MultipartFile file) throws IOException;
+    String updateOne(AcItems acItems, MultipartFile file) throws IOException;
 
     boolean DeleteOne(int id) throws IOException;
 
@@ -34,11 +34,11 @@ public interface DataService {
 
     AcNews findNewsById(String id);
 
-    Boolean updNews(String id, String status);
-
-    String editNews(String id,String content);
+    String editNews(String id, String content, String type, String status);
 
     String checkTopic(String type, int tid, String deal, int uid);
 
     Map<String, Object> findTalk(String type, int tid);
+
+    Map<String, Object> showUserAndRoles(String uid);
 }

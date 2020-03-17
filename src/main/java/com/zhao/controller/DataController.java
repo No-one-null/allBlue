@@ -53,8 +53,8 @@ public class DataController {
         if (path.equals("complaint")) {
             str = "/back/topic/complaint_list";
         }
-        if(path.equals("topic")){
-            str="/back/topic/topic_list";
+        if (path.equals("topic")) {
+            str = "/back/topic/topic_list";
         }
         PageInfo pageInfo = dataServiceImpl.showPage(path, pNum, pSize);
         model.addAttribute("pages", pageInfo);
@@ -99,9 +99,13 @@ public class DataController {
      */
     @RequestMapping("/user/uid={uid}")
     public String userDetail(@PathVariable String uid, Model model) {
-        User user = loginServiceImpl.showOne(uid);
-        System.out.println(user);
-        model.addAttribute("user", user);
+        Map<String, Object> map = dataServiceImpl.showUserAndRoles(uid);
+        if (map == null) {
+            return ERR404;
+        }
+        System.out.println(map);
+        model.addAttribute("user", map.get("user"));
+        model.addAttribute("roles", map.get("roles"));
         return "/back/user/userDetail";
     }
 
@@ -110,10 +114,10 @@ public class DataController {
      */
     @RequestMapping("/add{path}")
     public String add(@PathVariable String path, Model model, AcItems acItems) {
-        System.out.println(acItems);//不使用会报警告
         String str = ERR404;
         if (path.equalsIgnoreCase("Items")) {
-            model.addAttribute("countries",COMMON_COUNTRY);
+            System.out.println(acItems);//不使用会报警告
+            model.addAttribute("countries", COMMON_COUNTRY);
             str = "back/acInfo/ac_add";
         }
         if (path.equalsIgnoreCase("News")) {
@@ -140,27 +144,27 @@ public class DataController {
 
     @RequestMapping("/edit/{id}")
     public String editItem(@PathVariable String id, Model model) {
-        AcItems ac = dataServiceImpl.findById(Integer.valueOf(id));
+        AcItems ac = dataServiceImpl.findById(id);
         model.addAttribute("ac", ac);
-        model.addAttribute("countries",COMMON_COUNTRY);
+        model.addAttribute("countries", COMMON_COUNTRY);
         return "/back/acInfo/ac_edit";
     }
 
     @ResponseBody
     @RequestMapping("/editOk")
-    public Map<String,Object> editOk(@Valid AcItems acItems, MultipartFile file, BindingResult result) {
+    public Map<String, Object> editOk(@Valid AcItems acItems, MultipartFile file, BindingResult result) {
         System.out.println(acItems);
         String message;
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         if (!result.hasErrors()) {
             try {
-                message=dataServiceImpl.updateOne(acItems,file);
+                message = dataServiceImpl.updateOne(acItems, file);
             } catch (IOException e) {
-                message="上传图片时出错!";
+                message = "上传图片时出错!";
                 e.printStackTrace();
             }
-        }else {
-            message="传入数据错误!";
+        } else {
+            message = "传入数据错误!";
         }
         map.put("message", message);
         return map;
@@ -169,7 +173,7 @@ public class DataController {
     @RequestMapping("/deleteOne/{id}")
     public String deleteOne(@PathVariable String id) {
         try {
-            boolean b=dataServiceImpl.DeleteOne(Integer.parseInt(id));
+            boolean b = dataServiceImpl.DeleteOne(Integer.parseInt(id));
             System.out.println(b);
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,14 +183,9 @@ public class DataController {
 
     @ResponseBody
     @RequestMapping("/submitNews")
-    public String submitNews(HttpServletRequest request) {
-        AcNews acNews = new AcNews();
-        acNews.setNewsAuthor(request.getParameter("author"));
-        acNews.setNewsContent(request.getParameter("html"));
-        acNews.setNewsTitle(request.getParameter("title"));
-        acNews.setNewsType(request.getParameter("type"));
-        System.out.println(acNews);
-        Boolean isWork = dataServiceImpl.addNews(acNews);
+    public String submitNews(HttpServletRequest request, AcNews news) {
+        System.out.println(news);
+        Boolean isWork = dataServiceImpl.addNews(news);
         if (isWork) {
             return "success";
         }
@@ -202,19 +201,9 @@ public class DataController {
     }
 
     @ResponseBody
-    @RequestMapping("/editStatus")
-    public String editStatus(String id, String status) {
-        System.out.println(id + status);
-        if (dataServiceImpl.updNews(id, status)) {
-            return "success";
-        }
-        return "fail";
-    }
-
-    @ResponseBody
     @RequestMapping("/editNews")
-    public String nextNews(String id,String content) {
-        return dataServiceImpl.editNews(id,content);
+    public String nextNews(String id, String content, String type, String status) {
+        return dataServiceImpl.editNews(id, content, type, status);
     }
 
     @ResponseBody

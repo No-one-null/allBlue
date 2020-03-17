@@ -3,6 +3,8 @@ package com.zhao.pojo;
 
 import java.util.Date;
 
+import static com.zhao.util.Constant.PROGRESS_ARRAY;
+
 public class Mark {
 
     private int uid;
@@ -13,6 +15,7 @@ public class Mark {
     private int progress;
     private Date createDate;
     private User user;
+    private AcItems acItems;
 
     @Override
     public String toString() {
@@ -25,6 +28,7 @@ public class Mark {
                 ", progress=" + progress +
                 ", createDate=" + createDate +
                 ", user=" + user +
+                ", acItems=" + acItems +
                 '}';
     }
 
@@ -36,7 +40,6 @@ public class Mark {
         this.uid = uid;
     }
 
-
     public int getAcId() {
         return acId;
     }
@@ -44,7 +47,6 @@ public class Mark {
     public void setAcId(int acId) {
         this.acId = acId;
     }
-
 
     public String getComment() {
         return comment;
@@ -54,7 +56,6 @@ public class Mark {
         this.comment = comment;
     }
 
-
     public int getRating() {
         return rating;
     }
@@ -62,7 +63,6 @@ public class Mark {
     public void setRating(int rating) {
         this.rating = rating;
     }
-
 
     public String getTag() {
         return tag;
@@ -72,7 +72,6 @@ public class Mark {
         this.tag = tag;
     }
 
-
     public int getProgress() {
         return progress;
     }
@@ -80,7 +79,6 @@ public class Mark {
     public void setProgress(int progress) {
         this.progress = progress;
     }
-
 
     public Date getCreateDate() {
         return createDate;
@@ -96,5 +94,31 @@ public class Mark {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public AcItems getAcItems() {
+        return acItems;
+    }
+
+    public void setAcItems(AcItems acItems) {
+        this.acItems = acItems;
+    }
+
+    public String progress(int progress) {
+        return PROGRESS_ARRAY[progress];
+    }
+
+    public String star(int rating) {
+        StringBuilder str = new StringBuilder("暂无");
+        if (rating > 0) {
+            str = new StringBuilder();
+            for (int i = 0; i < rating; i++) {
+                str.append('★');
+            }
+            for (int i = rating; i < 5; i++) {
+                str.append('☆');
+            }
+        }
+        return str.toString();
     }
 }

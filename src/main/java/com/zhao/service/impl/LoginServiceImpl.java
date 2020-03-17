@@ -3,6 +3,7 @@ package com.zhao.service.impl;
 import com.zhao.mapper.UserMapper;
 import com.zhao.pojo.User;
 import com.zhao.service.LoginService;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +24,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean isExistName(String username) {
-        List<User> users = userMapper.selectByName(username);
-        if (users.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        User users = userMapper.selectByName(username, 0);
+        return users == null;
     }
 
     @Override
@@ -43,16 +40,30 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User showOne(String uid) {
-        return userMapper.selectById(Integer.valueOf(uid));
+        return userMapper.selectById(Integer.parseInt(uid));
     }
 
     @Override
-    public int addUser(User user) {
-        return userMapper.insertUser(user);
+    public String addUser(User user) {
+        User user1 = userMapper.selectUserByName(user.getUsername());
+        if (user1 != null) {
+            return "用户名已存在";
+        }
+        long num = userMapper.countField("email", user.getEmail());
+        if (num > 0) {
+            return "该邮箱已注册!";
+        }
+        Md5Hash md5Hash = new Md5Hash(user.getPassword(), user.getUsername());
+        user.setPassword(md5Hash.toString());
+        int result = userMapper.insertUser(user);
+        if (result > 0) {
+            return "success";
+        }
+        return "数据库更新失败!";
     }
 
     @Override
-    public List checkRoles(String username) {
+    public List<?> checkRoles(String username) {
         return userMapper.selectRolesByUsername(username);
     }
 }

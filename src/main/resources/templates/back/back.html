@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" th:href="${#httpServletRequest.getContextPath()}+'/'">
+                <a class="navbar-brand" th:href="${#httpServletRequest.getContextPath()}+'/'" target="_blank">
                     <img alt="logo" th:src="@{/images/logo.png}" height="30px" width="180px">
                 </a>
             </div>
@@ -75,7 +75,7 @@
     </nav>
 </div><!-- /.hrms_brand_nav -->
 <!--分页-->
-<div class="panel-footer" th:fragment="page" style="height: 100px">
+<div th:fragment="page" class="panel-footer" style="height: 90px;">
     <div class="page-information">
         当前第<span class="badge" id="pNum" th:text="${pages.pageNumber}"></span>页，共有<span
             class="badge" id="pTotal" th:text="${pages.total}"></span>页，总记录数<span
@@ -85,14 +85,15 @@
     </div>
     <div class="page-information pull-right">
         <ul class="pagination ul-page">
-            <li><a href="#" onclick="clickPage(this)">首页</a></li>
+            <li><a href="javascript:void(0);" onclick="clickPage(this)">首页</a></li>
             <li id="prePage-li">
-                <a href="#" aria-label="Previous"><span aria-hidden="true" onclick="clickPage(this)">上一页</span></a>
+                <a href="javascript:void(0);" aria-label="Previous"><span aria-hidden="true" onclick="clickPage(this)">上一页</span></a>
             </li>
             <li id="nextPage-li">
-                <a href="#" aria-label="Next"><span aria-hidden="true" onclick="clickPage(this)">下一页</span></a>
+                <a href="javascript:void(0);" aria-label="Next"><span aria-hidden="true"
+                                                                      onclick="clickPage(this)">下一页</span></a>
             </li>
-            <li><a href="#" onclick="clickPage(this)">尾页</a></li>
+            <li><a href="javascript:void(0);" onclick="clickPage(this)">尾页</a></li>
             <li><label for="pNum-text">跳到：</label>
                 <input id="pNum-text" type="text" size="1" th:value="${pages.pageNumber}">页
                 <input id="pNum-btn" type="button" value="确定">

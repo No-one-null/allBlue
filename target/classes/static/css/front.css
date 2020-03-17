@@ -17,31 +17,25 @@ body {
     font-size: 150%;
 }
 
-button {
-    width: 75px;
-}
-
+/* 未访问链接*/
 a:link {
     text-decoration: none;
 }
 
-/* 未访问链接*/
+/* 已访问链接 */
 a:visited {
     text-decoration: none;
 }
 
-/* 已访问链接 */
+/* 鼠标移动到链接上 */
 a:hover {
     text-decoration: underline;
 }
 
-/* 鼠标移动到链接上 */
+/* 鼠标点击时 */
 a:active {
     text-decoration: none;
 }
-
-/* 鼠标点击时 */
-
 
 /**/
 .p {
@@ -51,7 +45,7 @@ a:active {
     white-space: pre-wrap;
 }
 
-.main-body {
+.back-Miku {
     background: url('../images/background/background.jpg') no-repeat center center fixed #87CEFA;
     background-size: cover;
     height: auto;
@@ -229,11 +223,15 @@ pre {
     Letter-spacing: -0.4px;
 }
 
+textarea {
+    resize: none;
+}
+
 /*
 链接
  */
 .link-div {
-    height: 100px;
+    height: 60px;
     border-style: dotted;
     border-color: #1E90FF;
     background-color: #BBFFFF;
@@ -408,4 +406,108 @@ pre {
 .right-btn {
     float: right;
     width: 20%;
+}
+
+.img-div {
+    text-align: center;
+    width: 32%;
+    height: 150px;
+    float: left;
+    margin-left: 1%;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.div-img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.img-div-3 {
+    width: 300px;
+    height: 300px;
+    line-height: 300px;
+    margin: auto;
+}
+
+.img-div-3 img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+
+.img-div-2 {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    margin: auto;
+}
+
+.img-div-2 img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+
+.img-div-1 {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    margin: auto;
+}
+
+.img-div-1 img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+
+.back {
+    background-color: #F0FFFF;
+}
+
+.back-white {
+    background-color: white;
+}
+
+.back-ghost {
+    background-color: #F0F8FF;
+}
+
+.back-gray {
+    background-color: #f2f2f2;
+}
+
+.back-snow {
+    background-color: #FFFAFA;
+}
+
+.back-yellow {
+    background-color: #F5F5DC;
+}
+
+.back-purple {
+    background-color: #E6E6FA;
+}
+
+.button-200 {
+    width: 200px;
+}
+
+.border-blue {
+    border-style: ridge;
+    border-color: cornflowerblue;
+}
+
+.cover {
+    width: 160px;
+    height: 240px;
 }

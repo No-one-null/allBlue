@@ -4,8 +4,21 @@
     <resultMap id="talkMap" type="Talk">
         <id column="tid" property="tid"/>
         <result column="uid" property="uid"/>
-        <!--        <association property="countComplaint" select="com.zhao.mapper.ComplaintMapper.countByTalk" column="tid"/>-->
         <association property="user" select="com.zhao.mapper.UserMapper.selectById" column="uid"/>
+    </resultMap>
+    <resultMap id="talkAndUser" type="talk">
+        <id column="tid" property="tid"/>
+        <result property="uid" column="t_uid"/>
+        <result property="status" column="t_status"/>
+        <result property="content" column="content"/>
+        <result property="pictures" column="pictures"/>
+        <result property="time" column="time"/>
+        <result property="topic" column="topic"/>
+        <association property="user" javaType="User">
+            <id column="u_uid" property="uid"/>
+            <result column="username" property="username"/>
+            <result column="photo" property="photo"/>
+        </association>
     </resultMap>
     <resultMap id="myTalk" type="Talk">
         <id column="tid" property="tid"/>
@@ -54,8 +67,9 @@
         </where>
         ORDER BY `time` DESC
     </select>
-    <select id="selectByParams" resultMap="talkMap">
-        SELECT * FROM `talk` t
+    <select id="selectByParams" resultMap="talkAndUser">
+        SELECT `tid`,t.`uid` t_uid,content,`pictures`,`time`,`topic`,t.`status` t_status,u.`uid` u_uid,`username`,`photo`
+        FROM `talk` t
         LEFT JOIN `user` u
         ON t.uid=u.uid
         <where>
@@ -72,14 +86,14 @@
             </choose>
         </where>
         <if test="orderField != null and orderField != ''">
-        <choose>
-            <when test="orderField=='topic'">
-                ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
-            </when>
-            <otherwise>
-                ORDER BY ${orderField} ${orderType}
-            </otherwise>
-        </choose>
+            <choose>
+                <when test="orderField=='topic'">
+                    ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
+                </when>
+                <otherwise>
+                    ORDER BY ${orderField} ${orderType}
+                </otherwise>
+            </choose>
         </if>
         <if test="pSize!=null and pSize!=0">
             LIMIT #{pStart},#{pSize}

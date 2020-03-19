@@ -95,7 +95,7 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional
     @Override
-    public float calRating(String acId, float rating) {
+    public float calRating(String acId, float rating)  throws Exception{
         float newRating = markMapper.avgRating(Integer.parseInt(acId));
         float realRating = (float) Math.round(newRating * 10) / 10;
         System.out.println("newRating" + newRating + "RealRating" + realRating);
@@ -327,7 +327,7 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<?> findByWord(String tb,String conditions, String word, String order) {
+    public List<?> findByWord(String tb, String conditions, String word, String order) throws Exception{
         List<?> list;
         if (word == null || word.trim().equals("")) {
             return new ArrayList<>();
@@ -335,39 +335,36 @@ public class ShowServiceImpl implements ShowService {
         String field;
         if (conditions == null || conditions.equals("")) {
             field = "all";
-        }else {
+        } else {
             field = conditions;
         }
-        String key = word;
-        if (isExist(WILDCARD, word)) {
-            key = "\\" + word;
-        }
+        String key = repWildcard(word);
         String orderField = order;
         if (order == null || order.equals("") || order.equals("default")) {
-            switch (tb){
+            switch (tb) {
                 case "acItems":
                     orderField = "name";
                     break;
                 case "talk":
-                    orderField="time";
+                    orderField = "time";
                     break;
                 default:
-                    orderField="";
+                    orderField = "";
             }
         }
-        String orderType="ASC";
-        if(orderField.equalsIgnoreCase("time")){
-            orderType="DESC";
+        String orderType = "ASC";
+        if (orderField.equals("time")||orderField.equals("rating")) {
+            orderType = "DESC";
         }
-        switch (tb){
+        switch (tb) {
             case "acItems":
                 list = acItemsMapper.selectByParam(field, key, orderField, orderType);
                 break;
             case "talk":
-                list=talkMapper.selectByParams(field,key,orderField,orderType,0,0,1);
+                list = talkMapper.selectByParams(field, key, orderField, orderType, 0, 0, 1);
                 break;
             default:
-                list=new ArrayList<>();
+                list = new ArrayList<>();
         }
         return list;
     }

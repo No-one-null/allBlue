@@ -1,7 +1,5 @@
 package com.zhao.test;
 
-import com.zhao.mapper.ComplaintMapper;
-import com.zhao.pojo.AcItems;
 import com.zhao.shiro.realm.AuthRealm;
 import com.zhao.util.CommonUtil;
 import org.apache.shiro.SecurityUtils;
@@ -13,6 +11,8 @@ import org.apache.shiro.subject.Subject;
 import org.junit.Test;
 
 import java.util.regex.Pattern;
+
+import static com.zhao.util.CommonUtil.*;
 
 public class UserRealmTest {
     @Test
@@ -73,15 +73,27 @@ public class UserRealmTest {
     }
 
     @Test
-    public void testZhengZe(){
+    public void testZhengZe() {
         String pattern = "^#[\\s\\S]*#$";
         boolean isMatch1 = Pattern.matches(pattern, "#456#");
         boolean isMatch2 = Pattern.matches(pattern, "1#456#2");
         boolean isMatch3 = Pattern.matches(pattern, "##");
-        System.out.println(isMatch1+"|"+isMatch2+"|"+isMatch3);
-        String str="#123#";
-        System.out.println(str.substring(1,str.length()-1));
-        String str2="##";
-        System.out.println(str2.substring(1,str2.length()-1));
+        System.out.println(isMatch1 + "|" + isMatch2 + "|" + isMatch3);
+        String str = "#123#";
+        System.out.println(str.substring(1, str.length() - 1));
+        String str2 = "##";
+        System.out.println(str2.substring(1, str2.length() - 1));
+    }
+
+    @Test
+    public void testReplace(){
+        String str="_";
+        String str1="__";
+        String str2="_1_";
+        System.out.println(repWildcard(str)+"|"+repWildcard(str1)+"|"+repWildcard(str2));
+        str="%";
+        str1="%%";
+        str2="%1%";
+        System.out.println(repWildcard(str)+"|"+repWildcard(str1)+"|"+repWildcard(str2));
     }
 }

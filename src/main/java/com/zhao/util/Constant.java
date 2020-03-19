@@ -22,7 +22,6 @@ public interface Constant {
     public static final String[] COMMON_COUNTRY = {"中国大陆", "日本", "韩国", "港台", "美国", "其他"};
     public static final String[] PROGRESS_ARRAY = {"暂无", "想看", "在看", "看过", "搁置", "已弃"};
     public static final String[] ACCEPT_IMAGES = {".jpg", ".png", ".jpeg", ".jfif"};
-    public static final String[] WILDCARD = {"_", "%"};
     public final static Map<String, String> OPEN_CLOSE = new HashMap<String, String>() {{
         put("open", "高级搜索");
         put("close", "关闭");

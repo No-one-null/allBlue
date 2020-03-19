@@ -36,7 +36,7 @@
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-offset-2 col-md-8">
-    <div class="panel panel-warning">
+    <div class="panel panel-primary">
         <div class="info panel-heading">
             <h3>[[${news.newsTitle}]]</h3>
             <h4>发布者：[[${news.newsAuthor}]]</h4>
@@ -46,14 +46,14 @@
         <!--正文-->
         <div class="content panel-body" th:utext="${news.newsContent}"></div>
     </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">评论</h3>
-        </div>
-        <div class="panel-body">
-            这是一个基本的面板
-        </div>
-    </div>
+<!--    <div class="panel panel-info">-->
+<!--        <div class="panel-heading">-->
+<!--            <h3 class="panel-title">评论</h3>-->
+<!--        </div>-->
+<!--        <div class="panel-body">-->
+<!--            这是一个基本的面板-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 <script type="text/javascript">
     // $(".panel").attr("class"," panel-danger");

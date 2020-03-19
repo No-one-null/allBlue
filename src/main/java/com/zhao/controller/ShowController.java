@@ -48,18 +48,17 @@ public class ShowController {
 
     @RequestMapping("/ac/{category}")
     public String redirect(@PathVariable String category) {
+        String str=ERR404;
         if (category.equalsIgnoreCase("anime") || category.equalsIgnoreCase("comic")) {
-            String str = "redirect:/ac/" + category + "/p1";
-            System.out.println(str);
-            return str;
+            str = "redirect:/ac/" + category + "/p1";
         }
         if (category.equalsIgnoreCase("news")) {
-            return "redirect:/news/all";
+            str= "redirect:/news/all";
         }
         if (category.equalsIgnoreCase("topic")) {
-            return "redirect:/topic";
+            str = "redirect:/topic";
         }
-        return ERR404;
+        return str;
     }
 
     @RequestMapping("/ac/{category}/p{page}")
@@ -93,33 +92,35 @@ public class ShowController {
         }
         model.addAttribute("news", news);
         return "/front/news_content";
-    }/*) {
-        String str = "";
-        if (s != null) {
-            str = s.trim();*/
+    }
 
     @RequestMapping("/topic")
-    public String showTopic(Model model,String search, String conditions, String sort) {
-        if(search!=null){
+    public String showTopic(Model model, String search, String conditions, String sort) {
+        if (search != null) {
             model.addAttribute("keyword", search);
             model.addAttribute("sort", sort);
             model.addAttribute("conditions", conditions);
             model.addAttribute("more", OPEN_CLOSE);
             List<?> list;
-            if("".equals(search)){
-                list=null;
-            }else {
+            if ("".equals(search)) {
+                list = null;
+            } else {
                 String pattern = "^#[\\s\\S]*#$";
                 boolean isMatch = Pattern.matches(pattern, search);
-                if(isMatch){
-                    conditions="topic";
-                    search=search.substring(1,search.length()-1);
+                if (isMatch) {
+                    conditions = "topic";
+                    search = search.substring(1, search.length() - 1);
                     model.addAttribute("keyword", search);
                     model.addAttribute("conditions", conditions);
                 }
-                list=showServiceImpl.findByWord("talk",conditions,search.trim(),sort);
+                try {
+                    list = showServiceImpl.findByWord("talk", conditions, search.trim(), sort);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    list=new ArrayList<>();
+                }
             }
-            model.addAttribute("list",list);
+            model.addAttribute("list", list);
             return "/front/topic_search";
         }
         List<Talk> talks = showServiceImpl.showAllTalk();
@@ -370,11 +371,16 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping("/rating")
-    public Map<String, Object> rating(HttpServletRequest request,String acId) {
+    public Map<String, Object> rating(String acId) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println("acId"+acId);
+        System.out.println("acId" + acId);
         AcItems ac = showServiceImpl.findById(acId);
-        float acRating = showServiceImpl.calRating(acId, ac.getRating());
+        float acRating = 0;
+        try {
+            acRating = showServiceImpl.calRating(acId, ac.getRating());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         map.put("acRating", acRating);
         int userNum = showServiceImpl.sumRating(acId);
         map.put("userNum", userNum);
@@ -422,7 +428,9 @@ public class ShowController {
             if (message.equalsIgnoreCase("success")) {
                 User current = showServiceImpl.showUser(user.getUid());
                 request.getSession().setAttribute("currentUser", current);
-                return "redirect:/u" + user.getUid();
+                String str="redirect:/u" + user.getUid();
+                System.out.println(str);
+                return str;
             } else {
                 model.addAttribute("message", message);
             }
@@ -439,13 +447,19 @@ public class ShowController {
         model.addAttribute("sort", sort);
         model.addAttribute("conditions", conditions);
         model.addAttribute("more", OPEN_CLOSE);
-        String str = "";
+        String str;
         if (s != null) {
             str = s.trim();
         } else {
             return "/front/results";
         }
-        List<?> list = showServiceImpl.findByWord("acItems",conditions, str, sort);
+        List<?> list;
+        try {
+            list = showServiceImpl.findByWord("acItems", conditions, str, sort);
+        } catch (Exception e) {
+            e.printStackTrace();
+            list=new ArrayList<>();
+        }
         model.addAttribute("list", list);
         return "/front/results";
     }

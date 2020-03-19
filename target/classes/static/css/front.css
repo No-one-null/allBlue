@@ -387,7 +387,7 @@ textarea {
     width: 100%;
     background-color: #F0FFF0;
     border-style: none;
-    font-family: "Times New Roman", Georgia, Serif;
+    font-family: "Times New Roman", Georgia, serif;
 }
 
 .comment-div-bottom {
@@ -498,7 +498,7 @@ textarea {
     background-color: #E6E6FA;
 }
 
-.back-rose{
+.back-rose {
     background-color: #FFE4E1;
 }
 

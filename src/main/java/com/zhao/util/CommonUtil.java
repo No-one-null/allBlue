@@ -39,4 +39,13 @@ public class CommonUtil {
         }
         return dest;
     }
+
+    public static String repWildcard(String str) {
+        String dest = "";
+        if (str != null) {
+            dest=str.replace("_","\\_");
+            dest=dest.replace("%","\\%");
+        }
+        return dest;
+    }
 }

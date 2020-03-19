@@ -27,8 +27,6 @@ public interface ShowService {
 
     List<Mark> allComments(String acId);
 
-    List<?> findByWord(String conditions, String word, String order);
-
     PageInfo showPage(String path, String type, String pNum, String pSize);
 
     AcNews showNews(String nid);
@@ -54,4 +52,6 @@ public interface ShowService {
     String updateUser(User user, MultipartFile file) throws IOException;
 
     User showUser(int uid);
+
+    List<?> findByWord(String tb,String conditions, String word, String order);
 }

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>动漫资讯</title>
     <script>
-        var pathName = "[[@{/back/news}]]";
+        const pathName = "[[@{/back/news}]]";
     </script>
 </head>
 <body>
 <!-- 导航栏-->
 <div th:replace="/back/back :: head"></div>
 <!-- 左侧栏 -->
-<div class="panel-group col-sm-2 div1" role="tablist" aria-multiselectable="true" th:fragment="left">
+<div class="panel-group col-sm-2 position-fixed text-center" role="tablist" aria-multiselectable="true" th:fragment="left">
     <ul class="nav nav-pills nav-stacked emp_sidebar">
         <li role="presentation" class="active">
             <a href="#" data-toggle="collapse" data-target="#collapse_news">
@@ -46,10 +46,11 @@
                 <li class="active">全部公告</li>
             </ol>
             <div class="input-group search">
+                <label for="search-input"></label>
                 <input type="text" class="form-control" id="search-input" placeholder="根据关键词搜索消息">
                 <span class="input-group-btn">
-						    <button class="btn btn-default" id="search-button" type="button">Go!</button>
-					    </span>
+                    <button class="btn btn-default" id="search-button" type="button">Go!</button>
+                </span>
             </div><!-- /input-group -->
         </div>
         <div class="panel-body">

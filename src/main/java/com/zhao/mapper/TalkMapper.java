@@ -19,6 +19,10 @@ public interface TalkMapper {
     List<Talk> selectByUid(@Param("uid") int uid,
                            @Param("orderField") String orderField, @Param("orderType") String orderType);
 
+    List<Talk> selectByParams(@Param("field")String field,@Param("keyword")String keyword,
+                           @Param("orderField") String orderField, @Param("orderType") String orderType,
+                              @Param("pStart") int pStart, @Param("pSize") int pSize, @Param("status") int status);
+
     Talk selectOne(@Param("tid") int tid);
 
     int deleteById(int tid);

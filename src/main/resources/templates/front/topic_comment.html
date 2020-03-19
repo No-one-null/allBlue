@@ -288,7 +288,7 @@
     function removeTalk(id, uid) {
         if (confirm("确认删除该讨论?")) {
             $.ajax({
-                url: "/remove/talk",
+                url: "[[@{/remove/talk}]]",
                 method: "post",
                 data: {id: id, uid: uid},
                 async: false,

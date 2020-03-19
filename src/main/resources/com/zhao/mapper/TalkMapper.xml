@@ -54,6 +54,37 @@
         </where>
         ORDER BY `time` DESC
     </select>
+    <select id="selectByParams" resultMap="talkMap">
+        SELECT * FROM `talk` t
+        LEFT JOIN `user` u
+        ON t.uid=u.uid
+        <where>
+            t.`status`<![CDATA[<=]]>#{status}
+            <choose>
+                <when test="field!=null and field!='' and field!='all'">
+                    AND ${field} LIKE #{keyword}
+                    <bind name="keyword" value="'%'+keyword+'%'"/>
+                </when>
+                <otherwise>
+                    AND CONCAT(`content`,`topic`,`username`) LIKE #{keyword}
+                    <bind name="keyword" value="'%'+keyword+'%'"/>
+                </otherwise>
+            </choose>
+        </where>
+        <if test="orderField != null and orderField != ''">
+        <choose>
+            <when test="orderField=='topic'">
+                ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
+            </when>
+            <otherwise>
+                ORDER BY ${orderField} ${orderType}
+            </otherwise>
+        </choose>
+        </if>
+        <if test="pSize!=null and pSize!=0">
+            LIMIT #{pStart},#{pSize}
+        </if>
+    </select>
     <delete id="deleteById" parameterType="int">
         DELETE FROM talk
         WHERE tid=#{0}

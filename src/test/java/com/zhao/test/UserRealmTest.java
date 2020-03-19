@@ -12,6 +12,8 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 public class UserRealmTest {
     @Test
     public void testAuthenticationToken() {
@@ -68,5 +70,18 @@ public class UserRealmTest {
             str.append(i).append(",");
         }
         System.out.println(str.substring(0, 20));
+    }
+
+    @Test
+    public void testZhengZe(){
+        String pattern = "^#[\\s\\S]*#$";
+        boolean isMatch1 = Pattern.matches(pattern, "#456#");
+        boolean isMatch2 = Pattern.matches(pattern, "1#456#2");
+        boolean isMatch3 = Pattern.matches(pattern, "##");
+        System.out.println(isMatch1+"|"+isMatch2+"|"+isMatch3);
+        String str="#123#";
+        System.out.println(str.substring(1,str.length()-1));
+        String str2="##";
+        System.out.println(str2.substring(1,str2.length()-1));
     }
 }

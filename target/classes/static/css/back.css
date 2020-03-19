@@ -30,6 +30,10 @@ p img {
     text-align: center;
 }
 
+.position-fixed{
+    position: fixed;
+}
+
 .cell {
     display: table-cell;
     vertical-align: middle;

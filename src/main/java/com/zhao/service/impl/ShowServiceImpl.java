@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
@@ -97,7 +98,7 @@ public class ShowServiceImpl implements ShowService {
     public float calRating(String acId, float rating) {
         float newRating = markMapper.avgRating(Integer.parseInt(acId));
         float realRating = (float) Math.round(newRating * 10) / 10;
-        System.out.println("newRating"+newRating+"RealRating"+realRating);
+        System.out.println("newRating" + newRating + "RealRating" + realRating);
         if (rating == realRating) {
             return rating;
         } else {
@@ -167,6 +168,9 @@ public class ShowServiceImpl implements ShowService {
         User user = (User) request.getSession().getAttribute("currentUser");
         if (tid != null && isNumber(tid)) {
             Talk talk = talkMapper.selectOne(Integer.parseInt(tid));
+            if (talk == null) {
+                return null;
+            }
             if (talk.getStatus() >= 2 && talk.getUid() != user.getUid()) {
                 return null;
             } /*else {
@@ -323,26 +327,48 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<?> findByWord(String conditions, String word, String order) {
-        List<?> list = new ArrayList<>();
+    public List<?> findByWord(String tb,String conditions, String word, String order) {
+        List<?> list;
         if (word == null || word.trim().equals("")) {
-            return list;
+            return new ArrayList<>();
         }
         String field;
-        String key = word;
         if (conditions == null || conditions.equals("")) {
             field = "all";
-        } else {
+        }else {
             field = conditions;
         }
+        String key = word;
         if (isExist(WILDCARD, word)) {
             key = "\\" + word;
         }
         String orderField = order;
         if (order == null || order.equals("") || order.equals("default")) {
-            orderField = "name";
+            switch (tb){
+                case "acItems":
+                    orderField = "name";
+                    break;
+                case "talk":
+                    orderField="time";
+                    break;
+                default:
+                    orderField="";
+            }
         }
-        list = acItemsMapper.selectByParam(field, key, orderField, "ASC");
+        String orderType="ASC";
+        if(orderField.equalsIgnoreCase("time")){
+            orderType="DESC";
+        }
+        switch (tb){
+            case "acItems":
+                list = acItemsMapper.selectByParam(field, key, orderField, orderType);
+                break;
+            case "talk":
+                list=talkMapper.selectByParams(field,key,orderField,orderType,0,0,1);
+                break;
+            default:
+                list=new ArrayList<>();
+        }
         return list;
     }
 }

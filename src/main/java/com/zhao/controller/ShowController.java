@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
@@ -92,10 +93,35 @@ public class ShowController {
         }
         model.addAttribute("news", news);
         return "/front/news_content";
-    }
+    }/*) {
+        String str = "";
+        if (s != null) {
+            str = s.trim();*/
 
     @RequestMapping("/topic")
-    public String showTopic(Model model) {
+    public String showTopic(Model model,String search, String conditions, String sort) {
+        if(search!=null){
+            model.addAttribute("keyword", search);
+            model.addAttribute("sort", sort);
+            model.addAttribute("conditions", conditions);
+            model.addAttribute("more", OPEN_CLOSE);
+            List<?> list;
+            if("".equals(search)){
+                list=null;
+            }else {
+                String pattern = "^#[\\s\\S]*#$";
+                boolean isMatch = Pattern.matches(pattern, search);
+                if(isMatch){
+                    conditions="topic";
+                    search=search.substring(1,search.length()-1);
+                    model.addAttribute("keyword", search);
+                    model.addAttribute("conditions", conditions);
+                }
+                list=showServiceImpl.findByWord("talk",conditions,search.trim(),sort);
+            }
+            model.addAttribute("list",list);
+            return "/front/topic_search";
+        }
         List<Talk> talks = showServiceImpl.showAllTalk();
         model.addAttribute("talksList", talks);
         return "/front/topic";
@@ -419,7 +445,7 @@ public class ShowController {
         } else {
             return "/front/results";
         }
-        List<?> list = showServiceImpl.findByWord(conditions, str, sort);
+        List<?> list = showServiceImpl.findByWord("acItems",conditions, str, sort);
         model.addAttribute("list", list);
         return "/front/results";
     }

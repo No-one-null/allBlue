@@ -128,7 +128,7 @@
             </div>
         </div>
         <div class="panel-body" style="width: 100%">
-            <p class="p"><a th:href="@{#}" th:each="t : ${list.topicArr}">&nbsp;#[[${t}]]#&nbsp;</a></p>
+            <span class="p"><a th:href="@{'/topic?search=%23'+${t}+'%23'}" th:each="t : ${list.topicArr}">&nbsp;#[[${t}]]#&nbsp;</a></span>
             <p class="p" th:text="${list.content}"></p>
             <div>
                 <div th:each="pic : ${list.pictureArr}" class="img-div">

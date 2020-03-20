@@ -4,11 +4,9 @@
     <meta charset="utf-8">
     <title>[[${news.newsTitle}]]</title>
     <style type="text/css">
-
         .info b {
             color: blue;
         }
-
         .content img {
             max-height: 400px;
         }
@@ -26,7 +24,7 @@
             <ol class="breadcrumb">
                 <li><a href="#">动漫资讯</a></li>
                 <li>详情</li>
-                <li class="active" th:text="${'《'+news.newsTitle+'》'}"></li>
+                <li class="active" th:text="${news.newsTitle}"></li>
             </ol>
             <div style="position: absolute;right: 4%;">
                 <label for="news-type">类型：</label>

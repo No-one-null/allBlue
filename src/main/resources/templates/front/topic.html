@@ -167,14 +167,21 @@
         window.location.href = "[[@{'/topic/t'}]]" + id;
     }
 
-    //图片上传
+    /*/图片上传
     function newImgDiv() {
         return "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
             "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
             "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
             "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
             "</div>";
-    }
+    }*/
+
+    //图片上传div
+    const newImgDiv = "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
+            "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
+            "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
+            "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
+            "</div>";
 
     function openDiv(obj) {
         let arr = document.getElementsByName("files");
@@ -194,7 +201,7 @@
         if (flag >= 1) {
             return alert("有未使用的格子!");
         }
-        $prev.prepend(newImgDiv());
+        $prev.prepend(newImgDiv);
         preDivHeight();
     }
 

@@ -93,8 +93,8 @@
         <img class="img-circle headImg" alt="用户头像"
              th:src="@{${#strings.isEmpty(c.user.photo)?
                      '/images/no-one.jpg':'/images/avatar/'+c.user.photo}}">
-        <a href="#" th:text="${c.user.username}"></a>
-        <span th:if="${c.toUid!=0}">回复<a th:href="@{#}">@[[${c.toUser.username}]]</a></span>
+        <a th:href="@{'/u'+${c.user.uid}}" th:text="${c.user.username}"></a>
+        <span th:if="${c.toUid!=0}">回复<a th:href="@{'/u'+${c.toUser.uid}}">@[[${c.toUser.username}]]</a></span>
         ：[[${c.content}]]
         <small class="pull-right">
             <i th:text="${#dates.format(c.time,'yyy年MM月dd日HH:mm:ss')}"></i>

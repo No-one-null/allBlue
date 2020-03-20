@@ -47,7 +47,9 @@
     <!--链接-->
     <div class="col-md-6 link-div">
         <h6 class="text-center">相关链接</h6>
-        <a target="_blank" th:href="@{'https://www.baidu.com/s?wd='+${ac.name}}">更多…</a>
+        <a class="pull-right" target="_blank" th:href="@{'https://www.baidu.com/s?wd='+${ac.name}}">
+            更多…
+        </a>
     </div>
     <!--    收藏和评分-->
     <div class="col-md-6 mark-div">
@@ -55,8 +57,8 @@
             <div class="rating-star-div">
                 <div class="cell">
                     <h1></h1>
-                    <span class="star"></span><br>
-                    <i><span></span>人评价</i>
+                    <span class="star">暂无</span><br>
+                    <i><span>0</span>人评价</i>
                 </div>
             </div>
             <div class="rating-chart-div">
@@ -81,7 +83,7 @@
 <!--评论分页-->
 <div class="col-md-12 comment-div-bottom">
     <div class="cell">
-        <button type="button" class="btn btn-primary left-btn">
+        <button type="button" class="btn btn-primary left-btn" onclick="location.reload();">
             <span class="glyphicon glyphicon-repeat"></span>刷新
         </button>
         <input type="button" class="btn btn-default right-btn" value="更多">
@@ -104,15 +106,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
                 <!--评分评论表单-->
                 <form class="form-horizontal mark-form" role="form" id="mark-form">
-                    <!--                    <input type="hidden" name="acId" th:value="$">-->
                     <div class="form-group">
                         <label class="control-label col-md-2">进度</label>
                         <div id="progress" class="col-md-10">
@@ -199,29 +198,23 @@
             success: function (data) {
                 let html = "<div style='width: 33%;float: left;'>我的评价:";
                 if (data.myMark == null) {
-                    html += "<a onclick='addMark()' href='#' " +
-                        "class='data-toggle='tooltip' title='添加评价'>未评价</a>";
+                    html += "<a href='javascript:addMark()' title='添加评价'>未评价</a>";
                 } else {
-                    html += "<a href='#' onclick='editMark()' " +
-                        "class='data-toggle='tooltip' title='修改评分'>" +
+                    html += "<a href='javascript:editMark()' title='修改评分'>" +
                         "<span>" + numFormat(data.myMark.rating) + "</span></a>";
                 }
                 html += "</div><div style='width: 33%;float:left;'>我的吐槽:";
                 if (data.myMark == null) {
-                    html += "<a onclick='addMark()' href='#' " +
+                    html += "<a href='javascript:addMark()' " +
                         "data-toggle='tooltip' data-placement='top' title='添加吐槽'>暂无</a>";
                 } else {
-                    html += "<a href='#' onclick='editMark()' " +
-                        "data-toggle='tooltip' data-placement='top' title='修改'>" +
-                        "<span>查看</span></a>";
+                    html += "<a href='javascript:editMark()' title='修改'> <span>查看</span></a>";
                 }
                 html += "</div><div style='width: 33%;float:right;'>我的进度:";
                 if (data.myMark == null) {
-                    html += "<a onclick='addMark()' href='#' " +
-                        "data-toggle='tooltip' data-placement='top' title='添加收藏'>暂无</a>";
+                    html += "<a href='javascript:addMark()' title='添加收藏'>暂无</a>";
                 } else {
-                    html += "<a href='#' onclick='editMark()' " +
-                        "data-toggle='tooltip' data-placement='top' title='修改进度'>" +
+                    html += "<a href='javascript:editMark()' title='修改进度'>" +
                         "<span>" + progress(data.myMark.progress) + "</span></a>";
                 }
                 html += "</div>";
@@ -246,7 +239,7 @@
             function (data, status) {
                 if (status === "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
-                    let a = $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
+                    $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
                     $("#comment").val(data.myMark.comment);
                     $("#myModalLabel").html("修改");
                     $("#myModal").modal();
@@ -257,18 +250,20 @@
     }
 
     //显示评论
+    const $comment=$(".comment-div");
     function showComments() {
         $.post("[[@{/showComments}]]", {acId: [[${ac.id}]]},
             function (data, status) {
                 if (status === 'success') {
                     let html = "";
                     if (data.comment.length <= 0) {
-                        $(".comment-div").addClass("no-found");
+                        $comment.addClass("no-found");
                     } else {
-                        $(".comment-div").removeClass("no-found");
+                        $comment.removeClass("no-found");
                     }
+                    const kanna="[[@{/images/character/Kanna.gif}]]";
                     if (data.comment.length < 12 && data.comment.length > 0) {
-                        html += "<img class='not-much' src='[[@{/images/character/Kanna.gif}]]' alt='评论太少'>";
+                        html += "<img class='not-much' src='"+kanna+"' alt='评论太少'>";
                     }
                     if (data.comment.length > 0) {
                         for (let i = 0; i < data.comment.length; i++) {
@@ -283,7 +278,7 @@
                                 "    </div>";
                         }
                     }
-                    $(".comment-div").html(html);
+                    $comment.html(html);
                 } else {
                     alert("失败");
                 }
@@ -299,13 +294,14 @@
         $(".left-btn").click(function () {
             showComments();
         });
+        const $rating=$("#rating");
         $(".rating a").click(function () {
-            $("#rating").attr("checked", "true");
+            $rating.attr("checked", "true");
             $(this).siblings().children().attr("src", "[[@{/images/star-empty.gif}]]");
             $(this).prevAll().children().attr("src", "[[@{/images/star-full.gif}]]");
             $(this).children().attr("src", "[[@{/images/star-full.gif}]]");
             let num = $(this).children().attr("alt");
-            $("#rating").attr("value", parseInt(num));
+            $rating.attr("value", parseInt(num));
         });
         $(".submit").click(function () {
             $("#myModal").modal('hide');
@@ -322,4 +318,9 @@
             $('html, body').animate({scrollTop: $('#comments').offset().top}, 0);
         });
     });
+
+    if('1'==='2'){
+        addMark();
+        editMark();
+    }
 </script>

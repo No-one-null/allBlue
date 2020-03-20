@@ -89,9 +89,6 @@
 
             $("#submit-btn").click(function () {
                 let html = editor.txt.html();
-                if (html != null) {
-                    alert(html.length);
-                }
                 let text = editor.txt.text();
                 let title = $("#news-title").val();
                 let type = $("#news-type").val();
@@ -125,7 +122,7 @@
                             }
                         }
                     }, error: function (xhr) {
-                        alert("提交失败，请重试！");
+                        alert(xhr.errorCode+"提交失败，请重试！");
                     }
                 });
             });

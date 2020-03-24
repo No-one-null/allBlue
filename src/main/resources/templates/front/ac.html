@@ -12,7 +12,8 @@
 <div class="col-md-offset-2 col-md-8">
     <div th:each="ac,num : ${page.list}" class="col-md-3 ac-div">
         <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail">
-            <p th:text="${num.index+1}"></p>
+            <span th:text="${num.index+1}"></span><br>
+            <span style="color: red;" th:text="${ac.star(ac.rating)}">0.0</span>
             <img th:src="@{'/images/'+${#strings.isEmpty(ac.image)?'none.png':'cover/'+ac.image}}"
                  alt="通用的占位符缩略图">
             <div class="caption">

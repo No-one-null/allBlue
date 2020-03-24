@@ -39,22 +39,30 @@
         select * from ac_items
         <where>
             status=1
+            <choose>
+                <when test="field=='name' and field=='author' and field=='year' and field=='info' and field=='country'">
+                    AND ${field} like #{word}
+                    <bind name="word" value="'%'+word+'%'"/>
+                </when>
+                <otherwise>
+                    AND CONCAT(`name`,`author`,`info`,`country`,`year`) LIKE #{word}
+                    <bind name="word" value="'%'+word+'%'"/>
+                </otherwise>
+            </choose>
             <if test="field==null or field=='' or field=='all'">
-                AND CONCAT(`name`,`author`,`info`,`country`) LIKE #{word}
-                <bind name="word" value="'%'+word+'%'"/>
             </if>
             <if test="field!=null and field!='' and field!='all'">
-                AND ${field} like #{word}
-                <bind name="word" value="'%'+word+'%'"/>
             </if>
         </where>
         <if test="orderField!=null and orderField!=''">
-            <if test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
+        <choose>
+            <when test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
                 ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
-            </if>
-            <if test="orderField!='name' and orderField!='author' and orderField!='year' and orderField!='country'">
+            </when>
+            <otherwise>
                 ORDER BY ${orderField} ${orderType}
-            </if>
+            </otherwise>
+        </choose>
         </if>
     </select>
     <select id="selectByParams" resultType="acItems">

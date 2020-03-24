@@ -95,12 +95,11 @@
         <div class="panel" th:unless="${#lists.isEmpty(list)}" th:each="list : ${list}"
              th:classappend="${(session.currentUser!=null)&&(list.user.uid==session.currentUser.uid)}?'panel-success':'panel-warning'">
             <div class="panel-heading" style="width: 100%">
-                <img class="img-circle headImg"
-                     th:src="@{${#strings.isEmpty(list.user.photo)?'/images/no-one.jpg':'/images/avatar/'+list.user.photo}}"
-                     alt="用户头像">
+                <img class="img-circle headImg" alt="用户头像"
+                     th:src="@{'/images/'+${#strings.isEmpty(list.user.photo)?'no-one.jpg':'avatar/'+list.user.photo}}">
                 <a th:href="@{'/u'+${list.user.uid}+'/talk'}" class="panel-title" th:text="${list.user.username}"></a>
                 <div class="pull-right">
-                    <b>发表于:</b>[[${#dates.format(list.time,'yyy年MM月dd日HH:mm:ss')}]]
+                    <b>发表于:</b><a th:href="@{'/topic/t'+${list.tid}}" th:text="${#dates.format(list.time,'yyy年MM月dd日HH:mm:ss')}"></a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-th-list"></span>
@@ -114,7 +113,7 @@
                 </div>
             </div>
             <div class="panel-body" style="width: 100%">
-                <p class="p"><a th:href="@{#}" th:each="t : ${list.topicArr}">&nbsp;#[[${t}]]#&nbsp;</a></p>
+                <p class="p"><a th:href="@{'topic?search=%23'+${t}+'%23'}" th:each="t : ${list.topicArr}">&nbsp;#[[${t}]]#&nbsp;</a></p>
                 <p class="p" th:text="${list.content}"></p>
                 <div>
                     <div th:each="pic : ${list.pictureArr}" class="img-div">

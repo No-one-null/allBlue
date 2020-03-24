@@ -37,8 +37,8 @@ public class ShowController {
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
         System.out.println(request.getServletContext().getRealPath(""));
-        List<AcItems> anime = showServiceImpl.sort("anime", 0, 12);
-        List<AcItems> comic = showServiceImpl.sort("comic", 0, 12);
+        List<?> anime = showServiceImpl.sort("anime", 0, 12);
+        List<?> comic = showServiceImpl.sort("comic", 0, 12);
         Map<String, Object> map = new HashMap<>();
         map.put("anime", anime);
         map.put("comic", comic);
@@ -344,7 +344,7 @@ public class ShowController {
     public String error(@PathVariable String num) {
         String page = "/error/error404";
         if (num != null && !num.equals("")) {
-            page = "/error/error" + num;
+            page = "/error/err" + num;
         }
         System.out.println(page);
         return page;

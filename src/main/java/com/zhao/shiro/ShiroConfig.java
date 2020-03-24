@@ -60,7 +60,7 @@ public class ShiroConfig {
      * cookie对象;
      * rememberMeCookie()方法是设置Cookie的生成模版，比如cookie的name，cookie的有效时间等等。
      *
-     * @return
+     * @return SimpleCookie对象
      */
     @Bean
     public SimpleCookie rememberMeCookie() {
@@ -77,7 +77,7 @@ public class ShiroConfig {
      * cookie管理对象;
      * rememberMeManager()方法是生成rememberMe管理器，而且要将这个rememberMe管理器设置到securityManager中
      *
-     * @return
+     * @return cookie管理对象
      */
     @Bean
     public CookieRememberMeManager rememberMeManager() {
@@ -91,6 +91,7 @@ public class ShiroConfig {
 
     /**
      * shiro标签与thymeleaf标签结合
+     * 配置方言标签
      */
     @Bean
     public ShiroDialect shiroDialect() {

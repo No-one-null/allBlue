@@ -4,6 +4,8 @@ import com.zhao.mapper.UserMapper;
 import com.zhao.pojo.User;
 import com.zhao.service.LoginService;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<User> findByWord(String keyword) {
@@ -30,7 +34,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User findUserByName(String username) {
-        return userMapper.selectUserByName(username);
+        String u ="user_"+username;
+        this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(User.class));
+        User user= (User) this.redisTemplate.opsForValue().get(u);
+        if(user==null){
+            user=userMapper.selectUserByName(username);
+            this.redisTemplate.opsForValue().set(u,user);
+        }
+        return user;
     }
 
     @Override
@@ -64,6 +75,13 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public List<?> checkRoles(String username) {
-        return userMapper.selectRolesByUsername(username);
+        String key="roles_"+username;
+        this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
+        List<?> roles = (List<?>) this.redisTemplate.opsForValue().get(key);
+        if(roles==null){
+            roles=userMapper.selectRolesByUsername(username);
+            this.redisTemplate.opsForValue().set(key, roles);
+        }
+        return roles;
     }
 }

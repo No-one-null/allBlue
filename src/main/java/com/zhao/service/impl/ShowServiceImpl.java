@@ -6,6 +6,8 @@ import com.zhao.util.PageInfo;
 import com.zhao.service.ShowService;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static com.zhao.util.CommonUtil.*;
 import static com.zhao.util.Constant.*;
@@ -36,6 +37,8 @@ public class ShowServiceImpl implements ShowService {
     private CommentMapper commentMapper;
     @Resource
     private ComplaintMapper complaintMapper;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public AcItems findById(String id) {
@@ -72,8 +75,15 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<AcItems> sort(String category, int start, int end) {
-        return acItemsMapper.sort(category, start, end);
+    public List<?> sort(String category, int start, int size) {
+        String sortKey=category+"_sort";
+        this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
+        List<?> list= (List<?>) this.redisTemplate.opsForValue().get(sortKey);
+        if(list==null){
+            list=acItemsMapper.sort(category,start,size);
+            this.redisTemplate.opsForValue().set(sortKey, list);
+        }
+        return list;
     }
 
     @Transactional
@@ -138,7 +148,7 @@ public class ShowServiceImpl implements ShowService {
             pageInfo.setList(acNewsMapper.selectByParams(pageStart, pSize, type));
         }
         pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
-        System.out.println(pageInfo);
+//        System.out.println(pageInfo);
         return pageInfo;
     }
 

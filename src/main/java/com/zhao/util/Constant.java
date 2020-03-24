@@ -9,8 +9,8 @@ import java.util.Map;
 public interface Constant {
     public static final String[] TYPE_ARRAY = {"动画情报", "漫画情报", "影视化情报", "游戏情报",
             "周边资讯", "漫展资讯", "其他情报"};
-    public static final String ERR404 = "/error/error404";
-    public static final String ERR403 = "/error/error403";
+    public static final String ERR404 = "/error/err404";
+    public static final String ERR403 = "/error/err403";
     public static final String UPLOAD_PATH = "D:/allBlue";
     public static final String UPLOAD_TOPIC = UPLOAD_PATH + "/topic";
     public static final String UPLOAD_COVER = UPLOAD_PATH + "/images/cover/";

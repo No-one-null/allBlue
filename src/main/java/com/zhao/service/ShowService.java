@@ -15,7 +15,7 @@ public interface ShowService {
 
     PageInfo showAcItems(String path, String orderField, String orderType, String page);
 
-    List<AcItems> sort(String category, int start, int end);
+    List<?> sort(String category, int start, int end);
 
     Boolean addMark(Mark mark);
 

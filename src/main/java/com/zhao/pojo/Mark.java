@@ -107,18 +107,4 @@ public class Mark {
     public String progress(int progress) {
         return PROGRESS_ARRAY[progress];
     }
-
-    public String star(int rating) {
-        StringBuilder str = new StringBuilder("暂无");
-        if (rating > 0) {
-            str = new StringBuilder();
-            for (int i = 0; i < rating; i++) {
-                str.append('★');
-            }
-            for (int i = rating; i < 5; i++) {
-                str.append('☆');
-            }
-        }
-        return str.toString();
-    }
 }

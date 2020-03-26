@@ -86,5 +86,4 @@ public class AcNews {
     public void setStatus(int status) {
         this.status = status;
     }
-
 }

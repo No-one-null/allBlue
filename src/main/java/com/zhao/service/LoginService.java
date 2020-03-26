@@ -3,6 +3,7 @@ package com.zhao.service;
 import com.zhao.pojo.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface LoginService {
 
@@ -18,5 +19,5 @@ public interface LoginService {
 
     String addUser(User user);
 
-    List checkRoles(String username);
+    Set<String> checkRoles(String username);
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>[[${news.newsTitle}]]</title>
+    <link th:replace="/back/back :: icon"/>
     <style type="text/css">
         .info b {
             color: blue;
@@ -53,55 +54,36 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！static/js/wangEditor.min.js-->
 <script type="text/javascript" th:src="@{/js/wangEditor.min.js}"></script>
+<script type="text/javascript" th:replace="/back/acNews/addNews :: wangEditor"></script>
 <script type="text/javascript">
-    let E = window.wangEditor;
-    let editor = new E('#editor-toolbar', '#editor-text');
-    editor.customConfig.zIndex = 100;
-    // 或者 var editor = new E( document.getElementById('editor') )
-    // editor.customConfig.uploadImgServer = '/upload'
-    editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
-    // 忽略粘贴内容中的图片
-    editor.customConfig.pasteIgnoreImg = true;
-    // 隐藏“网络图片”tab
-    editor.customConfig.showLinkImg = false;
-    editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024;//限制大小
-    // // 限制一次最多上传 5 张图片
-    // editor.customConfig.uploadImgMaxLength = 5
-    editor.customConfig.menus = [
-        'head',  // 标题
-        'bold',  // 粗体
-        'fontSize',  // 字号
-        'italic',  // 斜体
-        'foreColor',  // 文字颜色
-        'backColor',  // 背景颜色
-        'link',  // 插入链接
-        'list',  // 列表
-        'image',  // 插入图片
-        'undo',  // 撤销
-        'redo'  // 重复
-    ];
-    editor.create();
-
     //提交修改内容
     $("#submit-btn").on("click", function () {
-        if (editor.txt.html().length > 2000000) {
-            return alert("内容太多！请减少图片或文字……");
-        }
+        let formData=new FormData();
+        formData.append("id",'[[${news.newsId}]]');
+        formData.append("content",editor.txt.html());
+        formData.append("type",$("#news-type").val());
+        formData.append("status",$("#status").val());
+        formData.append("paths",paths);
         if (confirm("确认提交?")) {
-            $.post("[[@{/back/editNews}]]", {
-                id: [[${news.newsId}]],
-                content: editor.txt.html(),
-                type: $("#news-type").val(),
-                status: $("#status").val()
-            }, function (data, status) {
-                if (status === 'success') {
-                    if (data === 'success') {
-                        alert("操作成功！");
-                        location.reload();
+            $.ajax({
+                url:"[[@{/back/editNews}]]",
+                method:"post",
+                data:formData,
+                async:false,
+                contentType:false,
+                processData:false,
+                success:function (data, status) {
+                    if (status === 'success') {
+                        if (data === 'success') {
+                            alert("操作成功！");
+                            location.reload();
+                        } else {
+                            alert(data);
+                        }
                     } else {
-                        alert(data);
+                        alert("提交失败！请检查后重试！");
                     }
-                } else {
+                }, error:function () {
                     alert("提交失败！请检查后重试！");
                 }
             });

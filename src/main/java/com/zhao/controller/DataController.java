@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -70,14 +71,16 @@ public class DataController {
 
     @RequestMapping("/acNews")
     public String acNews() {
-        return "redirect:/back/newsList/p1";
+        String str="redirect:/back/newsList/p1";
+        System.out.print("");
+        return str;
     }
 
     /*关键词搜索*/
     @RequestMapping("/{path}/search={word}")
     public String find(Model model, @PathVariable String word, @PathVariable String path) {
         List<?> list = new ArrayList<>();
-        String p = "/error/error404";
+        String p = ERR404;
         if (path.equalsIgnoreCase("user")) {
             list = loginServiceImpl.findByWord(word);
             p = "/back/user/userSearch";
@@ -172,24 +175,28 @@ public class DataController {
 
     @RequestMapping("/deleteOne/{id}")
     public String deleteOne(@PathVariable String id) {
+        String str="redirect:/back/ac/info";
         try {
             boolean b = dataServiceImpl.DeleteOne(Integer.parseInt(id));
             System.out.println(b);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/back/ac/info";
+        return str;
     }
 
     @ResponseBody
     @RequestMapping("/submitNews")
-    public String submitNews(HttpServletRequest request, AcNews news) {
+    public String submitNews(AcNews news, String[] paths) {
         System.out.println(news);
-        Boolean isWork = dataServiceImpl.addNews(news);
-        if (isWork) {
-            return "success";
-        }
-        return "fail";
+//        String message;
+//        try {
+//            message = dataServiceImpl.addNews(news,paths);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            message="文件操作异常!";
+//        }
+        return "message";
     }
 
     @RequestMapping("/showNews{id}")
@@ -202,8 +209,16 @@ public class DataController {
 
     @ResponseBody
     @RequestMapping("/editNews")
-    public String nextNews(String id, String content, String type, String status) {
-        return dataServiceImpl.editNews(id, content, type, status);
+    public String nextNews(String id, String content, String type, String status,String[] paths) {
+        System.out.println(Arrays.toString(paths));
+        String message;
+        try {
+            message = dataServiceImpl.editNews(id, content, type, status,paths);
+        } catch (IOException e) {
+            e.printStackTrace();
+            message="文件操作异常!";
+        }
+        return message;
     }
 
     @ResponseBody
@@ -230,6 +245,28 @@ public class DataController {
         System.out.println(type + tid + deal);
         String message = dataServiceImpl.checkTopic(type, Integer.parseInt(tid), deal, user.getUid());
         map.put("message", message);
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping("/uploadImg")
+    public Map<String,Object> upload(MultipartFile[] files,HttpServletRequest request){
+        System.out.println(request.getParameter("dir"));
+        Map<String,Object> map=new HashMap<>();
+        int errno=-1;
+        System.out.println("执行上传图片");
+        String[] data = new String[0];
+        try {
+            data = dataServiceImpl.uploadImg(files,request);
+            if(data!=null){
+                errno=0;
+            }
+            System.out.println(Arrays.toString(data));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        map.put("data",data);
+        map.put("errno",errno);
         return map;
     }
 

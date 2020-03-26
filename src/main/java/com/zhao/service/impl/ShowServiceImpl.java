@@ -275,7 +275,7 @@ public class ShowServiceImpl implements ShowService {
             return null;
         }
         map.put("user", user);
-        List<String> roles = userMapper.selectRolesByUsername(user.getUsername());
+        Set roles = userMapper.selectRolesByUsername(user.getUsername());
         map.put("roles", roles);
         if (page.equalsIgnoreCase("talk")) {
             List<Talk> talks = talkMapper.selectByUid(id, "time", "DESC");

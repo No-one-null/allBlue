@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -74,10 +75,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public List<?> checkRoles(String username) {
+    public Set<String> checkRoles(String username) {
         String key="roles_"+username;
         this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
-        List<?> roles = (List<?>) this.redisTemplate.opsForValue().get(key);
+        Set<String> roles = (Set<String>) this.redisTemplate.opsForValue().get(key);
         if(roles==null){
             roles=userMapper.selectRolesByUsername(username);
             this.redisTemplate.opsForValue().set(key, roles);

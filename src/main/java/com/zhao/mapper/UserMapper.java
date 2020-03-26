@@ -2,9 +2,9 @@ package com.zhao.mapper;
 
 import com.zhao.pojo.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserMapper {
     List<User> showAll();
@@ -26,7 +26,7 @@ public interface UserMapper {
 
     int insertUser(User user);
 
-    List<String> selectRolesByUsername(String username);
+    Set<String> selectRolesByUsername(String username);
 
     long countField(@Param("field") String field, @Param("key") String key);
 

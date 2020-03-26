@@ -15,6 +15,7 @@ import com.zhao.pojo.User;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data Redis测试
@@ -97,7 +98,7 @@ public class RedisTest {
 	 */
 	@Test
 	public void testSetListUseJSON(){
-		List<?> roles = userMapper.selectRolesByUsername("zero");
+		Set<?> roles = userMapper.selectRolesByUsername("zero");
 		this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
 		this.redisTemplate.opsForValue().set("user_roles", roles);
 	}
@@ -110,5 +111,10 @@ public class RedisTest {
 		this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
 		List<?> users = (List<?>)this.redisTemplate.opsForValue().get("user_roles");
 		System.out.println(users);
+	}
+
+	@Test
+	public void testRoles(){
+		System.out.println(userMapper.selectRolesByUsername("zero"));
 	}
 }

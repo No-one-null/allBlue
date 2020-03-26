@@ -13,8 +13,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AuthRealm extends AuthorizingRealm {
@@ -33,9 +31,8 @@ public class AuthRealm extends AuthorizingRealm {
     }
 
     private Set<String> getRolesByUsername(String username) {
-        List list = loginServiceImpl.checkRoles(username);
-        Set<String> set = new HashSet<>(list);
-        System.out.println("list:" + list + "||set:" + set);
+        Set<String> set = loginServiceImpl.checkRoles(username);
+        System.out.println("roles:" + set);
         return set;
     }
 

@@ -322,7 +322,7 @@ public class ShowController {
         return "/front/acInfo";
     }
 
-    @RequestMapping("/u{uid}")
+    @RequestMapping("/user{uid}")
     public String userInfo(@PathVariable String uid) {
         String path = "redirect:/u" + uid + "/info";
         System.out.println(path);

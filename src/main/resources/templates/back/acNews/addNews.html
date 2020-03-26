@@ -3,21 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>动漫资讯</title>
+    <link th:replace="/back/back :: icon"/>
     <style type="text/css">
         body, html {
             height: 100%;
         }
 
-        .title-div {
-            text-align: center;
-        }
-
         .new-input {
             width: 50%;
-        }
-
-        i {
-            color: gray;
         }
     </style>
 </head>
@@ -37,7 +30,7 @@
                        style="position: absolute;right: 4%;width: 100px">
             </ol>
             <!--编辑内容-->
-            <div id="title" class="title-div">
+            <div id="title" class="text-center">
                 <label for="news-title">标题：</label>
                 <input id="news-title" type="text" class="new-input" placeholder="请输入标题">
                 <br>
@@ -47,30 +40,55 @@
                 </select>
             </div>
         </div>
-        <!--        <h4 style="text-align: center;">正文</h4>-->
         <div id="editor-toolbar" class="toolbar"></div>
         <div id="editor-text" class="text"></div>
-        <!--        <div style="height: 5%;"></div>-->
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！static/js/wangEditor.min.js-->
         <script type="text/javascript" th:src="@{/js/wangEditor.min.js}"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#news-title").focus();
-            });
+        <script type="text/javascript" th:fragment="wangEditor">
             let E = window.wangEditor;
             let editor = new E('#editor-toolbar', '#editor-text');
+            let current=new Date().getTime();
+            // editor.customConfig.debug = true;
             editor.customConfig.zIndex = 100;
             // 或者 var editor = new E( document.getElementById('editor') )
-            // editor.customConfig.uploadImgServer = '/upload'
-            editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+            editor.customConfig.uploadImgServer = '[[@{/back/uploadImg?dir=}]]'+current;
+            //配置文件参数名
+            editor.customConfig.uploadFileName = 'files';
+            // 使用 base64 保存图片
+            // editor.customConfig.uploadImgShowBase64 = true;
+            //参数拼接到 url
+            editor.customConfig.uploadImgParamsWithUrl = true;
             // 忽略粘贴内容中的图片
             editor.customConfig.pasteIgnoreImg = true;
             // 隐藏“网络图片”tab
             editor.customConfig.showLinkImg = false;
-            editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024;//限制大小
-            // // 限制一次最多上传 5 张图片
-            // editor.customConfig.uploadImgMaxLength = 5
+            //限制图片大小
+            editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
+            // 限制一次上传图片数
+            editor.customConfig.uploadImgMaxLength = 5;
+            //图片上传监听函数
+            let paths=[];
+            editor.customConfig.uploadImgHooks = {
+                success: function (xhr, editor, result) {
+                    // 图片上传并返回结果，图片插入成功之后触发；xhr 是 XMLHttpRequest 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                    console.log("插入成功!"+result.data);
+                    paths.push(result.data);
+                },
+                fail: function (xhr, editor, result) {
+                    // 图片上传并返回结果，但图片插入错误时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                    console.log("插入失败!"+result);
+                },
+                error: function (xhr, editor) {
+                    // 图片上传出错时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                    console.log("上传出错!"+xhr.errorCode);
+                },
+                timeout: function (xhr, editor) {
+                    // 图片上传超时时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                    console.log("上传超时!"+xhr.errorCode);
+                }
+            };
+
             editor.customConfig.menus = [
                 'head',  // 标题
                 'bold',  // 粗体
@@ -86,48 +104,57 @@
             ];
 
             editor.create();
-
-            $("#submit-btn").click(function () {
-                let html = editor.txt.html();
-                let text = editor.txt.text();
-                let title = $("#news-title").val();
-                let type = $("#news-type").val();
-                if (title === '') {
-                    alert("请输入标题！");
-                    return;
-                }
-                if (text === '') {
-                    alert("请输入内容！");
-                    return;
-                }
-                if (html.length > 2000000) {
-                    return alert("内容太多！请减少图片或文字……");
-                }
-                $.ajax({
-                    url: "[[@{/back/submitNews}]]",
-                    method: "post",
-                    async: false,
-                    data: {
-                        newsContent: html,
-                        newsTitle: title,
-                        newsAuthor: '[[${session.currentUser.username}]]',
-                        newsType: type
-                    }, success: function (data, status) {
-                        if (status === 'success') {
-                            if (data === "success") {
-                                location.reload();
-                                alert("发布成功！");
-                            } else {
-                                alert(data);
-                            }
-                        }
-                    }, error: function (xhr) {
-                        alert(xhr.errorCode+"提交失败，请重试！");
-                    }
-                });
-            });
         </script>
     </div><!-- /.panel panel-success -->
 </div>
+<script type="text/javascript">
+    $(document).on("ready",function () {
+        $("#news-title").focus();
+    });
+    $("#submit-btn").on("click",function () {
+        let html = editor.txt.html();
+        let text = editor.txt.text();
+        let title = $("#news-title").val();
+        let type = $("#news-type").val();
+        if (title === '') {
+            alert("请输入标题！");
+            return;
+        }
+        if (text === '') {
+            alert("请输入内容！");
+            return;
+        }
+        if (html.length > 2000000) {
+            return alert("内容太多！请减少图片或文字……");
+        }
+        let formData=new FormData();
+        formData.append("newsId",current);
+        formData.append("newsContent",html);
+        formData.append("newsTitle",title);
+        formData.append("newsAuthor",'[[${session.currentUser.username}]]');
+        formData.append("newsType",type);
+        formData.append("paths",paths);
+        $.ajax({
+            url: "[[@{/back/submitNews}]]",
+            method: "post",
+            async: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data, status) {
+                if (status === 'success') {
+                    if (data === "success") {
+                        location.reload();
+                        alert("发布成功！");
+                    } else {
+                        alert(data);
+                    }
+                }
+            }, error: function (xhr) {
+                alert(xhr.errorCode+"提交失败，请重试！");
+            }
+        });
+    });
+</script>
 </body>
 </html>

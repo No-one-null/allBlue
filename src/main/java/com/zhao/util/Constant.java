@@ -12,6 +12,7 @@ public interface Constant {
     public static final String ERR404 = "/error/err404";
     public static final String ERR403 = "/error/err403";
     public static final String UPLOAD_PATH = "D:/allBlue";
+    public static final String UPLOAD_TEMP_PATH = "D:/temp/allBlue";
     public static final String UPLOAD_TOPIC = UPLOAD_PATH + "/topic";
     public static final String UPLOAD_COVER = UPLOAD_PATH + "/images/cover/";
     public static final String UPLOAD_AVATAR = UPLOAD_PATH + "/images/avatar/";

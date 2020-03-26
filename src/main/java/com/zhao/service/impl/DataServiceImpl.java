@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static com.zhao.util.CommonUtil.getImgSrc;
 import static com.zhao.util.CommonUtil.isNumber;
-import static com.zhao.util.Constant.UPLOAD_COVER;
-import static com.zhao.util.Constant.UPLOAD_PATH;
+import static com.zhao.util.Constant.*;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -193,11 +194,17 @@ public class DataServiceImpl implements DataService {
         return flag > 0;
     }
 
+    @Transactional
     @Override
-    public Boolean addNews(AcNews acNews) {
+    public String addNews(AcNews acNews,String[] filenames) throws IOException {
+        List<String> list=getImgSrc(acNews.getNewsContent());
         acNews.setNewsDate(new Date());
         int flag = acNewsMapper.insertAcNews(acNews);
-        return flag != 0;
+        if(flag != 0){
+            saveFile(list);
+            return "success";
+        }
+        return "update_fail";
     }
 
     @Override
@@ -210,15 +217,28 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public String editNews(String id, String content, String type, String status) {
+    public String editNews(String id, String content, String type, String status,String[] filenames) throws IOException {
         if (!isNumber(id)) {
             return "错误的数据！";
         }
-        if (content.length() > 16777215) {
-            return "内容过多！请删除一些图片或文字";
-        }
+        AcNews acNews=acNewsMapper.selectById(Integer.parseInt(id));
         int result = acNewsMapper.updateContent(Integer.parseInt(id), content, type, Integer.parseInt(status));
         if (result > 0) {
+            List<String> oldImgs=getImgSrc(acNews.getNewsContent());
+            List<String> newImgs=getImgSrc(content);
+//            List<String> addImgs= Arrays.asList(filenames);
+//            addImgs.retainAll(newImgs);
+            saveFile(newImgs);
+            oldImgs.removeAll(newImgs);
+            for (String s: oldImgs) {
+                String filename=s.substring(s.lastIndexOf('/')+1);
+                String path=UPLOAD_PATH+"/images/news/"+filename;
+                System.out.println("删除"+path);
+                File file=new File(path);
+                if(file.exists()){
+                    FileUtils.forceDelete(file);
+                }
+            }
             return "success";
         }
         return "数据库更新失败！";
@@ -275,7 +295,7 @@ public class DataServiceImpl implements DataService {
         if (user == null) {
             return null;
         }
-        List<String> roles = userMapper.selectRolesByUsername(user.getUsername());
+        Set roles = userMapper.selectRolesByUsername(user.getUsername());
         if (roles.size() <= 0) {
             roles.add("user");
         }
@@ -283,5 +303,57 @@ public class DataServiceImpl implements DataService {
         map.put("user", user);
         map.put("roles", roles);
         return map;
+    }
+
+    @Override
+    public String[] uploadImg(MultipartFile[] files, HttpServletRequest request) throws IOException {
+        String str=request.getParameter("dir");
+        if(str==null||str.equals("")){
+            return null;
+        }
+        String ctx=request.getContextPath();
+        String path=UPLOAD_TEMP_PATH+"/images/news/";
+        File dir=new File(path);
+        if(!dir.exists()){
+            boolean b=dir.mkdirs();
+            if(b){
+                System.out.println(path+"文件夹创建成功!");
+            }
+        }
+        List<String> filenames = new ArrayList<>();
+        for (MultipartFile file :files) {
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName=UUID.randomUUID()+suffix;
+            System.out.println(file.getOriginalFilename()+"--rename--"+fileName);
+            file.transferTo(new File(path,fileName));
+            filenames.add(ctx+"/images/news/"+fileName);
+        }
+        return filenames.toArray(new String[0]);
+    }
+
+    public void saveFile(List<String> list) throws IOException {
+        for (String f : list) {
+            String filename=f.substring(f.lastIndexOf('/')+1);
+            String oldParent = UPLOAD_TEMP_PATH + "/images/news/";
+            File dir1 = new File(oldParent);
+            if (!dir1.exists()) {
+                boolean b = dir1.mkdirs();
+                System.out.println(b);
+            }
+            String newParent = UPLOAD_PATH + "/images/news/";
+            File dir2 = new File(newParent);
+            if (!dir2.exists()) {
+                boolean b = dir2.mkdirs();
+                System.out.println(b);
+            }
+            String oldPath = oldParent + filename;
+            String newPath = newParent + filename;
+            System.out.println(oldPath+"--(cp)-->"+newPath);
+            File file = new File(oldPath);
+            if (file.exists()) {
+                FileUtils.copyFile(file, new File(newPath));
+                FileUtils.forceDelete(file);
+            }
+        }
     }
 }

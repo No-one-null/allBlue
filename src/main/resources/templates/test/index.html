@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Thymeleaf入门</title>
@@ -9,7 +9,9 @@
 	<hr/>
 	<span th:text="${msg} "></span>
 	<hr/>
-	<input type="text" name="username" th:value="${msg}"/>
+	<label>
+		<input type="text" name="username" th:value="${msg}"/>
+	</label>
 	<hr/>
 	<span th:text="${#strings.isEmpty(msg)}"></span>
 	<hr/>

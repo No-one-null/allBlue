@@ -55,14 +55,14 @@
             </if>
         </where>
         <if test="orderField!=null and orderField!=''">
-        <choose>
-            <when test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
-                ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
-            </when>
-            <otherwise>
-                ORDER BY ${orderField} ${orderType}
-            </otherwise>
-        </choose>
+            <choose>
+                <when test="orderField=='name' or orderField=='author' or orderField=='year' or orderField=='country'">
+                    ORDER BY CONVERT(${orderField} USING gbk) COLLATE gbk_chinese_ci ${orderType}
+                </when>
+                <otherwise>
+                    ORDER BY ${orderField} ${orderType}
+                </otherwise>
+            </choose>
         </if>
     </select>
     <select id="selectByParams" resultType="acItems">

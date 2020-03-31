@@ -4,5 +4,6 @@
       "name": "spring.redis.hostName",
       "type": "java.lang.String",
       "description": "Description for spring.redis.hostName."
-  }
-] }
+    }
+  ]
+}

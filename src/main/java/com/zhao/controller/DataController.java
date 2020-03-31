@@ -10,15 +10,12 @@ import com.zhao.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.ContextLoader;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -46,7 +43,7 @@ public class DataController {
             str = "back/acInfo/ac_Info";
         }
         if (path.equals("news")) {
-            str = "/back/acNews/acNews";
+            str = "/back/news/acNews";
         }
         if (path.equals("topic")) {
             str = "/back/topic/topic_list";
@@ -71,7 +68,7 @@ public class DataController {
 
     @RequestMapping("/acNews")
     public String acNews() {
-        String str="redirect:/back/newsList/p1";
+        String str = "redirect:/back/newsList/p1";
         System.out.print("");
         return str;
     }
@@ -90,7 +87,7 @@ public class DataController {
             list = dataServiceImpl.findByWord(path, word);
         }
         if (path.equalsIgnoreCase("news")) {
-            p = "/back/acNews/newsList";
+            p = "/back/news/newsList";
             list = dataServiceImpl.findByWord(path, word);
         }
         model.addAttribute("list", list);
@@ -124,8 +121,8 @@ public class DataController {
             str = "back/acInfo/ac_add";
         }
         if (path.equalsIgnoreCase("News")) {
-            model.addAttribute("type", TYPE_ARRAY);
-            str = "back/acNews/addNews";
+            model.addAttribute("type", NEWS_TYPE_ARRAY);
+            str = "back/news/addNews";
         }
         return str;
     }
@@ -175,7 +172,7 @@ public class DataController {
 
     @RequestMapping("/deleteOne/{id}")
     public String deleteOne(@PathVariable String id) {
-        String str="redirect:/back/ac/info";
+        String str = "redirect:/back/ac/info";
         try {
             boolean b = dataServiceImpl.DeleteOne(Integer.parseInt(id));
             System.out.println(b);
@@ -189,36 +186,53 @@ public class DataController {
     @RequestMapping("/submitNews")
     public String submitNews(AcNews news, String[] paths) {
         System.out.println(news);
-//        String message;
-//        try {
-//            message = dataServiceImpl.addNews(news,paths);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            message="文件操作异常!";
-//        }
-        return "message";
+        String message;
+        try {
+            message = dataServiceImpl.addNews(news, paths);
+        } catch (IOException e) {
+            e.printStackTrace();
+            message = "文件操作异常!";
+        }
+        return message;
     }
 
     @RequestMapping("/showNews{id}")
     public String showNews(Model model, @PathVariable String id) {
         AcNews acNews = dataServiceImpl.findNewsById(id);
-        model.addAttribute("type", TYPE_ARRAY);
+        model.addAttribute("type", NEWS_TYPE_ARRAY);
         model.addAttribute("news", acNews);
-        return "/back/acNews/detailsNews";
+        return "/back/news/detailsNews";
     }
 
     @ResponseBody
     @RequestMapping("/editNews")
-    public String nextNews(String id, String content, String type, String status,String[] paths) {
+    public String nextNews(String id, String content, String type, String status, String[] paths) {
         System.out.println(Arrays.toString(paths));
         String message;
         try {
-            message = dataServiceImpl.editNews(id, content, type, status,paths);
+            message = dataServiceImpl.editNews(id, content, type, status, paths);
         } catch (IOException e) {
             e.printStackTrace();
-            message="文件操作异常!";
+            message = "文件操作异常!";
         }
         return message;
+    }
+
+    @GetMapping("news/notices")
+    public String notice() {
+        return "back/news/notice-add";
+    }
+
+    @PostMapping("news/notices")
+    public String notice(Model model, String message, String title, String type) {
+        if (message == null || message.equals("") || title == null || title.equals("") || type == null || type.equals("")) {
+            return "redirect:notices";
+        }
+        boolean result = dataServiceImpl.addMessage(title, message, type);
+        if (result) {
+            model.addAttribute("message", "success");
+        }
+        return "back/news/notice-add";
     }
 
     @ResponseBody
@@ -235,8 +249,8 @@ public class DataController {
 
     @ResponseBody
     @PostMapping("/topicCheck")
-    public Map<String, Object> complaint(String type, String tid, String deal, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("currentUser");
+    public Map<String, Object> complaint(String type, String tid, String deal, HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
         Map<String, Object> map = new HashMap<>();
         if (!isNumber(tid)) {
             map.put("message", "数据传输错误!");
@@ -250,23 +264,23 @@ public class DataController {
 
     @ResponseBody
     @RequestMapping("/uploadImg")
-    public Map<String,Object> upload(MultipartFile[] files,HttpServletRequest request){
+    public Map<String, Object> upload(MultipartFile[] files, HttpServletRequest request) {
         System.out.println(request.getParameter("dir"));
-        Map<String,Object> map=new HashMap<>();
-        int errno=-1;
+        Map<String, Object> map = new HashMap<>();
+        int errno = -1;
         System.out.println("执行上传图片");
         String[] data = new String[0];
         try {
-            data = dataServiceImpl.uploadImg(files,request);
-            if(data!=null){
-                errno=0;
+            data = dataServiceImpl.uploadImg(files, request);
+            if (data != null) {
+                errno = 0;
             }
             System.out.println(Arrays.toString(data));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        map.put("data",data);
-        map.put("errno",errno);
+        map.put("data", data);
+        map.put("errno", errno);
         return map;
     }
 

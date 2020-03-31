@@ -1,13 +1,13 @@
 package com.zhao.controller;
 
-
+import com.zhao.pojo.Comment;
+import com.zhao.pojo.MsgUser;
 import com.zhao.pojo.User;
 import com.zhao.service.LoginService;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -31,6 +32,8 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.zhao.util.Constant.ERR403;
+
 @Controller
 public class LoginController {
     @Resource
@@ -40,7 +43,7 @@ public class LoginController {
 
     @RequestMapping("/verifyCode")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        byte[] captchaChallengeAsJpeg = null;
+        byte[] captchaChallengeAsJpeg;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             //生产验证码字符串并保存到session中
@@ -68,6 +71,7 @@ public class LoginController {
 
     @RequestMapping("/register")
     public String register(User user) {
+        System.out.print(user.equals(new Object()) ? "" : "");
         return "/register";
     }
 
@@ -83,7 +87,7 @@ public class LoginController {
         if (!result.hasErrors()) {
             String message = loginServiceImpl.addUser(user);
             if (message.equals("success")) {
-                return "redirect:/login";
+                return "redirect:login";
             } else {
                 errors.add(message);
             }
@@ -99,7 +103,7 @@ public class LoginController {
     public String login(HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         if (currentUser != null) {
-            return "redirect:/LoginSuccess";
+            return "redirect:LoginSuccess";
         } else {
             return "/login";
         }
@@ -120,14 +124,13 @@ public class LoginController {
             User users = loginServiceImpl.findUserByName(user.getUsername());
             session.setAttribute("currentUser", users);
             System.out.println(user.getUsername() + "在" + sdf.format(new Date()) + "登录成功!");
-            return "redirect:/LoginSuccess";
+            return "redirect:LoginSuccess";
         } catch (AuthenticationException e) {
             e.printStackTrace();
             request.setAttribute("error", "请检查用户名或密码……");
             System.out.println(user.getUsername() + "在" + sdf.format(new Date()) + "登录失败!");
         }
         return "/login";
-//        System.out.println("isAuthenticationToken:"+subject.isAuthenticated());
     }
 
     @RequestMapping("/LoginSuccess")
@@ -136,12 +139,68 @@ public class LoginController {
     }
 
     @RequestMapping("/exit")
-    public String exit(HttpServletRequest request) {
+    public String exit() {
         Subject subject = SecurityUtils.getSubject();
         System.out.println(subject.toString());
         subject.logout();// session 会销毁，在SessionListener监听session销毁，清理权限缓存
-//        if (subject.isAuthenticated()) {
-//        }
         return "/login";
+    }
+
+    @ResponseBody
+    @PostMapping("/comment")
+    public String submitComment(Comment comment, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            return "请登录!";
+        }
+        boolean flag;
+        try {
+            comment.setUser(user);
+            comment.setUid(user.getUid());
+            flag = loginServiceImpl.addComment(comment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        if (flag) {
+            return "success";
+        }
+        return "发送失败！";
+    }
+
+    @RequestMapping("/messages/{type}")
+    public String message(HttpSession session, Model model, @PathVariable String type) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            return ERR403;
+        }
+        List<MsgUser> unread = loginServiceImpl.showMsg(user.getUid(), false, type);
+        model.addAttribute("unread", unread);
+        List<MsgUser> read = loginServiceImpl.showMsg(user.getUid(), true, type);
+        model.addAttribute("read", read);
+        boolean iSuccess = loginServiceImpl.renewMessages(user.getUid(), type);
+        if (iSuccess) {
+            Map<String, Object> msg = loginServiceImpl.showUnReadMsg(user.getUid());
+            session.setAttribute("msg", msg);
+        }
+        return "/front/messages";
+    }
+
+    @ResponseBody
+    @PostMapping("/messages")
+    public boolean renewMessages(HttpSession session, String type) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            System.out.println(1);
+            return false;
+        }
+        boolean iSuccess = loginServiceImpl.renewMessages(user.getUid(), type);
+        if (iSuccess) {
+            Map<String, Object> msg = loginServiceImpl.showUnReadMsg(user.getUid());
+            session.setAttribute("msg", msg);
+            return true;
+        }
+        System.out.println(2);
+        return false;
     }
 }

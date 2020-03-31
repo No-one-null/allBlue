@@ -1,10 +1,7 @@
 package com.zhao.service.impl;
 
 import com.zhao.mapper.*;
-import com.zhao.pojo.AcItems;
-import com.zhao.pojo.AcNews;
-import com.zhao.pojo.Talk;
-import com.zhao.pojo.User;
+import com.zhao.pojo.*;
 import com.zhao.service.DataService;
 import com.zhao.util.PageInfo;
 
@@ -35,6 +32,10 @@ public class DataServiceImpl implements DataService {
     private ComplaintMapper complaintMapper;
     @Resource
     private TalkMapper talkMapper;
+    @Resource
+    private MsgContentMapper msgContentMapper;
+    @Resource
+    private MsgUserMapper msgUserMapper;
 
     /**
      * 分页
@@ -196,11 +197,11 @@ public class DataServiceImpl implements DataService {
 
     @Transactional
     @Override
-    public String addNews(AcNews acNews,String[] filenames) throws IOException {
-        List<String> list=getImgSrc(acNews.getNewsContent());
+    public String addNews(AcNews acNews, String[] filenames) throws IOException {
+        List<String> list = getImgSrc(acNews.getNewsContent());
         acNews.setNewsDate(new Date());
         int flag = acNewsMapper.insertAcNews(acNews);
-        if(flag != 0){
+        if (flag != 0) {
             saveFile(list);
             return "success";
         }
@@ -217,25 +218,23 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public String editNews(String id, String content, String type, String status,String[] filenames) throws IOException {
+    public String editNews(String id, String content, String type, String status, String[] filenames) throws IOException {
         if (!isNumber(id)) {
             return "错误的数据！";
         }
-        AcNews acNews=acNewsMapper.selectById(Integer.parseInt(id));
+        AcNews acNews = acNewsMapper.selectById(Integer.parseInt(id));
         int result = acNewsMapper.updateContent(Integer.parseInt(id), content, type, Integer.parseInt(status));
         if (result > 0) {
-            List<String> oldImgs=getImgSrc(acNews.getNewsContent());
-            List<String> newImgs=getImgSrc(content);
-//            List<String> addImgs= Arrays.asList(filenames);
-//            addImgs.retainAll(newImgs);
+            List<String> oldImgs = getImgSrc(acNews.getNewsContent());
+            List<String> newImgs = getImgSrc(content);
             saveFile(newImgs);
             oldImgs.removeAll(newImgs);
-            for (String s: oldImgs) {
-                String filename=s.substring(s.lastIndexOf('/')+1);
-                String path=UPLOAD_PATH+"/images/news/"+filename;
-                System.out.println("删除"+path);
-                File file=new File(path);
-                if(file.exists()){
+            for (String s : oldImgs) {
+                String filename = s.substring(s.lastIndexOf('/') + 1);
+                String path = UPLOAD_PATH + "/images/news/" + filename;
+                System.out.println("删除" + path);
+                File file = new File(path);
+                if (file.exists()) {
                     FileUtils.forceDelete(file);
                 }
             }
@@ -295,7 +294,7 @@ public class DataServiceImpl implements DataService {
         if (user == null) {
             return null;
         }
-        Set roles = userMapper.selectRolesByUsername(user.getUsername());
+        Set<String> roles = userMapper.selectRolesByUid(user.getUid());
         if (roles.size() <= 0) {
             roles.add("user");
         }
@@ -307,33 +306,33 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public String[] uploadImg(MultipartFile[] files, HttpServletRequest request) throws IOException {
-        String str=request.getParameter("dir");
-        if(str==null||str.equals("")){
+        String str = request.getParameter("dir");
+        if (str == null || str.equals("")) {
             return null;
         }
-        String ctx=request.getContextPath();
-        String path=UPLOAD_TEMP_PATH+"/images/news/";
-        File dir=new File(path);
-        if(!dir.exists()){
-            boolean b=dir.mkdirs();
-            if(b){
-                System.out.println(path+"文件夹创建成功!");
+        String ctx = request.getContextPath();
+        String path = UPLOAD_TEMP_PATH + "/images/news/";
+        File dir = new File(path);
+        if (!dir.exists()) {
+            boolean b = dir.mkdirs();
+            if (b) {
+                System.out.println(path + "文件夹创建成功!");
             }
         }
         List<String> filenames = new ArrayList<>();
-        for (MultipartFile file :files) {
+        for (MultipartFile file : files) {
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String fileName=UUID.randomUUID()+suffix;
-            System.out.println(file.getOriginalFilename()+"--rename--"+fileName);
-            file.transferTo(new File(path,fileName));
-            filenames.add(ctx+"/images/news/"+fileName);
+            String fileName = UUID.randomUUID() + suffix;
+            System.out.println(file.getOriginalFilename() + "--rename--" + fileName);
+            file.transferTo(new File(path, fileName));
+            filenames.add(ctx + "/images/news/" + fileName);
         }
         return filenames.toArray(new String[0]);
     }
 
     public void saveFile(List<String> list) throws IOException {
         for (String f : list) {
-            String filename=f.substring(f.lastIndexOf('/')+1);
+            String filename = f.substring(f.lastIndexOf('/') + 1);
             String oldParent = UPLOAD_TEMP_PATH + "/images/news/";
             File dir1 = new File(oldParent);
             if (!dir1.exists()) {
@@ -348,12 +347,46 @@ public class DataServiceImpl implements DataService {
             }
             String oldPath = oldParent + filename;
             String newPath = newParent + filename;
-            System.out.println(oldPath+"--(cp)-->"+newPath);
+            System.out.println(oldPath + "--(cp)-->" + newPath);
             File file = new File(oldPath);
             if (file.exists()) {
                 FileUtils.copyFile(file, new File(newPath));
                 FileUtils.forceDelete(file);
             }
         }
+    }
+
+    @Override
+    public boolean addMessage(String title, String message, String type) {
+        List<Integer> ids = new ArrayList<>();
+        if (type.equals("all")) {
+            ids = userMapper.selectUid();
+        }
+        if (type.equals("admin")) {
+            ids = userMapper.selectUidByRole("admin");
+        }
+        if (type.equals("user")) {
+            ids = userMapper.selectUid();
+            List<Integer> admins = userMapper.selectUidByRole("admin");
+            ids.removeAll(admins);
+        }
+        if (ids.size() <= 0) {
+            return false;
+        }
+        MsgContent msgContent = new MsgContent(title, message, new Date());
+        int index = msgContentMapper.insertOne(msgContent);
+        if (index <= 0) {
+            return false;
+        }
+        List<MsgUser> msgList = new ArrayList<>();
+        for (Integer id : ids) {
+            MsgUser msgUser = new MsgUser(msgContent.getId(), id, "sys");
+            msgList.add(msgUser);
+        }
+        if (msgList.size() > 0) {
+            long result = msgUserMapper.insertBatch(msgList);
+            return result > 0;
+        }
+        return false;
     }
 }

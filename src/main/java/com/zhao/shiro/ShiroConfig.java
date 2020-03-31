@@ -52,6 +52,8 @@ public class ShiroConfig {
         definition.addPathDefinition("/userInfo", "user");
         definition.addPathDefinition("/exit", "user");
         definition.addPathDefinition("/submit/**", "user");
+        definition.addPathDefinition("/account", "user");
+        definition.addPathDefinition("/front/**", "user");
         definition.addPathDefinition("/back/**", "roles[admin]");
         return definition;
     }

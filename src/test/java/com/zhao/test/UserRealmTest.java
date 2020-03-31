@@ -86,14 +86,14 @@ public class UserRealmTest {
     }
 
     @Test
-    public void testReplace(){
-        String str="_";
-        String str1="__";
-        String str2="_1_";
-        System.out.println(repWildcard(str)+"|"+repWildcard(str1)+"|"+repWildcard(str2));
-        str="%";
-        str1="%%";
-        str2="%1%";
-        System.out.println(repWildcard(str)+"|"+repWildcard(str1)+"|"+repWildcard(str2));
+    public void testReplace() {
+        String str = "_";
+        String str1 = "__";
+        String str2 = "_1_";
+        System.out.println(repWildcard(str) + "|" + repWildcard(str1) + "|" + repWildcard(str2));
+        str = "%";
+        str1 = "%%";
+        str2 = "%1%";
+        System.out.println(repWildcard(str) + "|" + repWildcard(str1) + "|" + repWildcard(str2));
     }
 }

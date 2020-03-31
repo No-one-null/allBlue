@@ -3,6 +3,7 @@
     <words>
       <w>alibaba</w>
       <w>anime</w>
+      <w>dismissable</w>
       <w>glyphicon</w>
       <w>hmmss</w>
       <w>imgs</w>
@@ -10,7 +11,9 @@
       <w>kaptcha</w>
       <w>miku</w>
       <w>navbar</w>
+      <w>passwd</w>
       <w>shiro</w>
+      <w>staticfile</w>
       <w>zhao</w>
     </words>
   </dictionary>

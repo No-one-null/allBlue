@@ -38,34 +38,26 @@
             text-decoration: none;
             text-shadow: 5px 5px 5px white;
         }
-
-        .left-button {
-            height: 100%;
-            width: 15%;
-            float: left;
-        }
-
-        .right-button {
-            height: 100%;
-            width: 15%;
-            float: right;
-        }
     </style>
 </head>
-<body>
+<body style="height: 100%;">
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<div class="col-md-offset-2 col-md-8" style="background-color: white">
-    <div style="background-color: #B0E0E6;">
-        <ul class="nav nav-tabs" id="nav-type">
-            <li id="all"><a th:href="@{/news/all}">全部资讯</a></li>
-            <li th:each="m,n : ${menu}" th:id="${m}"><a th:href="@{'/news/'+${m}}">[[${m}]]</a></li>
-        </ul>
-    </div>
-    <div th:each="n,num : ${page.list}"
-         th:style="'height: 150px;border-style: dotted;'+(${num.index%2==0}?'':'background-color: #E0FFFF')">
+<div class="col-md-offset-2 col-md-8" style="background-color: #B0E0E6;position: fixed;z-index: 250;">
+    <ul class="nav nav-tabs nav-justified" id="nav-type" style="z-index: 250">
+        <li id="all"><a th:href="@{/news/all}">全部资讯</a></li>
+        <li th:each="m,n : ${menu}" th:id="${m}"><a th:href="@{'/news/'+${m}}">[[${m}]]</a></li>
+    </ul>
+</div>
+<div class="col-md-offset-2 col-md-8" style="height:100%;overflow: auto;">
+    <div style="margin-bottom: 50px;"></div>
+    <div th:each="n,num : ${page.list}" style='height: 150px;border-style: dotted;z-index: 100;'
+         th:styleappend="(${num.index%2==0}?'':'background-color: #E0FFFF')">
         <div class="col-md-3" style="height: 100%;">
-            <a href="#"><img th:src="@{/images/none.png}" style="max-height: 100%;" alt="题图"></a>
+            <a href="#">
+                <img th:src="${#strings.isEmpty(n.firstImg)?'/allBlue/images/none.png':n.firstImg}"
+                     style="height: 100%;width: 210px;z-index: 100;" alt="题图">
+            </a>
         </div>
         <div class="col-md-9" style="height: 100%;display: table;margin: 0 auto;">
             <div class="cell">
@@ -79,30 +71,23 @@
             </div>
         </div>
     </div>
-    <div class="alert alert-warning" th:if="${page.list.size()}<${page.pageSize}">
+    <div class="alert alert-warning text-center" th:if="${page.list.size()}<${page.pageSize}">
         <a href="#" class="close" data-dismiss="alert">
             &times;
         </a>
-        <h4 style="text-align: center"><strong>没有更多了。。。。</strong></h4>
+        <h4><strong>没有更多了。。。。</strong></h4>
     </div>
-    <div style="height: 50px;text-align: center">
-        <button class="left-button" th:if="${page.pageNumber>1}">上一页</button>
-        <form id="pageForm" hidden>
-            <label>
-                <input name="pNum" th:value="${page.pageNumber}">
-            </label>
-        </form>
-        <button class="right-button" th:if="${page.pageNumber}<${page.total}" type="button">下一页</button>
-    </div>
+    <div style="height: 50px;"></div>
 </div>
+<div th:replace="/ac :: page-btn"></div>
 <script type="text/javascript">
     const v = "#" + "[[${type}]]";
     $(v).attr("class", "active");
-    $(".left-button").click(function () {
-        window.location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}-1]]";
+    $("#prev").on("click", function () {
+        location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}-1]]";
     });
-    $(".right-button").click(function () {
-        window.location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}+1]]";
+    $("#next").on("click", function () {
+        location.href = "[[@{'/news/'+${type}}]]" + "?pNum=[[${page.pageNumber}+1]]";
     });
 </script>
 </body>

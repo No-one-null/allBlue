@@ -5,6 +5,7 @@ import com.zhao.util.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public interface ShowService {
 
     Mark findMarkOne(int uid, int acId);
 
-    float calRating(String acId, float rating) throws Exception;
+    float calRating(String acId, float rating);
 
     int sumRating(String acId);
 
@@ -31,13 +32,11 @@ public interface ShowService {
 
     AcNews showNews(String nid);
 
-    int addTalk(Talk talk);
+    String addTalk(MultipartFile[] files, HttpServletRequest request) throws IOException;
 
     List<Talk> showAllTalk();
 
-    Talk showTalk(String tid, HttpServletRequest request);
-
-    boolean addComment(Comment comment);
+    Talk showTalk(String tid, User user);
 
     List<Comment> showComments(String tid);
 

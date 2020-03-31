@@ -71,7 +71,7 @@
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-3" style="position: fixed;">左</div>
-<div class="col-md-offset-3 col-md-6">
+<div class="col-md-offset-3 col-md-6" style="overflow: auto;height: 100%;">
     <div class="panel panel-danger" style="width: 100%">
         <div class="panel-heading">
             <h3 class="panel-title">发表动态</h3>
@@ -138,11 +138,11 @@
         </div>
         <div class="panel-footer" style="width: 100%">
             <a th:href="@{'/topic/t'+${list.tid}}" target="_blank">
-                <button style="width: 33%">
+                <button class="btn btn-default btn-block">
                     <span class="glyphicon glyphicon-edit"></span>评论
                 </button>
             </a>
-            <button style="width: 33%;float: right">
+            <button style="width: 33%;float: right" th:if="${likes!=null}">
                 <span class="glyphicon glyphicon-thumbs-up"></span>点赞
             </button>
         </div>
@@ -178,10 +178,10 @@
 
     //图片上传div
     const newImgDiv = "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
-            "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
-            "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
-            "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
-            "</div>";
+        "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
+        "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
+        "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
+        "</div>";
 
     function openDiv(obj) {
         let arr = document.getElementsByName("files");

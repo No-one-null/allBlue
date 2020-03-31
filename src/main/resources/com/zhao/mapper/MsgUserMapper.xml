@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhao.mapper.MsgUserMapper">
+    <resultMap id="msg" type="MsgUser">
+        <id column="id" property="id"/>
+        <result column="mid" property="mid"/>
+        <result column="uid" property="uid"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <association property="content" select="com.zhao.mapper.MsgContentMapper.selectById" column="mid"/>
+    </resultMap>
+    <select id="selectByStatus" resultMap="msg">
+        SELECT *
+        FROM msg_user
+        WHERE uid = #{0}
+          AND status = #{1}
+    </select>
+    <select id="selectByType" resultMap="msg">
+        SELECT * FROM msg_user WHERE uid=#{uid} AND status=#{status}
+        <if test="type!=null and type!=''">
+            AND type=#{type}
+        </if>
+        ORDER BY id DESC
+    </select>
+    <insert id="insertOne" parameterType="MsgUser">
+        INSERT INTO msg_user (mid, uid, type, status)
+        VALUES (#{mid}, #{uid}, #{type}, 0)
+    </insert>
+    <insert id="insertBatch" parameterType="List">
+        INSERT INTO msg_user (mid, uid, type, status)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.mid},#{item.uid},#{item.type},0)
+        </foreach>
+    </insert>
+</mapper>

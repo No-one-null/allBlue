@@ -48,7 +48,7 @@ a:active {
 .back-Miku {
     background: url('../images/background/background.jpg') no-repeat center center fixed #87CEFA;
     background-size: cover;
-    height: auto;
+    height: 100%;
 }
 
 .error {
@@ -87,7 +87,7 @@ a:active {
     width: 50px;
     height: 50px;
     position: fixed;
-    right: 10px;
+    left: 10px;
     bottom: 0;
 }
 
@@ -176,10 +176,6 @@ h5 {
     color: blue;
 }
 
-.panel-info {
-    background-color: #F0FFFF;
-}
-
 .detail-div {
     margin-top: 3%;
     height: 85%;
@@ -208,8 +204,10 @@ h5 {
 
 .info-div {
     margin-top: 3%;
-    height: 220px;
-    background-color: white;
+    height: 230px;
+    overflow: auto;
+    border-style: dotted;
+    border-color: #1E90FF;
 }
 
 pre {
@@ -232,8 +230,6 @@ textarea {
  */
 .link-div {
     height: 60px;
-    border-style: dotted;
-    border-color: #1E90FF;
     background-color: #BBFFFF;
 }
 
@@ -514,4 +510,55 @@ textarea {
 .cover {
     width: 160px;
     height: 240px;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: red;
+}
+
+.badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #28a745;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.position-static {
+    position: static !important;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.position-absolute {
+    position: absolute !important;
+}
+
+.position-fixed {
+    position: fixed !important;
+}
+
+.position-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
 }

@@ -6,47 +6,110 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/Test1.java" afterDir="false" />
+    <list default="true" id="2765ba05-27c6-48cc-ac76-4ed4c3cd8711" name="Default Changelist" comment="0331 大致完成">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/Scheduled/ScheduledDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/MsgContentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/MsgUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/MsgContent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/MsgUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/MsgContentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/MsgUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/back/news/notice-add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/front/account.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/front/messages.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5d0cbc32-b191-427a-9b80-dbc23cb6b95b.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5d0cbc32-b191-427a-9b80-dbc23cb6b95b/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Zero.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Zero.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/test/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/config/RedisConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/DataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/controller/ShowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/exception/GlobalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/test/GlobalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/interceptor/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/interceptor/LoginInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcNews.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/AcNews.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/Talk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/pojo/Talk.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/DataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/DataService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/ShowService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/DataServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/LoginServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/LoginServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/service/impl/ShowServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/shiro/ShiroConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/shiro/ShiroConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/shiro/realm/AuthRealm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/shiro/realm/AuthRealm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/test/UserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/UserApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/util/CommonUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/util/CommonUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zhao/util/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zhao/util/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/additional-spring-configuration-metadata.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/TalkMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/TalkMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/zhao/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/addNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/addNews.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/detailsNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/detailsNews.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/news_content.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/news_content.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/topic_comment.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/topic_comment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/test/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/test/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/images/null.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/all.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/front/front.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/front.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/news/acNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/addNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/news/addNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/detailsNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/news/detailsNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/acNews/newsList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/news/newsList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/back/back.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/error1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/error1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/error2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/error2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/ac.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ac.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/acInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/acInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/news.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/news.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/news_content.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/news_content.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/topic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/topic_comment.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/topic_comment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/topic_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/topic_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/front/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test/ac_add_ok.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test/test.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/RedisTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/RedisTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/Test1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/Test1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zhao/test/UserRealmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/allBlue.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/App.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/DataController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/DataController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/LoginController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/controller/ShowController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/interceptor/LoginInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/interceptor/LoginInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/AcItemsMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/UserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/UserMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/mapper/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/DataService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/DataService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/LoginService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/ShowService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/DataServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/DataServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/LoginServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/LoginServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/LoginServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/service/impl/ShowServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/shiro/ShiroConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/shiro/ShiroConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/zhao/shiro/realm/AuthRealm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zhao/shiro/realm/AuthRealm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/back.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/back.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/front.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/front.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/images/null.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/front/front.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/acNews/acNews.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/back/back.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/back/back.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/acInfo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/front/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/front/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,25 +133,25 @@
     <expand>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="all_blue" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="all_blue" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="all_blue" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="allblue: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="all_blue: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="allblue" type="feb32156:DbDataSourceImpl" />
+        <item name="all_blue" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="allblue: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="talk: table" type="285a2a93:MysqlImplModel$Table" />
+        <item name="all_blue: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="msg_content: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -101,12 +164,13 @@
       <list>
         <option value="spring-beans.schema" />
         <option value="Tag Library Descriptor" />
-        <option value="HTML File" />
         <option value="FxmlFile" />
         <option value="mapper" />
         <option value="Mapper" />
         <option value="Interface" />
+        <option value="mapper.xml" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -158,7 +222,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last.edited.regexp" value="Sample Text" />
-    <property name="last_opened_file_path" value="D:/mylib/mysql-connector-java-8.0.17.zip" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/zhao/pojo" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -168,16 +232,16 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/resources/templates/back/acNews/acNews.html" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\back\acNews" />
+      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\front" />
       <recent name="D:\Workspaces\allBlue\src\test\java\com\zhao\test" />
       <recent name="D:\Workspaces\allBlue\src\main\java\com\zhao\config" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\templates\error" />
-      <recent name="D:\Workspaces\allBlue\src\main\java\com\zhao\exception" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\front" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.zhao" />
@@ -188,79 +252,63 @@
       <recent name="com.zhao.test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zhao.mapper" />
       <recent name="com.zhao.pojo" />
       <recent name="com.zhao.service.impl" />
       <recent name="com.zhao.service" />
-      <recent name="com.zhao.mapper" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspaces\allBlue\src\main\resources\static\js" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\templates" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\templates\test" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static\images\background" />
       <recent name="D:\Workspaces\allBlue\src\main\resources\static" />
-      <recent name="D:\Workspaces\allBlue\src\main\resources\templates\back\topic" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.App">
-    <configuration name="RedisTest.testRoles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RedisTest.testInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="PATTERN" value="com.zhao.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.zhao.test" />
       <option name="MAIN_CLASS_NAME" value="com.zhao.test.RedisTest" />
-      <option name="METHOD_NAME" value="testRoles" />
+      <option name="METHOD_NAME" value="testInsert" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test1.dateFormat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RedisTest.testSelect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="PATTERN" value="com.zhao.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.zhao.test" />
-      <option name="MAIN_CLASS_NAME" value="com.zhao.test.Test1" />
-      <option name="METHOD_NAME" value="dateFormat" />
+      <option name="MAIN_CLASS_NAME" value="com.zhao.test.RedisTest" />
+      <option name="METHOD_NAME" value="testSelect" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test1.src" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Test1.testCatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="allBlue" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.zhao.test.*" />
+          <option name="PATTERN" value="com.zhao.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.zhao.test" />
       <option name="MAIN_CLASS_NAME" value="com.zhao.test.Test1" />
-      <option name="METHOD_NAME" value="src" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test1.substring" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="allBlue" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.zhao.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.zhao.test" />
-      <option name="MAIN_CLASS_NAME" value="com.zhao.test.Test1" />
-      <option name="METHOD_NAME" value="substring" />
+      <option name="METHOD_NAME" value="testCatch" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -306,21 +354,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="allBlue" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zhao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zhao.test.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="JUnit.Test1.dateFormat" />
+      <item itemvalue="JUnit.RedisTest.testInsert" />
+      <item itemvalue="JUnit.RedisTest.testSelect" />
+      <item itemvalue="JUnit.Test1.testCatch" />
       <item itemvalue="Maven.allBlue [clean,install...]" />
       <item itemvalue="Spring Boot.App" />
-      <item itemvalue="JUnit.Test1.substring" />
-      <item itemvalue="JUnit.Test1.src" />
-      <item itemvalue="JUnit.RedisTest.testRoles" />
+      <item itemvalue="Spring Boot.UserApplication" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.App" />
-        <item itemvalue="JUnit.RedisTest.testRoles" />
-        <item itemvalue="JUnit.Test1.src" />
-        <item itemvalue="JUnit.Test1.substring" />
-        <item itemvalue="JUnit.Test1.dateFormat" />
+        <item itemvalue="Spring Boot.UserApplication" />
+        <item itemvalue="JUnit.Test1.testCatch" />
+        <item itemvalue="JUnit.RedisTest.testSelect" />
+        <item itemvalue="JUnit.RedisTest.testInsert" />
       </list>
     </recent_temporary>
   </component>
@@ -441,6 +502,13 @@
       <workItem from="1585098611036" duration="8561000" />
       <workItem from="1585128798417" duration="18634000" />
       <workItem from="1585188453617" duration="32024000" />
+      <workItem from="1585271932950" duration="35977000" />
+      <workItem from="1585358356480" duration="20529000" />
+      <workItem from="1585401087993" duration="10604000" />
+      <workItem from="1585447557537" duration="41807000" />
+      <workItem from="1585529896246" duration="18137000" />
+      <workItem from="1585560649560" duration="24116000" />
+      <workItem from="1585618609439" duration="39117000" />
     </task>
     <task id="LOCAL-00001" summary="测试">
       <created>1581569963607</created>
@@ -583,7 +651,8 @@
     <MESSAGE value="0319 午" />
     <MESSAGE value="0320 evening" />
     <MESSAGE value="0324 morning" />
-    <option name="LAST_COMMIT_MESSAGE" value="0324 morning" />
+    <MESSAGE value="0331 大致完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="0331 大致完成" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="92" key="#HTTP_Proxy" timestamp="1580660121007">
@@ -594,10 +663,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="74" key="#Inspections/0.0.1536.824@0.0.1536.824" timestamp="1582805294816" />
-    <state x="361" y="74" key="#Notifications" timestamp="1585214121838">
+    <state x="361" y="74" key="#Notifications" timestamp="1585300542979">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="74" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1585214121838" />
+    <state x="361" y="74" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1585300542979" />
     <state x="361" y="74" key="#Project_Structure" timestamp="1584278106644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -606,10 +675,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="74" key="#SQL_Dialects/0.0.1536.824@0.0.1536.824" timestamp="1582717871519" />
-    <state x="361" y="74" width="1141" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584786602437">
+    <state x="344" y="20" width="1155" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585662934133">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="74" width="1141" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1584786602437" />
+    <state x="344" y="20" width="1155" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1585662934133" />
     <state x="507" y="221" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1580829509300">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -618,10 +687,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="138" key="#com.intellij.ide.scriptingContext.ui.PerFileMappingsDialogWrapper/0.0.1536.824@0.0.1536.824" timestamp="1585024951119" />
-    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1585148196397">
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1585564618725">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1585148196397" />
+    <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1585564618725" />
     <state x="499" y="193" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1581436556695">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -630,26 +699,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="498" y="226" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1580975564753" />
-    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1580975594087">
+    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1585671508287">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1580975594087" />
-    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1584606025490">
+    <state x="483" y="341" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1585671508287" />
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1585674415252">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1584606025490" />
-    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1580975595900">
+    <state x="553" y="279" width="429" height="312" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1585674415252" />
+    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1585462876054">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1536.824@0.0.1536.824" timestamp="1580975595900" />
+    <state x="553" y="301" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1536.824@0.0.1536.824" timestamp="1585462876054" />
     <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1581939283309">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="267" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1581939283309" />
-    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581474538552">
+    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585651898674">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1581474538552" />
+    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1585651898674" />
     <state x="523" y="153" key="#org.intellij.plugins.intelliLang.inject.config.ui.BaseInjectionDialog" timestamp="1582788182771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -658,66 +727,66 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="331" y="0" key="#org.jetbrains.kotlin.idea.refactoring.safeDelete.KotlinOverridingDialog/0.0.1536.824@0.0.1536.824" timestamp="1583655903500" />
-    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1585017956871">
+    <state x="385" y="10" key="CommitChangelistDialog2" timestamp="1585674534026">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1585017956871" />
+    <state x="385" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1585674534026" />
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1581685489795">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1581685489795" />
-    <state x="527" y="171" width="459" height="510" key="FileChooserDialogImpl" timestamp="1585024891825">
+    <state x="527" y="171" width="459" height="510" key="FileChooserDialogImpl" timestamp="1585464152011">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="527" y="171" width="459" height="510" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1585024891825" />
-    <state width="1493" height="192" key="GridCell.Tab.0.bottom" timestamp="1585236524854">
+    <state x="527" y="171" width="459" height="510" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1585464152011" />
+    <state width="1493" height="192" key="GridCell.Tab.0.bottom" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.0.center" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.0.center" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.0.left" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.0.left" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.0.right" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.0.right" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.1.bottom" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.1.bottom" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.1.center" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.1.center" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.1.left" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.1.left" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="192" key="GridCell.Tab.1.right" timestamp="1585236524854">
+    <state width="1493" height="192" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.1.right" timestamp="1585674534064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="192" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1585236524854" />
-    <state width="1493" height="183" key="GridCell.Tab.2.bottom" timestamp="1582856509261">
+    <state width="1493" height="192" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1585674534064" />
+    <state width="1493" height="192" key="GridCell.Tab.2.bottom" timestamp="1585652168771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="183" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582856509261" />
-    <state width="1493" height="183" key="GridCell.Tab.2.center" timestamp="1582856509260">
+    <state width="1493" height="192" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585652168771" />
+    <state width="1493" height="192" key="GridCell.Tab.2.center" timestamp="1585652168771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="183" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1582856509260" />
-    <state width="1493" height="183" key="GridCell.Tab.2.left" timestamp="1582856509260">
+    <state width="1493" height="192" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1585652168771" />
+    <state width="1493" height="192" key="GridCell.Tab.2.left" timestamp="1585652168771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="183" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1582856509260" />
-    <state width="1493" height="183" key="GridCell.Tab.2.right" timestamp="1582856509261">
+    <state width="1493" height="192" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1585652168771" />
+    <state width="1493" height="192" key="GridCell.Tab.2.right" timestamp="1585652168771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="183" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1582856509261" />
+    <state width="1493" height="192" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1585652168771" />
     <state width="1493" height="193" key="GridCell.Tab.3.bottom" timestamp="1582128862811">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -746,10 +815,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="78" key="Registry/0.0.1536.824@0.0.1536.824" timestamp="1584850225690" />
-    <state x="272" y="0" key="SettingsEditor" timestamp="1585025280397">
+    <state x="272" y="0" key="SettingsEditor" timestamp="1585568120265">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="272" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1585025280397" />
+    <state x="272" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1585568120265" />
     <state width="498" height="468" key="SwitcherDM" timestamp="1581499924360">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -766,10 +835,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="478" y="61" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1583856262282" />
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1585188485195">
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1585618954605">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585188485195" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585618954605" />
     <state x="266" y="113" key="com.intellij.javaee.MapExternalResourceDialog" timestamp="1584783411154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -794,10 +863,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="75" key="scopes/0.0.1536.824@0.0.1536.824" timestamp="1582382471187" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1584534637834">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585662318311">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1584534637834" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585662318311" />
     <state x="449" y="105" key="spring file set editor" timestamp="1584842563951">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

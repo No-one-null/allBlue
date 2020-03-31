@@ -5,10 +5,6 @@
     <title th:text="${'[@'+talk.user.username+']的讨论'}"></title>
     <link th:replace="/index :: icon"/>
     <style type="text/css">
-        div {
-            /*border-style: dotted;*/
-        }
-
         textarea {
             resize: none;
             width: 100%;
@@ -19,7 +15,6 @@
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-3" style="position: fixed;">左
-    <a href="#comment-area">评论</a>
 </div>
 <div class="col-md-offset-3 col-md-6">
     <div class="panel panel-success">
@@ -37,19 +32,18 @@
                     <ul class="dropdown-menu" role="menu">
                         <li th:unless="${talk.status>=2}"><a href="#">分享</a></li>
                         <li th:unless="${talk.status>=2}" shiro:user class="divider"></li>
-                        <li shiro:user><a href="#">收藏</a></li>
                         <li shiro:user>
                             <a th:if="${talk.user.uid==session.currentUser.uid}"
                                th:href="'javascript:removeTalk('+${talk.tid}+','+${talk.user.uid}+');'">删除
                             </a>
                             <a th:if="${talk.user.uid!=session.currentUser.uid}"
-                               href="#" data-toggle="modal" data-target="#complaint">举报
+                               href="javascript:void(0);" data-toggle="modal" data-target="#complaint">举报
                             </a>
                         </li>
                         <li shiro:hasRole="admin" class="divider"></li>
                         <li shiro:hasRole="admin" role="presentation" class="dropdown-header">管理</li>
                         <li shiro:hasRole="admin">
-                            <a role="menuitem" tabindex="-1" href="#">隐藏动态</a>
+                            <a role="menuitem" tabindex="-1" th:href="|javascript:topicHide(${talk.tid})|">隐藏动态</a>
                         </li>
                     </ul>
                 </div>
@@ -61,7 +55,8 @@
             因用户举报，本动态已被管理员隐藏！请删除动态或更改内容后重新发布。
         </div>
         <div class="panel-body" style="width: 100%">
-            <p class="p"><a th:href="@{#}" th:each="t : ${talk.topicArr}">#[[${t}]]#&nbsp;&nbsp;</a></p>
+            <p class="p"><a target="_blank" th:href="@{'/topic?search=%23'+${t}+'%23'}" th:each="t : ${talk.topicArr}">#[[${t}]]#&nbsp;&nbsp;</a>
+            </p>
             <p class="p">[[${talk.content}]]</p>
             <div>
                 <div th:each="pic : ${talk.pictureArr}" class="img-div">
@@ -85,21 +80,27 @@
             </form><!-- /input-group -->
         </div>
     </div>
+    <div class="text-center alert alert-dismissable" id="alert" hidden>
+        <button type="button" class="close" onclick="location.reload()" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        <span id="message"></span>
+    </div>
     <a id="comment-area" href=""></a>
     <div class="well well-sm" th:each="c : ${comments}">
         <img class="img-circle headImg" alt="用户头像"
-             th:src="@{${#strings.isEmpty(c.user.photo)?
-                     '/images/no-one.jpg':'/images/avatar/'+c.user.photo}}">
-        <a th:href="@{'/u'+${c.user.uid}}" th:text="${c.user.username}"></a>
-        <span th:if="${c.toUid!=0}">回复<a th:href="@{'/u'+${c.toUser.uid}}">@[[${c.toUser.username}]]</a></span>
+             th:src="@{${#strings.isEmpty(c.user.photo)?'/images/no-one.jpg':'/images/avatar/'+c.user.photo}}">
+        <a target="_blank" th:href="@{'/user'+${c.user.uid}}" th:text="${c.user.username}"></a>
+        <span th:if="${c.toUid!=0}">回复
+            <a target="_blank" th:href="@{'/user'+${c.toUser.uid}}">@[[${c.toUser.username}]]</a>
+        </span>
         ：[[${c.content}]]
         <small class="pull-right">
             <i th:text="${#dates.format(c.time,'yyy年MM月dd日HH:mm:ss')}"></i>
             <input type="button" value="回复" class="btn btn-xs btn-warning"
                    data-toggle="modal" th:data-target="${'#model'+c.id}">
-            <input type="button" value="删除" class="btn btn-xs btn-danger" shiro:user
-                   th:if="${(c.user.uid==session.currentUser.uid)}"
-                   th:onclick="'removeComment('+${c.id}+','+${c.user.uid}+')'">
+            <input type="button" value="删除" shiro:user th:if="${(c.user.uid==session.currentUser.uid)}"
+                   th:onclick="'removeComment('+${c.id}+','+${c.user.uid}+')'" class="btn btn-xs btn-danger">
         </small>
         <!--回复评论-->
         <div class="modal fade" th:id="${'model'+c.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -109,7 +110,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h5 class="modal-title" th:id="${'modelLabel'+c.id}">回复<a
-                                th:href="@{#}">@[[${c.user.username}]]</a>:</h5>
+                                th:href="@{'/user'+c.user.uid}">@[[${c.user.username}]]</a>:</h5>
                     </div>
                     <div class="modal-body">
                         <div shiro:guest class="alert alert-danger" style="text-align: center;">
@@ -175,6 +176,7 @@
 <script type="text/javascript">
     const $comment = $("#comment");
     const $submit = $("#submit");
+    const $alert = $("#alert");
     $submit.on("click", function () {
         submit($comment);
     });
@@ -222,11 +224,11 @@
             contentType: false,
             async: false,
             success: function (data) {
+                $alert.addClass(data === "success" ? "alert-info" : "alert-danger");
+                $("#message").html(data === "success" ? "举报成功!" : data);
+                $alert.show();
                 if (data === 'success') {
-                    window.location.reload();
-                    return alert("举报成功！");
-                } else {
-                    return alert(data);
+                    setTimeout("location.reload()", 1500);
                 }
             }, error: function (xhr) {
                 alert(xhr.status);
@@ -241,20 +243,20 @@
 
     function submit($e) {
         $.ajax({
-            url: "[[@{/submit/comment}]]",
+            url: "[[@{/comment}]]",
             method: "post",
             data: $e.serialize(),
             async: false,
             success: function (data) {
                 if (data.search("!DOCTYPE html") !== -1) {
-                    window.location.href = "[[@{/login}]]";
+                    location.href = "[[@{/login}]]";
                     return alert("请登录!");
                 }
+                $alert.addClass(data === "success" ? "alert-info" : "alert-danger");
+                $("#message").html(data === "success" ? "发送成功!" : data);
+                $alert.show();
                 if (data === 'success') {
-                    alert("发送成功！");
-                    window.location.reload();
-                } else {
-                    return alert(data);
+                    setTimeout("location.reload()", 1500);
                 }
             }, error: function () {
                 alert("发送失败……请重试！");
@@ -270,11 +272,11 @@
                 data: {id: id, uid: uid},
                 async: false,
                 success: function (data) {
+                    $alert.addClass(data === "success" ? "alert-info" : "alert-danger");
+                    $("#message").html(data === "success" ? "删除成功!" : data);
+                    $alert.show();
                     if (data === 'success') {
-                        location.reload();
-                        return alert("删除成功!");
-                    } else {
-                        return alert(data);
+                        setTimeout("location.reload()", 1500);
                     }
                 }
             });
@@ -295,6 +297,25 @@
                         return alert("删除成功!");
                     }
                     return alert(data);
+                }
+            });
+        }
+    }
+</script>
+<script type="text/javascript" shiro:hasRole="admin">
+    const $alert = $("#alert");
+
+    function topicHide(tid) {
+        if (confirm("确定隐藏?")) {
+            $.post("[[@{/back/topicCheck}]]", {type: "topic", tid: tid, deal: "hide"}, function (data, status) {
+                if (status === "success") {
+                    $("#message").html(data.message);
+                    $alert.addClass("alert-info");
+                    $alert.show();
+                } else {
+                    $("#message").html("发送失败!" + status);
+                    $alert.addClass("alert-danger");
+                    $alert.show();
                 }
             });
         }

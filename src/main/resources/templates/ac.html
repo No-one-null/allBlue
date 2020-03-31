@@ -9,7 +9,7 @@
 <body class="back-Miku">
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
-<div class="col-md-offset-2 col-md-8">
+<div class="col-md-offset-2 col-md-8" style="height: 100%;overflow: auto;">
     <div th:each="ac,num : ${page.list}" class="col-md-3 ac-div">
         <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail">
             <span th:text="${num.index+1}"></span><br>
@@ -23,7 +23,7 @@
         </a>
     </div>
 </div>
-<div class="well bottom-right">
+<div class="well bottom-right" th:fragment="page-btn">
     <button type="button" class="btn btn-success" id="prev"
             th:disabled="${page.pageNumber==1}">
         <span></span>上一页

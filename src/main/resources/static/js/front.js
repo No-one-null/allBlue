@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).on("ready", function () {
     let tag = document.title;
     let $tag = $(".nav-tag").children("li");
     $tag.removeAttr("class");

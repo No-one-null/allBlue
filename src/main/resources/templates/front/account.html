@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改登录信息</title>
+    <link th:replace="/index :: icon"/>
+</head>
+<body>
+<!-- 导航栏-->
+<nav th:replace="/index :: head"></nav>
+<div class=" col-md-offset-3 col-md-6">
+    <form class="panel panel-primary form-horizontal" method="post">
+        <div class="panel-heading">修改密码</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">原密码</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newPass" class="col-sm-3 control-label">新密码</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" id="newPass" name="newPass">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm" class="col-sm-3 control-label">确认新密码</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" id="confirm" name="confirm">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-default btn-block">确认</button>
+        </div>
+    </form>
+    <div class="alert alert-danger text-center" th:if="${!#strings.isEmpty(error)}">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>修改失败！</strong><span th:text="${error}"></span>
+    </div>
+    <div class="alert alert-success text-center" th:if="${message!=null}">
+        <a th:href="@{/exit}" th:text="${(message eq 'success')?'修改成功！请重新登录……':message}"></a>
+    </div>
+    <form class="panel panel-primary form-horizontal" method="post">
+        <div class="panel-heading">修改用户名</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="username" class="col-sm-3 control-label">新用户名</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="username" name="username">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password1" class="col-sm-3 control-label">密码验证</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" id="password1" name="password">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-default btn-block">确认</button>
+        </div>
+    </form>
+    <div class="well well-sm text-center">
+        <a th:href="@{'/user'+${session.currentUser.uid}}">返回</a>
+    </div>
+</div>
+<script type="text/javascript">
+    let message = "[[${message}]]";
+    if (message === "success") {
+        setTimeout('location.href="[[@{/exit}]]";', 1000);
+    }
+</script>
+</body>
+</html>

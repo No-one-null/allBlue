@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.zhao.util.CommonUtil.*;
@@ -23,6 +24,8 @@ import static com.zhao.util.Constant.*;
 
 @Service
 public class ShowServiceImpl implements ShowService {
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -37,8 +40,6 @@ public class ShowServiceImpl implements ShowService {
     private CommentMapper commentMapper;
     @Resource
     private ComplaintMapper complaintMapper;
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public AcItems findById(String id) {
@@ -76,12 +77,12 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public List<?> sort(String category, int start, int size) {
-        String sortKey=category+"_sort";
+        String key = "index_" + category;
         this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
-        List<?> list= (List<?>) this.redisTemplate.opsForValue().get(sortKey);
-        if(list==null){
-            list=acItemsMapper.sort(category,start,size);
-            this.redisTemplate.opsForValue().set(sortKey, list);
+        List<?> list = (List<?>) this.redisTemplate.opsForValue().get(key);
+        if (list == null) {
+            list = acItemsMapper.sort(category, start, size);
+            this.redisTemplate.opsForValue().set(key, list);
         }
         return list;
     }
@@ -105,10 +106,9 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional
     @Override
-    public float calRating(String acId, float rating)  throws Exception{
+    public float calRating(String acId, float rating) {
         float newRating = markMapper.avgRating(Integer.parseInt(acId));
         float realRating = (float) Math.round(newRating * 10) / 10;
-        System.out.println("newRating" + newRating + "RealRating" + realRating);
         if (rating == realRating) {
             return rating;
         } else {
@@ -148,7 +148,6 @@ public class ShowServiceImpl implements ShowService {
             pageInfo.setList(acNewsMapper.selectByParams(pageStart, pSize, type));
         }
         pageInfo.setTotal(count % pSize == 0 ? count / pSize : count / pSize + 1);
-//        System.out.println(pageInfo);
         return pageInfo;
     }
 
@@ -163,9 +162,84 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional
     @Override
-    public int addTalk(Talk talk) {
+    public String addTalk(MultipartFile[] files, HttpServletRequest request) throws IOException {
+        String message = "success";
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            return "请登录!";
+        }
+        StringBuilder pictures = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyyMMddHHmmss");
+        String userPath = UPLOAD_TOPIC + "/" + user.getUid();
+        File userDir = new File(userPath);
+        if (!userDir.exists()) {
+            boolean res = userDir.mkdirs();
+            if (!res) {
+                System.out.println("用户文件夹创建失败");
+            } else {
+                System.out.println("创建用户文件夹");
+            }
+        }
+        String newPath = "/" + sdf.format(new Date());
+        String pathname = userPath + newPath;
+        File dir = new File(pathname);
+        if (files != null) {
+            if (!dir.exists()) {
+                boolean result = dir.mkdirs();
+                if (!result) {
+                    return "文件夹创建失败!";
+                }
+            }
+            int index = 0;
+            for (int i = files.length - 1; i >= 0; i--) {
+                if (files[i].getSize() <= 0) {
+                    continue;
+                }
+                //获取文件名
+                String oldName = files[i].getOriginalFilename();
+                System.out.println("files[" + i + "]的名字:" + oldName);
+                String suffix = files[i].getOriginalFilename().substring(oldName.lastIndexOf("."));
+                try {
+                    String newName = "/" + (++index) + suffix;
+                    files[i].transferTo(new File(pathname, newName));
+                    pictures.append(newPath).append(newName).append(",");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "上传失败!";
+                }
+            }
+            if (!pictures.toString().equals("")) {
+                pictures = new StringBuilder(pictures.substring(0, pictures.length() - 1));
+            } else {
+                FileUtils.forceDelete(dir);
+            }
+        }
+        Talk talk = new Talk();
+        talk.setPictures(pictures.toString());
+        talk.setTopic(request.getParameter("topicStr"));
+        String content = request.getParameter("content");
+        if (content.length() > CONTENT_MAXSIZE) {
+            content = content.substring(0, CONTENT_MAXSIZE);
+        }
+        talk.setContent(content);
+        talk.setUid(user.getUid());
+        System.out.println(talk);
         talk.setTime(new Date());
-        return talkMapper.insertTalk(talk);
+        int flag = 0;
+        try {
+            flag = talkMapper.insertTalk(talk);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (flag == 0) {
+                if (dir.exists()) {
+                    FileUtils.forceDelete(dir);
+                }
+                message = "保存失败!请检查输入是否有误";
+            }
+        }
+        return message;
     }
 
     @Override
@@ -174,29 +248,16 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public Talk showTalk(String tid, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("currentUser");
+    public Talk showTalk(String tid, User user) {
+        System.out.println(user);
         if (tid != null && isNumber(tid)) {
             Talk talk = talkMapper.selectOne(Integer.parseInt(tid));
-            if (talk == null) {
+            if ((talk==null)||(talk.getStatus() > 1 &&( user == null || talk.getUid() != user.getUid()))) {
                 return null;
             }
-            if (talk.getStatus() >= 2 && talk.getUid() != user.getUid()) {
-                return null;
-            } /*else {
-                System.out.println(talk.getStatus() <= 0 && talk.getUid() != user.getUid());
-            }*/
             return talk;
         }
         return null;
-    }
-
-    @Transactional
-    @Override
-    public boolean addComment(Comment comment) {
-        comment.setTime(new Date());
-        int result = commentMapper.insertOne(comment);
-        return result == 1;
     }
 
     @Override
@@ -275,7 +336,7 @@ public class ShowServiceImpl implements ShowService {
             return null;
         }
         map.put("user", user);
-        Set roles = userMapper.selectRolesByUsername(user.getUsername());
+        Set<String> roles = userMapper.selectRolesByUid(user.getUid());
         map.put("roles", roles);
         if (page.equalsIgnoreCase("talk")) {
             List<Talk> talks = talkMapper.selectByUid(id, "time", "DESC");
@@ -337,7 +398,10 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<?> findByWord(String tb, String conditions, String word, String order) throws Exception{
+    public List<?> findByWord(String tb, String conditions, String word, String order) throws Exception {
+        if (isExist(SENSITIVE_WORDS, word)) {
+            throw new Exception("敏感词!");
+        }
         List<?> list;
         if (word == null || word.trim().equals("")) {
             return new ArrayList<>();
@@ -363,7 +427,7 @@ public class ShowServiceImpl implements ShowService {
             }
         }
         String orderType = "ASC";
-        if (orderField.equals("time")||orderField.equals("rating")) {
+        if (orderField.equals("time") || orderField.equals("rating")) {
             orderType = "DESC";
         }
         switch (tb) {

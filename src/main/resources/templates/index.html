@@ -7,7 +7,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script th:src="@{/js/all.js}"></script>
-    <script th:src="@{/js/front/front.js}"></script>
+    <script th:src="@{/js/front.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/front.css}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}" th:fragment="icon"/>
     <script type="text/javascript">
@@ -16,12 +16,10 @@
     </script>
 </head>
 <body class="back-Miku">
-<a id="top"></a>
-<img alt="洛天依" th:src="@{/images/character/LuoTianyi.gif}" class="bottom-left">
 <!-- 导航栏-->
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" th:fragment="head"
      style="background-color: #87CEFA">
-    <div class="container-fluid">
+    <div class="container-fluid" style="height: 50px;">
         <div class="navbar-header">
             <a class="navbar-brand" th:href="@{/}">AllBlue动漫网</a>
         </div>
@@ -32,66 +30,69 @@
             <li><a th:href="@{/ac/news}"><span class="glyphicon glyphicon-fire"></span> 资讯</a></li>
             <li><a th:href="@{/ac/topic}"><span class="glyphicon glyphicon-globe"></span> 话题</a></li>
         </ul>
-        <div class="nav navbar-nav">
-            <form class="navbar-form" role="search" th:action="@{/search}" id="nav-search">
-                <div class="form-group">
-                    <label for="search-input"></label>
-                    <input id="search-input" name="s" type="text" class="form-control input-search"
-                           placeholder="按回车搜索">
-                </div>
-                <div class="btn-group">
-                    <button id="search-button" type="button" class="btn btn-default btn-search dropdown-toggle"
-                            data-toggle="dropdown" tabindex="-1">
-                        搜动漫<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu pull-right">
-                        <li>
-                            <a th:href="@{'/topic?search'}">搜动态</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">搜资讯</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">搜用户</a>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <div th:if="${session.currentUser}==null" style="float: left;"><span
-                            class="glyphicon glyphicon-user"></span> 账号
-                    </div>
-                    <div th:if="${session.currentUser}!=null" style="float: left;">
-                        <img class="img-circle headImg" alt="头像"
-                             th:src="@{${#strings.isEmpty(session.currentUser.photo)?
-                                 '/images/no-one.jpg':'/images/avatar/'+session.currentUser.photo}}">
-                        [[${session.currentUser.username}]]
-                    </div>
-                    <b class="caret"></b>
-                </a>
-                <ul th:if="(${session.currentUser}==null)" class="dropdown-menu">
+        <form class="nav navbar-nav navbar-form" role="search" th:action="@{/search}" id="nav-search">
+            <div class="form-group">
+                <label for="search-input"></label>
+                <input id="search-input" name="s" type="text" class="form-control input-search"
+                       placeholder="按回车搜索">
+            </div>
+            <div class="btn-group">
+                <button id="search-button" type="button" class="btn btn-default btn-search dropdown-toggle"
+                        data-toggle="dropdown" tabindex="-1">
+                    搜动漫<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
                     <li>
-                        <a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> 登录/注册</a>
+                        <a th:href="@{'/topic?search'}">搜动态</a>
                     </li>
                 </ul>
-                <ul class="dropdown-menu" th:if="(${session.currentUser}!=null)">
-                    <li>
+            </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right" style="height: inherit;">
+            <li shiro:user th:if="${session.msg!=null}" th:with="msg=${session.msg}" id="message-div">
+                <a th:href="@{/ac/comic}" data-toggle="dropdown" th:with="num=${msg.sys+msg.user}">
+                    <span class="glyphicon glyphicon-bell"></span>
+                    消息通知 <span class="badge badge-danger" th:if="${num>0}" th:text="${num}"></span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <a th:href="@{/messages/sys}" class="list-group-item">系统通知
+                        <span class="badge badge-danger" th:if="${msg.sys>0}" th:text="${msg.sys}">0</span>
+                    </a>
+                    <a th:href="@{/messages/user}" class="list-group-item">回复我的
+                        <span class="badge badge-danger" th:if="${msg.user>0}" th:text="${msg.user}">0</span>
+                    </a>
+                </ul>
+            </li>
+            <li class="dropdown" th:with="current=${session.currentUser}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                   th:style="${current==null?'':'position: relative;top:-5px;'}">
+                    <div shiro:guest style="float: left;"><span
+                            class="glyphicon glyphicon-user"></span> 账号
+                    </div>
+                    <span shiro:user>
+                    <img class="img-circle headImg" alt="头像"
+                         th:src="@{'/images'+${#strings.isEmpty(current.photo)?'/no-one.jpg':'/avatar/'+current.photo}}">
+                        [[${current.username}]]
+                    </span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li th:if="${current==null}">
+                        <a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> 登录/注册</a>
+                    </li>
+                    <li th:if="(${session.currentUser}!=null)">
                         <a th:href="@{'/u'+${session.currentUser.uid}+'/info'}">
-                            UID：<span class="badge">[[${session.currentUser.uid}]]</span>
-                            <h5>[[${session.currentUser.username}]]</h5>
+                            UID：<span class="badge badge-primary">[[${current.uid}]]</span>
+                            <h5>[[${current.username}]]</h5>
                             <span class="glyphicon glyphicon-user"></span> 个人主页
                         </a>
                     </li>
-                    <li class="divider"></li>
+                    <li class="divider" th:if="(${session.currentUser}!=null)"></li>
                     <li th:if="(${session.currentUser}!=null)">
                         <a href="javascript:quit()"><span class="glyphicon glyphicon-log-out"></span> 退出账号</a>
                     </li>
-                    <li shiro:hasRole="admin">
+                    <li shiro:hasRole="admin" th:if="(${session.currentUser}!=null)">
                         <hr class="divider">
                         <a th:href="@{/back/user/info}">
                             <span class="glyphicon glyphicon-wrench"></span> 管理员
@@ -103,36 +104,38 @@
     </div>
 </nav>
 <!--主要内容-->
-<div style="border-style: double;padding-top: 0;height: 100px;"></div>
-<div th:each="items,map : ${acMap}">
-    <div class="col-md-offset-2 col-md-8" style="border-bottom-color: blue;">
-        <h2><span class="glyphicon glyphicon-fire"></span>
-            <b th:switch="${map.current.key}">热门<b th:case="anime">动画</b><b th:case="comic">漫画</b></b>
-        </h2>
-        <div class="col-md-3 ac-div" th:each="ac,num : ${map.current.value}">
-            <a th:href="@{'acInfo/'+${ac.id}}" class="thumbnail">
-                <strong style="color: red;" th:text="${num.index+1}"></strong><br>
-                <em style="color: white;" th:text="${ac.count+'人收藏'}"></em><br>
-                <i><strong>评分：</strong><span th:text="${ac.rating}"></span></i>
-                <img th:src="@{${#strings.isEmpty(ac.image)?'/images/none.png':'/images/cover/'+ac.image}}"
-                     alt="封面/海报">
-                <div class="caption">
-                    <h4 th:text="${ac.name}"></h4><br>
-                    <p th:text="${ac.info}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
-                </div>
-            </a>
+<div style="height: 100%;overflow: auto">
+    <a id="top"></a>
+    <div style="padding-top: 0;height: 10%;"></div>
+    <div th:each="items,map : ${acMap}">
+        <div class="col-md-offset-2 col-md-8" style="border-bottom-color: blue;">
+            <h2><span class="glyphicon glyphicon-fire"></span>
+                <b th:switch="${map.current.key}">热门<b th:case="anime">动画</b><b th:case="comic">漫画</b></b>
+            </h2>
+            <div class="col-md-3 ac-div" th:each="ac,num : ${map.current.value}">
+                <a th:href="@{'acInfo/'+${ac.id}}" class="thumbnail">
+                    <strong style="color: red;" th:text="${num.index+1}"></strong><br>
+                    <em style="color: white;" th:text="${ac.count+'人收藏'}"></em><br>
+                    <i><strong>评分：</strong><span th:text="${ac.rating}"></span></i>
+                    <img th:src="@{${#strings.isEmpty(ac.image)?'/images/none.png':'/images/cover/'+ac.image}}"
+                         alt="封面/海报">
+                    <div class="caption">
+                        <h4 th:text="${ac.name}"></h4><br>
+                        <p th:text="${ac.info}"
+                           style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-8" style="text-align: center;">
+            <a th:href="@{'/ac/'+${map.current.key}}"><strong>更多……</strong></a>
+            <hr>
         </div>
     </div>
-    <div class="col-md-offset-2 col-md-8" style="text-align: center;">
-        <a th:href="@{'/ac/'+${map.current.key}}">更多……</a>
-        <hr>
-    </div>
 </div>
-<a href="#" class="goTop"><img alt="top" th:src="@{/images/icon/top.gif}"></a>
-<a href="#" class="bottom-right" th:fragment="top">
+<a href="#top" class="goTop"><img alt="top" th:src="@{/images/icon/top.gif}"></a>
+<a href="#top" class="bottom-right" th:fragment="top">
     <img alt="Top" th:src="@{/images/character/LuoTianyi.gif}" title="回到顶部">
 </a>
 </body>
-<script type="text/javascript">
-</script>
 </html>

@@ -1,9 +1,6 @@
 package com.zhao.service;
 
-import com.zhao.pojo.AcItems;
-import com.zhao.pojo.AcNews;
-import com.zhao.pojo.Talk;
-import com.zhao.pojo.User;
+import com.zhao.pojo.*;
 import com.zhao.util.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,11 +28,11 @@ public interface DataService {
 
     boolean DeleteOne(int id) throws IOException;
 
-    String addNews(AcNews acNews,String[] filenames) throws IOException;
+    String addNews(AcNews acNews, String[] filenames) throws IOException;
 
     AcNews findNewsById(String id);
 
-    String editNews(String id, String content, String type, String status,String[] filenames) throws IOException;
+    String editNews(String id, String content, String type, String status, String[] filenames) throws IOException;
 
     String checkTopic(String type, int tid, String deal, int uid);
 
@@ -44,4 +41,6 @@ public interface DataService {
     Map<String, Object> showUserAndRoles(String uid);
 
     String[] uploadImg(MultipartFile[] file, HttpServletRequest request) throws IOException;
+
+    boolean addMessage(String title, String message, String type);
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的消息</title>
+    <link th:replace="/index :: icon"/>
+    <style type="text/css">div {
+        z-index: 999;
+    }</style>
+</head>
+<body style="height: 100%">
+<div th:replace="/index :: head"></div>
+<div class="col-md-offset-3 col-md-6" style="border-style: double;position: fixed;background-color: white;">
+    <ul class="nav nav-pills nav-justified" style="margin-bottom: 5px;">
+        <li th:classappend="${type=='sys'?'active':''}"><a th:href="@{sys}">系统通知</a></li>
+        <li th:classappend="${type=='user'?'active':''}"><a th:href="@{user}">回复我的</a></li>
+        <!--        <li th:classappend="${type=='likes'?'active':''}"><a th:href="@{likes}">收到的赞</a></li>-->
+        <li th:classappend="${type=='all'?'active':''}"><a th:href="@{all}">全部消息</a></li>
+    </ul>
+</div>
+<div class="col-md-offset-3 col-md-6" style="z-index: 200;overflow: auto;height: 100%;">
+    <div class="well well-sm text-center" style="margin-top: 60px;background-color: #FFF5EE;">
+        新消息<span class="badge badge-danger">[[${unread.size()}]]</span>
+    </div>
+    <div class="well well-sm" th:each="msg : ${unread}">
+        <h5><strong th:text="${msg.content.title}">标题</strong>
+            <i class="pull-right">[[${#dates.format(msg.content.createDate, 'yyyy-MM-dd HH:mm:ss')}]]</i>
+        </h5>
+        <p th:utext="${msg.content.message}">正文</p>
+    </div>
+    <div class="well well-sm text-center" style="background-color: #F0FFF0">
+        已读消息<span class="badge badge-success">[[${read.size()}]]</span>
+    </div>
+    <div class="well well-sm" th:each="msg : ${read}">
+        <h5><strong th:text="${msg.content.title}">标题</strong><i class="pull-right">[[${#dates.format(msg.content.createDate,
+            'yyyy-MM-dd HH:mm:ss')}]]</i></h5>
+        <p th:utext="${msg.content.message}">正文</p>
+    </div>
+</div>
+</body>
+</html>

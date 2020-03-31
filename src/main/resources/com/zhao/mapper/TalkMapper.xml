@@ -68,7 +68,8 @@
         ORDER BY `time` DESC
     </select>
     <select id="selectByParams" resultMap="talkAndUser">
-        SELECT `tid`,t.`uid` t_uid,content,`pictures`,`time`,`topic`,t.`status` t_status,u.`uid` u_uid,`username`,`photo`
+        SELECT `tid`,t.`uid` t_uid,content,`pictures`,`time`,`topic`,t.`status` t_status,u.`uid`
+        u_uid,`username`,`photo`
         FROM `talk` t
         LEFT JOIN `user` u
         ON t.uid=u.uid

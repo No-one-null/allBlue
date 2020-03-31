@@ -42,17 +42,12 @@
         <!--正文-->
         <div class="content panel-body" th:utext="${news.newsContent}"></div>
     </div>
-<!--    <div class="panel panel-info">-->
-<!--        <div class="panel-heading">-->
-<!--            <h3 class="panel-title">评论</h3>-->
-<!--        </div>-->
-<!--        <div class="panel-body">-->
-<!--            这是一个基本的面板-->
-<!--        </div>-->
-<!--    </div>-->
 </div>
 <script type="text/javascript">
     $("p img").parents("p").addClass("text-center");
+    let $pIframe = $("p iframe");
+    $pIframe.parents("p").addClass("text-center");
+    $pIframe.css("max-width", "100%");
 </script>
 </body>
 </html>

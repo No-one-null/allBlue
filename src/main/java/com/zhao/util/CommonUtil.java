@@ -1,7 +1,8 @@
 package com.zhao.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,12 +46,13 @@ public class CommonUtil {
     public static String repWildcard(String str) {
         String dest = "";
         if (str != null) {
-            dest=str.replace("_","\\_");
-            dest=dest.replace("%","\\%");
+            dest = str.replace("_", "\\_");
+            dest = dest.replace("%", "\\%");
         }
         return dest;
     }
 
+    /*提取img标签的src*/
     public static List<String> getImgSrc(String htmlStr) {
         String img = "";
         Pattern p_image;
@@ -67,5 +69,52 @@ public class CommonUtil {
             }
         }
         return pics;
+    }
+
+    /*Object转List*/
+    public static <T> List<T> castList(Object obj, Class<T> clazz) {
+        List<T> result = new ArrayList<T>();
+        if (obj instanceof List<?>) {
+            for (Object o : (List<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
+    }
+
+    /*Object转Set*/
+    public static <T> Set<T> castSet(Object obj, Class<T> clazz) {
+        Set<T> result = new HashSet<>();
+        if (obj instanceof Set<?>) {
+            for (Object o : (Set<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
+    }
+
+    /*Object转Map<String,Object>*/
+    public static Map<String, Object> objectToMap(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        Map<String, Object> map = new HashMap<>();
+        Class<?> clazz = obj.getClass();
+        System.out.println(clazz);
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Object value = null;
+            try {
+                value = field.get(obj);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            }
+            map.put(fieldName, value);
+        }
+        return map;
     }
 }

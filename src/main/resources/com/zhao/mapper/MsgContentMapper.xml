@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhao.mapper.MsgContentMapper">
+    <resultMap id="msg" type="msgContent">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="message" property="message"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+    <select id="selectById" resultMap="msg">
+        SELECT *
+        FROM msg_content
+        WHERE id = #{0}
+    </select>
+    <insert id="insertOne" parameterType="msgContent" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO msg_content (title, message, create_date)
+        VALUES (#{title}, #{message}, #{createDate})
+    </insert>
+</mapper>

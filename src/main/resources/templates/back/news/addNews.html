@@ -18,7 +18,7 @@
 <!-- 导航栏-->
 <div th:replace="/back/back :: head"></div>
 <!-- 左侧栏 -->
-<div th:replace="/back/acNews/acNews :: left"></div>
+<div th:replace="/back/news/acNews :: left"></div>
 <div class="col-sm-10 col-sm-offset-2" style="height: 100%;">
     <div class="panel panel-warning" style="height: 95%;overflow: auto;">
         <!-- 路径导航 -->
@@ -48,11 +48,11 @@
         <script type="text/javascript" th:fragment="wangEditor">
             let E = window.wangEditor;
             let editor = new E('#editor-toolbar', '#editor-text');
-            let current=new Date().getTime();
+            let current = new Date().getTime();
             // editor.customConfig.debug = true;
             editor.customConfig.zIndex = 100;
             // 或者 var editor = new E( document.getElementById('editor') )
-            editor.customConfig.uploadImgServer = '[[@{/back/uploadImg?dir=}]]'+current;
+            editor.customConfig.uploadImgServer = '[[@{/back/uploadImg?dir=}]]' + current;
             //配置文件参数名
             editor.customConfig.uploadFileName = 'files';
             // 使用 base64 保存图片
@@ -68,24 +68,24 @@
             // 限制一次上传图片数
             editor.customConfig.uploadImgMaxLength = 5;
             //图片上传监听函数
-            let paths=[];
+            let paths = [];
             editor.customConfig.uploadImgHooks = {
                 success: function (xhr, editor, result) {
                     // 图片上传并返回结果，图片插入成功之后触发；xhr 是 XMLHttpRequest 对象，editor 是编辑器对象，result 是服务器端返回的结果
-                    console.log("插入成功!"+result.data);
+                    console.log("插入成功!" + result.data);
                     paths.push(result.data);
                 },
                 fail: function (xhr, editor, result) {
                     // 图片上传并返回结果，但图片插入错误时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-                    console.log("插入失败!"+result);
+                    console.log("插入失败!" + result);
                 },
                 error: function (xhr, editor) {
                     // 图片上传出错时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
-                    console.log("上传出错!"+xhr.errorCode);
+                    console.log("上传出错!" + xhr.errorCode);
                 },
                 timeout: function (xhr, editor) {
                     // 图片上传超时时触发；xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
-                    console.log("上传超时!"+xhr.errorCode);
+                    console.log("上传超时!" + xhr.errorCode);
                 }
             };
 
@@ -98,7 +98,10 @@
                 'backColor',  // 背景颜色
                 'link',  // 插入链接
                 'list',  // 列表
+                'quote',  // 引用
+                'emoticon',  // 表情
                 'image',  // 插入图片
+                'video',  // 插入视频
                 'undo',  // 撤销
                 'redo'  // 重复
             ];
@@ -108,10 +111,10 @@
     </div><!-- /.panel panel-success -->
 </div>
 <script type="text/javascript">
-    $(document).on("ready",function () {
+    $(document).on("ready", function () {
         $("#news-title").focus();
     });
-    $("#submit-btn").on("click",function () {
+    $("#submit-btn").on("click", function () {
         let html = editor.txt.html();
         let text = editor.txt.text();
         let title = $("#news-title").val();
@@ -127,13 +130,13 @@
         if (html.length > 2000000) {
             return alert("内容太多！请减少图片或文字……");
         }
-        let formData=new FormData();
-        formData.append("newsId",current);
-        formData.append("newsContent",html);
-        formData.append("newsTitle",title);
-        formData.append("newsAuthor",'[[${session.currentUser.username}]]');
-        formData.append("newsType",type);
-        formData.append("paths",paths);
+        let formData = new FormData();
+        formData.append("newsId", current);
+        formData.append("newsContent", html);
+        formData.append("newsTitle", title);
+        formData.append("newsAuthor", '[[${session.currentUser.username}]]');
+        formData.append("newsType", type);
+        formData.append("paths", paths);
         $.ajax({
             url: "[[@{/back/submitNews}]]",
             method: "post",
@@ -151,7 +154,7 @@
                     }
                 }
             }, error: function (xhr) {
-                alert(xhr.errorCode+"提交失败，请重试！");
+                alert(xhr.errorCode + "提交失败，请重试！");
             }
         });
     });

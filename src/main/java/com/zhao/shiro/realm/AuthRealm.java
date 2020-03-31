@@ -24,16 +24,14 @@ public class AuthRealm extends AuthorizingRealm {
         String username = (String) principalCollection.getPrimaryPrincipal();
         //从数据库或缓存中获取用户角色
         Set<String> roles = getRolesByUsername(username);
-
+        System.out.println(roles);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.setRoles(roles);
         return simpleAuthorizationInfo;
     }
 
     private Set<String> getRolesByUsername(String username) {
-        Set<String> set = loginServiceImpl.checkRoles(username);
-        System.out.println("roles:" + set);
-        return set;
+        return loginServiceImpl.checkRoles(username);
     }
 
     @Override

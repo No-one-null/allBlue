@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="allblue" uuid="5d0cbc32-b191-427a-9b80-dbc23cb6b95b">
+    <data-source source="LOCAL" name="all_blue" uuid="944a17f7-a67a-4802-9d78-dc748b4872a7">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/allblue?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai</jdbc-url>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/all_blue?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai</jdbc-url>
     </data-source>
   </component>
 </project>

@@ -219,15 +219,69 @@ public class ShowController {
     }
 
     @RequestMapping("/acInfo/{id}")
-    public String findId(@PathVariable String id, Model model) {
+    public String findId(@PathVariable String id, Model model,HttpServletRequest request) {
         AcItems ac = dataServiceImpl.findById(id);
         if (ac == null) {
             return ERR404;
         }
         model.addAttribute("ac", ac);
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        if(currentUser!=null){
+            Mark mark = showServiceImpl.findMarkOne(ac.getId(), currentUser.getUid());
+            model.addAttribute("myMark", mark);
+        }
         int userNum = showServiceImpl.sumRating(ac.getId() + "");
         model.addAttribute("userNum", userNum);
+        List<Mark> marks = showServiceImpl.allComments(ac.getId()+"");
+        model.addAttribute("comment", marks);
         return "/acInfo";
+    }
+
+    @ResponseBody
+    @PostMapping("/myMark")
+    public Map<String, Object> myMark(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        String acId = request.getParameter("acId");
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        Mark mark = showServiceImpl.findMarkOne(Integer.parseInt(acId), currentUser.getUid());
+        System.out.println(mark);
+        map.put("myMark", mark);
+        return map;
+    }
+
+    @RequestMapping("/mark")
+    @ResponseBody
+    public String addMark(Mark mark, HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        if (currentUser == null) {
+            return "请先登录!";
+        }
+        mark.setUid(currentUser.getUid());
+        String acId = request.getParameter("acId");
+        mark.setAcId(Integer.parseInt(acId));
+        System.out.println(mark);
+        Boolean flag = showServiceImpl.addMark(mark);
+        if (flag) {
+            return "操作成功!";
+        } else {
+            return "操作失败!";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/rating")
+    public Map<String, Object> rating(String acId) {
+        Map<String, Object> map = new HashMap<>();
+        System.out.println("acId" + acId);
+        AcItems ac = showServiceImpl.findById(acId);
+        float acRating = 0;
+        int userNum = showServiceImpl.sumRating(acId);
+        map.put("userNum", userNum);
+        if (userNum > 0) {
+            acRating = showServiceImpl.calRating(acId, ac.getRating());
+        }
+        map.put("acRating", acRating);
+        return map;
     }
 
     @RequestMapping("/user{uid}")
@@ -317,63 +371,6 @@ public class ShowController {
         }
         model.addAttribute("error", error);
         return "/front/account";
-    }
-
-    @RequestMapping("/mark")
-    @ResponseBody
-    public String addMark(Mark mark, HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute("currentUser");
-        if (currentUser == null) {
-            return "请先登录!";
-        }
-        mark.setUid(currentUser.getUid());
-        String acId = request.getParameter("acId");
-        mark.setAcId(Integer.parseInt(acId));
-        System.out.println(mark);
-        Boolean flag = showServiceImpl.addMark(mark);
-        if (flag) {
-            return "操作成功!";
-        } else {
-            return "操作失败!";
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping("/rating")
-    public Map<String, Object> rating(String acId) {
-        Map<String, Object> map = new HashMap<>();
-        System.out.println("acId" + acId);
-        AcItems ac = showServiceImpl.findById(acId);
-        float acRating = 0;
-        int userNum = showServiceImpl.sumRating(acId);
-        map.put("userNum", userNum);
-        if (userNum > 0) {
-            acRating = showServiceImpl.calRating(acId, ac.getRating());
-        }
-        map.put("acRating", acRating);
-        return map;
-    }
-
-    @ResponseBody
-    @RequestMapping("/myMark")
-    public Map<String, Object> myMark(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-        String acId = request.getParameter("acId");
-        User currentUser = (User) request.getSession().getAttribute("currentUser");
-        Mark mark = showServiceImpl.findMarkOne(Integer.parseInt(acId), currentUser.getUid());
-        System.out.println(mark);
-        map.put("myMark", mark);
-        return map;
-    }
-
-    @RequestMapping("/showComments")
-    @ResponseBody
-    public Map<String, Object> showComments(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-        String acId = request.getParameter("acId");
-        List<Mark> marks = showServiceImpl.allComments(acId);
-        map.put("comment", marks);
-        return map;
     }
 
     @RequestMapping("/search")

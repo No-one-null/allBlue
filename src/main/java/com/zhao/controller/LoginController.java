@@ -12,6 +12,8 @@ import org.apache.shiro.subject.Subject;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +42,8 @@ public class LoginController {
     private DefaultKaptcha defaultKaptcha;
     @Resource
     private LoginService loginServiceImpl;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
 
     @RequestMapping("/verifyCode")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -110,7 +114,7 @@ public class LoginController {
     }
 
     @PostMapping("/doLogin")
-    public String login(User user, HttpSession session, HttpServletRequest request) {
+    public String login(User user, HttpServletRequest request) {
         System.out.println("传入:" + user.getUsername() + user.getPassword() + user.isRemember());
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
@@ -120,9 +124,9 @@ public class LoginController {
         try {
             token.setRememberMe(user.isRemember());
             subject.login(token);
-            session.setAttribute("user", subject.getPrincipal());
+            request.getSession().setAttribute("user", subject.getPrincipal());
             User users = loginServiceImpl.findUserByName(user.getUsername());
-            session.setAttribute("currentUser", users);
+            request.getSession().setAttribute("currentUser", users);
             System.out.println(user.getUsername() + "在" + sdf.format(new Date()) + "登录成功!");
             return "redirect:LoginSuccess";
         } catch (AuthenticationException e) {
@@ -141,6 +145,13 @@ public class LoginController {
     @RequestMapping("/exit")
     public String exit() {
         Subject subject = SecurityUtils.getSubject();
+        String key = "roles_" + subject.getPrincipal();
+        System.out.println("删除"+key);
+        this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Set.class));
+        Object obj = this.redisTemplate.opsForValue().get(key);
+        if(obj!=null){
+            this.redisTemplate.delete(key);
+        }
         System.out.println(subject.toString());
         subject.logout();// session 会销毁，在SessionListener监听session销毁，清理权限缓存
         return "/login";

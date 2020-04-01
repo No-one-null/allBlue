@@ -11,14 +11,14 @@
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-offset-2 col-md-8" style="height: 100%;overflow: auto;">
     <div th:each="ac,num : ${page.list}" class="col-md-3 ac-div">
-        <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail">
+        <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail" th:title="${ac.info}">
             <span th:text="${num.index+1}"></span><br>
             <span style="color: red;" th:text="${ac.star(ac.rating)}">0.0</span>
             <img th:src="@{'/images/'+${#strings.isEmpty(ac.image)?'none.png':'cover/'+ac.image}}"
                  alt="通用的占位符缩略图">
             <div class="caption">
-                <h4 th:text="${ac.name}"></h4><br>
-                <p th:text="${ac.info}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+                <span class="span" th:text="${ac.name}"></span><br>
+                <small th:text="${ac.info.length()>40?#strings.substring(ac.info,0,40)+'……':ac.info}"></small>
             </div>
         </a>
     </div>

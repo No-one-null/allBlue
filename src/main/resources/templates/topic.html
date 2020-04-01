@@ -151,14 +151,12 @@
 <div class="col-md-offset-9 col-md-3" style="position: fixed;">右</div>
 <script type="text/javascript">
     let tNum = 0;
-    const maxSize = 2 * 1024 * 1024;
     const maxNum = 6;
-
     const $talkContent = $("#talk-content");
     let maxlength = $talkContent.attr("maxlength");
     $("#word-num").html(maxlength);
 
-    $talkContent.bind("input focus keyup", function () {
+    $talkContent.on("input focus keyup", function () {
         let wordNum = $("#talk-content").val();
         $("#word-num").html(maxlength - wordNum.trim().length);
     });
@@ -167,21 +165,18 @@
         window.location.href = "[[@{'/topic/t'}]]" + id;
     }
 
-    /*/图片上传
-    function newImgDiv() {
-        return "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
-            "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
-            "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
-            "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
-            "</div>";
-    }*/
-
     //图片上传div
-    const newImgDiv = "<div class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
+    const newImgDiv = "<a href='javascript:;' class='prev-img-div' onmouseover='showDelBtn(this)' onmouseleave='hideDelBtn(this)'>\n" +
         "    <div hidden><input name='files' type='file' accept='image/*' onchange='changeFile(this)'></div>\n" +
         "    <img class='div-img' title='单击上传' src='[[@{/images/icon/upload.png}]]' onclick='addPic(this)' alt='上传图片'>\n" +
         "    <input type='button' class='del-img-btn btn-danger' onclick='removeE(this.parentElement)' value='删除' hidden>" +
-        "</div>";
+        "</a>";
+
+    function upload() {
+        // let test=obj.html;
+        // test+=$(obj).html();
+        $("#test").val($(this).html());
+    }
 
     function openDiv(obj) {
         let arr = document.getElementsByName("files");
@@ -223,7 +218,7 @@
     function changeFile(obj) {
         let file = obj.files;
         if (file[0].type !== 'image/png' && file[0].type !== 'image/jpeg' && file[0].type !== 'image/gif') {
-            alert("格式不正确!");
+            alert("不支持的格式!");
             $(obj).parents(".prev-img-div").find("img").attr("src", "[[@{/images/icon/upload.png}]]");
             obj.value = "";
             return;
@@ -260,7 +255,7 @@
         return true;
     }
 
-    $(".add-topic").bind("click", function () {
+    $(".add-topic").on("click", function () {
         const $topicInput = $("#talk-topic-text");
         let text = $topicInput.val();
         $topicInput.val('');
@@ -324,7 +319,7 @@
         preDivHeight();
     }
 
-    $(document).ready(function () {
+    $(document).on("ready",function () {
         if ('[[${message}]]' !== "") {
             alert('[[${message}]]');
             window.location.href = "[[@{/topic}]]";

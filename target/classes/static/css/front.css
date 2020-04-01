@@ -134,10 +134,6 @@ h2 {
     text-shadow: 5px 5px 5px #F8F8FF;
 }
 
-h5 {
-    /*text-align: center;*/
-}
-
 .ac-div a {
     background-color: #B0E0E6;
     height: 350px;
@@ -152,8 +148,13 @@ h5 {
     max-height: 50%;
 }
 
-.ac-div h4 {
-    color: #0000CD;
+.ac-div .span{
+    color: blue;
+    /*text-shadow: 5px 5px 5px white;*/
+}
+
+.ac-div small{
+    color: #696969;
 }
 
 .headImg {
@@ -342,22 +343,11 @@ textarea {
     height: 50px;
 }
 
-.comment-div {
-    height: 95%;
-    background-color: #FFFFF0;
-}
-
 .no-found {
     background-image: url("../images/character/noFound-tucao.jpg");
     background-size: cover;
     border-style: dot-dash;
-}
-
-.not-much {
-    position: absolute;
-    right: 5%;
-    bottom: 10%;
-    height: 33%;
+    height: 95%;
 }
 
 .user-comment {

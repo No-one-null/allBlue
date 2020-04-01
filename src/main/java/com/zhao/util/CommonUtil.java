@@ -117,4 +117,9 @@ public class CommonUtil {
         }
         return map;
     }
+
+    public static String dateFormat(Date date){
+        Date current=new Date();
+        return null;
+    }
 }

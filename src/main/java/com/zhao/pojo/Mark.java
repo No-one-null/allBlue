@@ -104,7 +104,9 @@ public class Mark {
         this.acItems = acItems;
     }
 
-    public String progress(int progress) {
+    public String pro(int progress) {
         return PROGRESS_ARRAY[progress];
     }
+
+    public String[] pro={"暂无", "想看", "在看", "看过", "搁置", "已弃"};
 }

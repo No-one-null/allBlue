@@ -79,12 +79,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Set<String> checkRoles(String username) {
+        System.out.println(username+"角色");
         String key = "roles_" + username;
         this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Set.class));
         Object obj = this.redisTemplate.opsForValue().get(key);
         Set<String> roles = castSet(obj, String.class);
         if (roles == null) {
             User user = userMapper.selectUserByName(username);
+            System.out.println(user);
             roles = userMapper.selectRolesByUid(user.getUid());
             this.redisTemplate.opsForValue().set(key, roles);
         }

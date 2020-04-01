@@ -33,7 +33,7 @@
                     </li>
                 </ol>
             </div>
-            <form class="form-horizontal panel-body" role="form" action="/back/editOk" method="post"
+            <form class="form-horizontal panel-body" role="form" th:action="@{/back/editOk}" method="post"
                   enctype="multipart/form-data" id="myForm">
                 <input type="hidden" name="id" th:value="${ac.id}">
                 <div class="col-sm-6">
@@ -81,9 +81,9 @@
                         <label for="category" class="col-sm-2 control-label">类别</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="category" name="category">
-                                <option th:selected="${ac.category=='A'?true:false}" th:text="动画"
+                                <option th:selected="${ac.category=='anime'?true:false}" th:text="动画"
                                         value="anime"></option>
-                                <option th:selected="${ac.category=='C'?true:false}" th:text="漫画"
+                                <option th:selected="${ac.category=='comic'?true:false}" th:text="漫画"
                                         value="comic"></option>
                             </select>
                         </div>
@@ -111,9 +111,8 @@
     </div>
 </div><!-- /.container -->
 <script type="text/javascript">
-    const maxSize = 2 * 1024 * 1024;
     const $preImg = $("#preImg");
-    $("#file").change(function () {
+    $("#file").on("change",function () {
         let file = $(this)[0].files[0];
         if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
             alert(file.type + "格式错误!暂时只支持jpg/png");

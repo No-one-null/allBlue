@@ -61,9 +61,9 @@
                 <div class="rating-div">
                     <div class="rating-star-div">
                         <div class="cell">
-                            <h1></h1>
-                            <span class="star">暂无</span><br>
-                            <i><span>0</span>人评价</i>
+                            <h1 th:text="${(ac.rating<=0)?'暂无':ac.rating}"></h1>
+                            <span class="star" th:text="${ac.star(ac.rating)}"></span><br>
+                            <i><span th:text="${userNum}"></span>人评价</i>
                         </div>
                     </div>
                     <div class="rating-chart-div">
@@ -73,20 +73,55 @@
                 <div class="my-mark-div">
                     <div class="cell">
                         <a th:if="${session.currentUser}==null" th:href="@{/login}">登录可收藏该作品</a>
+                        <button th:if="${session.currentUser!=null&&myMark==null}" class="btn btn-danger btn-block" onclick="addMark()">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            添加收藏<b style="color: red;"></b>
+                        </button>
+                        <div th:if="${myMark!=null}" style='width: 33%;float: left;' title='修改评分'>
+                            <button class="btn btn-success btn-block" onclick='editMark()'>我的评价:
+                                <span th:text="${ac.star(myMark.rating)}"></span>
+                            </button>
+                        </div>
+                        <div th:if="${myMark!=null}" style='width: 34%;float:left;' title='修改'>
+                            <button class="btn btn-primary btn-block" onclick='editMark()'>我的吐槽:
+                                <span>查看</span>
+                            </button>
+                        </div>
+                        <div th:if="${myMark!=null}" style='width: 33%;float:right;' title='修改进度'>
+                            <button class="btn btn-warning btn-block" onclick='editMark()'>我的进度:
+                                <span th:text="${myMark.pro[myMark.progress]}"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             <!--按钮-->
             <div class="col-md-6 comment-btn-div">
-                <button type="button" class="btn btn-default btn-block" id="comment-btn">
+                <button type="button" class="btn btn-info btn-block" id="comment-btn">
                     <span class="glyphicon glyphicon-thumbs-up"></span> 看看大家的吐槽
                     <span class="glyphicon glyphicon-thumbs-down"></span></button>
             </div>
         </div>
     </div>
     <!--评论区-->
-    <div class="col-md-12 comment-div">
-        <a id="comments"></a>
+    <a id="comments"></a>
+    <div class="col-md-12" th:classappend="${comment.size()>0?'back-yellow':'no-found'}">
+        <div class='well well-sm col-md-4' th:each="c : ${comment}">
+            <a th:href="@{'/u'+${c.user.uid}+'/mark'}">
+                <span class='badge badge-info' th:text="${c.user.username}"></span>
+                <span style="color: red" th:text="${ac.star(c.rating)}"></span>
+                <small>
+                    <span style="color: blue;" th:text="${'['+c.pro[c.progress]+']'}"></span>
+                </small>
+            </a><br>
+            <small>
+                <span th:text="${c.comment}"></span>
+                <i class="pull-right" th:text="${#dates.format(c.createDate,'yyyy年MM月dd日HH:mm:ss')}"></i>
+            </small>
+        </div>
+        <div style="width: 100%;border-style: ridge;" th:if="${comment.size()<12&&comment.size()>0}">
+            <img style="width: 33%;" class='pull-right' th:src="@{/images/character/Kanna.gif}" alt='评论太少'>
+        </div>
     </div>
     <!--评论分页-->
     <div class="col-md-12 comment-div-bottom">
@@ -109,6 +144,7 @@
             <div class="modal-body">
                 <!--评分评论表单-->
                 <form class="form-horizontal mark-form" role="form" id="mark-form">
+                    <input type="hidden" name="acId" th:value="${ac.id}">
                     <div class="form-group">
                         <label class="control-label col-md-2">进度</label>
                         <div id="progress" class="col-md-10">
@@ -131,16 +167,16 @@
                     </div>
                     <div class="from-group rating-star">
                         <label for="rating" class="control-label col-md-2">评分</label>
-                        <input type="checkbox" name="rating" id="rating" hidden>
-                        <div class="col-md-10 rating">
-                            <a href="#"><img th:src="@{/images/star-empty.gif}" alt="1"></a>
-                            <a href="#"><img th:src="@{/images/star-empty.gif}" alt="2"></a>
-                            <a href="#"><img th:src="@{/images/star-empty.gif}" alt="3"></a>
-                            <a href="#"><img th:src="@{/images/star-empty.gif}" alt="4"></a>
-                            <a href="#"><img th:src="@{/images/star-empty.gif}" alt="5"></a>
+                        <input type="hidden" name="rating" id="rating">
+                        <div class="col-md-10 rating" id="star">
+                            <a href="javascript:rating(1)"><img th:src="@{/images/star-empty.gif}" alt="1"></a>
+                            <a href="javascript:rating(2)"><img th:src="@{/images/star-empty.gif}" alt="2"></a>
+                            <a href="javascript:rating(3)"><img th:src="@{/images/star-empty.gif}" alt="3"></a>
+                            <a href="javascript:rating(4)"><img th:src="@{/images/star-empty.gif}" alt="4"></a>
+                            <a href="javascript:rating(5)"><img th:src="@{/images/star-empty.gif}" alt="5"></a>
+                            <b id="rating-star"></b>
                         </div>
                     </div>
-                    <br>
                     <div class="form-group">
                         <label for="comment" class="control-label col-md-2">吐槽</label>
                         <textarea id="comment" name="comment" rows="5" class="col-md-10"></textarea>
@@ -156,76 +192,39 @@
         </div><!-- /.modal-content -->
     </div>
 </div><!-- /.modal -->
-</body>
-</html>
 <script type="text/javascript">
-    /**评分**/
-    function showRating(rating, userNum) {
-        if (rating > 0) {
-            $(".rating-star-div div h1").html(numFormat(rating));
-        }
-        if (rating <= 0) {
-            $(".rating-star-div div h1").html("暂无");
-        }
-        $(".rating-star-div div .star").html(star(rating));
-        $(".rating-star-div div i span").html(userNum);
-    }
-
-    //查询更新评分
-    function queryRatingData() {
-        $.post("[[@{/rating}]]",
-            {
-                acId: [[${ac.id}]]
-            }, function (data, status) {
-                if (status === 'success') {
-                    showRating(data.acRating, data.userNum);
-                } else {
-                    alert("系统繁忙!");
-                }
-            });
-    }
-
-    //我的收藏
-    function myMark() {
-        $.ajax({
-            url: "[[@{/myMark(acId=${ac.id})}]]",
-            dataType: "json",
-            type: "post",
-            async: "false",
-            success: function (data) {
-                let html = "<div style='width: 33%;float: left;'>我的评价:";
-                if (data.myMark == null) {
-                    html += "<a href='javascript:addMark()' title='添加评价'>未评价</a>";
-                } else {
-                    html += "<a href='javascript:editMark()' title='修改评分'>" +
-                        "<span>" + numFormat(data.myMark.rating) + "</span></a>";
-                }
-                html += "</div><div style='width: 33%;float:left;'>我的吐槽:";
-                if (data.myMark == null) {
-                    html += "<a href='javascript:addMark()' " +
-                        "data-toggle='tooltip' data-placement='top' title='添加吐槽'>暂无</a>";
-                } else {
-                    html += "<a href='javascript:editMark()' title='修改'> <span>查看</span></a>";
-                }
-                html += "</div><div style='width: 33%;float:right;'>我的进度:";
-                if (data.myMark == null) {
-                    html += "<a href='javascript:addMark()' title='添加收藏'>暂无</a>";
-                } else {
-                    html += "<a href='javascript:editMark()' title='修改进度'>" +
-                        "<span>" + progress(data.myMark.progress) + "</span></a>";
-                }
-                html += "</div>";
-                $(".my-mark-div div").html(html); //在html页面id=test的标签里显示html内容
-                queryRatingData();
-                showComments();
-            }
+    $(document).on("ready", function () {
+        $(".submit").on("click", function () {
+            $("#myModal").modal('hide');
+            $.post('[[@{/mark}]]', $("#mark-form").serialize(),
+                function (data, status) {
+                    if (status === 'success') {
+                        alert(data);
+                        location.reload();
+                    }
+                });
         });
+        $("#comment-btn").on("click", function () {
+            $('#main-div').animate({scrollTop: $('#comments').offset().top}, 0);
+        });
+    });
+
+    const $rating = $("#rating");
+    const $star=$("#star");
+    function rating(num) {
+        $rating.val(num);
+        $star.find("img").attr("src","[[@{/images/star-empty.gif}]]");
+        for (let i = 0; i < num; i++) {
+            $star.find("img[alt="+(i+1)+"]").attr("src","[[@{/images/star-full.gif}]]");
+        }
+        $("#rating-star").html(ratingArr[num]);
     }
 
     //添加收藏
     function addMark() {
         $("#progress").find(":radio").removeAttr("checked");
-        $(".rating a").children().attr("src", "[[@{/images/star-empty.gif}]]");
+        rating(0);
+        $("#comment").val("");
         $("#myModalLabel").html("加入收藏");
         $("#myModal").modal();
     }
@@ -236,7 +235,7 @@
             function (data, status) {
                 if (status === "success") {
                     $("#progress").find("input[value=" + data.myMark.progress + "]").attr("checked", "true");
-                    $(".rating").find("img[alt=" + data.myMark.rating + "]").click();
+                    rating(data.myMark.rating);
                     $("#comment").val(data.myMark.comment);
                     $("#myModalLabel").html("修改");
                     $("#myModal").modal();
@@ -246,79 +245,10 @@
             });
     }
 
-    //显示评论
-    const $comment = $(".comment-div");
-
-    function showComments() {
-        $.post("[[@{/showComments}]]", {acId: [[${ac.id}]]},
-            function (data, status) {
-                if (status === 'success') {
-                    let html = $comment.html();
-                    if (data.comment.length <= 0) {
-                        $comment.addClass("no-found");
-                    } else {
-                        $comment.removeClass("no-found");
-                    }
-                    const kanna = "[[@{/images/character/Kanna.gif}]]";
-                    if (data.comment.length < 12 && data.comment.length > 0) {
-                        html += "<img class='not-much' src='" + kanna + "' alt='评论太少'>";
-                    }
-                    if (data.comment.length > 0) {
-                        for (let i = 0; i < data.comment.length; i++) {
-                            html += "<div class='user-comment'" +
-                                "        <div class='cell' style='background-color: #8DB6CD;'>\n" +
-                                "            <span class='badge'>" + data.comment[i].user.username + "</span>\n"
-                                + star(data.comment[i].rating) + "[" + progress(data.comment[i].progress) + "]" +
-                                "            <span class='date'>" + fullTime(data.comment[i].createDate) + "</span>\n" +
-                                "            <textarea rows='3' readonly>"
-                                + data.comment[i].comment + "</textarea>\n" +
-                                "        </div>\n" +
-                                "    </div>";
-                        }
-                    }
-                    $comment.html(html);
-                } else {
-                    alert("失败");
-                }
-            });
-    }
-
-    $(document).on("ready", function () {
-        showComments();
-        showRating([[${ac.rating}]], [[${userNum}]]);
-        if ('[[${session.currentUser}]]' !== '') {
-            myMark();
-        }
-        $(".left-btn").on("click", function () {
-            showComments();
-        });
-        const $rating = $("#rating");
-        $(".rating a").on("click", function () {
-            $rating.attr("checked", "true");
-            $(this).siblings().children().attr("src", "[[@{/images/star-empty.gif}]]");
-            $(this).prevAll().children().attr("src", "[[@{/images/star-full.gif}]]");
-            $(this).children().attr("src", "[[@{/images/star-full.gif}]]");
-            let num = $(this).children().attr("alt");
-            $rating.attr("value", parseInt(num));
-        });
-        $(".submit").on("click", function () {
-            $("#myModal").modal('hide');
-            $.post('[[@{/mark?acId=}+${ac.id}]]', $("#mark-form").serialize(),
-                function (data, status) {
-                    if (status === 'success') {
-                        alert(data);
-                        myMark();
-                        queryRatingData();
-                    }
-                });
-        });
-        $("#comment-btn").on("click", function () {
-            $('#main-div').animate({scrollTop: $('#comments').offset().top}, 0);
-        });
-    });
-
     if ('1' === '2') {
         addMark();
         editMark();
     }
 </script>
+</body>
+</html>

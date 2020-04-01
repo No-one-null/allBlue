@@ -114,7 +114,7 @@
                     <small>
                         <em>收藏于</em><i th:text="${#dates.format(m.createDate,'yyy年MM月dd日HH:mm:ss')}"></i>
                     </small>/
-                    进度：<span th:text="${m.progress(m.progress)}"></span>/
+                    进度：<span th:text="${m.pro[m.progress]}"></span>/
                     <small>
                         [评分<span th:text="${m.acItems.star(m.rating)}"></span>]
                         <i th:text="${m.rating+'分'}"></i>

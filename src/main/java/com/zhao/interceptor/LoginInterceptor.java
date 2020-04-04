@@ -27,6 +27,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                 request.getSession().setAttribute("currentUser", user);
             }
         } else {
+            boolean success=loginServiceImpl.RenewUnReadMsg(currentUser.getUid());
+            System.out.println(success);
             Map<String, Object> msg = loginServiceImpl.showUnReadMsg(currentUser.getUid());
             request.getSession().setAttribute("msg", msg);
         }

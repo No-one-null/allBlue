@@ -210,30 +210,33 @@
         </div>
     </div>
     <!--用户信息-->
-    <div class="col-md-offset-3 col-md-6 back-ghost" id="other-info"
+    <div class="col-md-offset-4 col-md-4 back-ghost" id="other-info"
          th:if="${(map.page eq 'info')&&(session.currentUser==null||map.user.uid!=session.currentUser.uid)}">
         <div class="well text-center text-success">TA的信息</div>
         <div class="panel panel-warning">
             <div class="panel-heading text-center">
                 <h3 class="panel-title" th:text="${map.user.username+'的基本资料'}"></h3>
             </div>
-            <div class="panel-body list-group text-center">
-                <div class="img-div-2">
+            <ul class="panel-body list-group text-center">
+                <li class="list-group-item img-div-2">
                     <img alt="用户头像" th:src="@{'/images/avatar/'+
                         ${#strings.isEmpty(map.user.photo)?'none.jpg':map.user.photo}}">
-                </div>
-                <a href="javascript:void(0);" class="list-group-item">
-                    <span th:text="${#dates.format(map.user.birth,'yyy年MM月dd日')}"></span>
-                    <span th:if="${map.user.birth==null}">暂无</span>
-                </a>
-                <a href="javascript:void(0);" class="list-group-item">
-                    <span th:text="${map.user.email}"></span>
-                    <span th:if="${#strings.isEmpty(map.user.email)}">暂无</span>
-                </a>
-                <a href="javascript:void(0);" class="list-group-item">
-                    <span th:text="${map.user.gender eq 'M'?'男':'女'}"></span>
-                </a>
-            </div>
+                </li>
+                <li class="list-group-item">
+                    <h6 class="list-group-item-heading">性别</h6>
+                    <p th:text="${map.user.gender eq 'M'?'男':'女'}"></p>
+                </li>
+                <li class="list-group-item">
+                    <h6 class="list-group-item-heading">生日</h6>
+                    <p th:text="${#dates.format(map.user.birth,'yyy年MM月dd日')}"></p>
+                    <p th:if="${map.user.birth==null}">暂无</p>
+                </li>
+                <li class="list-group-item">
+                    <h6 class="list-group-item-heading">邮箱</h6>
+                    <p th:text="${map.user.email}"></p>
+                    <p th:if="${#strings.isEmpty(map.user.email)}">暂无</p>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

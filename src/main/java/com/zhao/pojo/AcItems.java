@@ -152,16 +152,17 @@ public class AcItems {
         this.info = info;
     }
 
-    public String star(int rating) {
-        StringBuilder str = new StringBuilder("暂无");
-        if (rating > 0) {
-            str = new StringBuilder();
-            for (int i = 0; i < rating; i++) {
-                str.append('★');
-            }
-            for (int i = rating; i < 5; i++) {
-                str.append('☆');
-            }
+    public String star(float rating) {
+        if (rating <= 0) {
+            return "暂无";
+        }
+        int num=Math.round(rating);
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < num; i++) {
+            str.append('★');
+        }
+        for (int i = num; i < 5; i++) {
+            str.append('☆');
         }
         return str.toString();
     }

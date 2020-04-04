@@ -52,11 +52,10 @@
 <div class="col-md-offset-2 col-md-8" style="height:100%;overflow: auto;">
     <div style="margin-bottom: 50px;"></div>
     <div th:each="n,num : ${page.list}" style='height: 150px;border-style: dotted;z-index: 100;'
-         th:styleappend="(${num.index%2==0}?'':'background-color: #E0FFFF')">
+         th:styleappend="(${num.index%2==1}?'':'background-color: #E0FFFF')">
         <div class="col-md-3" style="height: 100%;">
-            <a href="#">
-                <img th:src="${#strings.isEmpty(n.firstImg)?'/allBlue/images/none.png':n.firstImg}"
-                     style="height: 100%;width: 210px;z-index: 100;" alt="题图">
+            <a th:href="@{'/news/article/'+${n.newsId}}">
+                <img th:src="${#strings.isEmpty(n.firstImg)?'/images/none.png':n.firstImg}" alt="题图" style="height: 100%;width: 210px;z-index: 100;">
             </a>
         </div>
         <div class="col-md-9" style="height: 100%;display: table;margin: 0 auto;">

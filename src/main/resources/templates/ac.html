@@ -11,7 +11,7 @@
 <nav th:replace="/index :: head"></nav>
 <div class="col-md-offset-2 col-md-8" style="height: 100%;overflow: auto;">
     <div th:each="ac,num : ${page.list}" class="col-md-3 ac-div">
-        <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail" th:title="${ac.info}">
+        <a th:href="@{'/acInfo/'+${ac.id}}" class="thumbnail" th:title="${'《'+ac.name+'》'+ac.author+'（'+ac.year+')'}">
             <span th:text="${num.index+1}"></span><br>
             <span style="color: red;" th:text="${ac.star(ac.rating)}">0.0</span>
             <img th:src="@{'/images/'+${#strings.isEmpty(ac.image)?'none.png':'cover/'+ac.image}}"

@@ -1,5 +1,6 @@
-package com.zhao.interceptor;
+package com.zhao.config;
 
+import com.zhao.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

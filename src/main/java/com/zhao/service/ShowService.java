@@ -22,7 +22,7 @@ public interface ShowService {
 
     Mark findMarkOne(int uid, int acId);
 
-    float calRating(String acId, float rating);
+    boolean calRating(int acId);
 
     int sumRating(String acId);
 
@@ -53,4 +53,6 @@ public interface ShowService {
     User showUser(int uid);
 
     List<?> findByWord(String tb, String conditions, String word, String order) throws Exception;
+
+    long[] getArrayByListMap(int acId);
 }

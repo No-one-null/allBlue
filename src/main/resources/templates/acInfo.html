@@ -66,9 +66,7 @@
                             <i><span th:text="${userNum}"></span>人评价</i>
                         </div>
                     </div>
-                    <div class="rating-chart-div">
-                        条形图
-                    </div>
+                    <div class="rating-chart-div"></div>
                 </div>
                 <div class="my-mark-div">
                     <div class="cell">
@@ -83,8 +81,8 @@
                             </button>
                         </div>
                         <div th:if="${myMark!=null}" style='width: 34%;float:left;' title='修改'>
-                            <button class="btn btn-primary btn-block" onclick='editMark()'>我的吐槽:
-                                <span>查看</span>
+                            <button class="btn btn-info btn-block" onclick='editMark()'>我的吐槽:
+                                <span th:text="${myMark.comment.length()>0?'查看':'暂无'}"></span>
                             </button>
                         </div>
                         <div th:if="${myMark!=null}" style='width: 33%;float:right;' title='修改进度'>
@@ -97,7 +95,7 @@
             </div>
             <!--按钮-->
             <div class="col-md-6 comment-btn-div">
-                <button type="button" class="btn btn-info btn-block" id="comment-btn">
+                <button type="button" class="btn btn-primary btn-block" id="comment-btn">
                     <span class="glyphicon glyphicon-thumbs-up"></span> 看看大家的吐槽
                     <span class="glyphicon glyphicon-thumbs-down"></span></button>
             </div>
@@ -169,11 +167,11 @@
                         <label for="rating" class="control-label col-md-2">评分</label>
                         <input type="hidden" name="rating" id="rating">
                         <div class="col-md-10 rating" id="star">
-                            <a href="javascript:rating(1)"><img th:src="@{/images/star-empty.gif}" alt="1"></a>
-                            <a href="javascript:rating(2)"><img th:src="@{/images/star-empty.gif}" alt="2"></a>
-                            <a href="javascript:rating(3)"><img th:src="@{/images/star-empty.gif}" alt="3"></a>
-                            <a href="javascript:rating(4)"><img th:src="@{/images/star-empty.gif}" alt="4"></a>
-                            <a href="javascript:rating(5)"><img th:src="@{/images/star-empty.gif}" alt="5"></a>
+                            <a title="1分" href="javascript:rating(1)"><img th:src="@{/images/star-empty.gif}" alt="1"></a>
+                            <a title="2分" href="javascript:rating(2)"><img th:src="@{/images/star-empty.gif}" alt="2"></a>
+                            <a title="3分" href="javascript:rating(3)"><img th:src="@{/images/star-empty.gif}" alt="3"></a>
+                            <a title="4分" href="javascript:rating(4)"><img th:src="@{/images/star-empty.gif}" alt="4"></a>
+                            <a title="5分" href="javascript:rating(5)"><img th:src="@{/images/star-empty.gif}" alt="5"></a>
                             <b id="rating-star"></b>
                         </div>
                     </div>
@@ -199,8 +197,9 @@
             $.post('[[@{/mark}]]', $("#mark-form").serialize(),
                 function (data, status) {
                     if (status === 'success') {
-                        alert(data);
-                        location.reload();
+                        updateRating(data);
+                    }else {
+                        alert("提交失败!");
                     }
                 });
         });
@@ -208,6 +207,17 @@
             $('#main-div').animate({scrollTop: $('#comments').offset().top}, 0);
         });
     });
+
+    function updateRating(str) {
+        $.post("[[@{/rating}]]",{acId:[[${ac.id}]]},function (date,status) {
+            if(status==="success"){
+                alert(str);
+            }else {
+                alert("数据更新失败!");
+            }
+            location.reload();
+        });
+    }
 
     const $rating = $("#rating");
     const $star=$("#star");
@@ -249,6 +259,32 @@
         addMark();
         editMark();
     }
+</script>
+<!-- 引入 echarts.js -->
+<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    let myChart = echarts.init($(".rating-chart-div")[0],"light");
+
+    // 指定图表的配置项和数据
+    let option = {
+        tooltip: {},
+        xAxis: {
+            data: ["很差", "较差", "还行", "推荐", "力荐"]
+        },
+        yAxis: {},
+        grid:{
+            top:5,
+            bottom:'15%'
+        },
+        series: [{
+            name: '人数',
+            type: 'bar',
+            data: [ [[${eData[0]}]], [[${eData[1]}]], [[${eData[2]}]], [[${eData[3]}]], [[${eData[4]}]]]
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
 </script>
 </body>
 </html>

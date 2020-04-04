@@ -4,7 +4,6 @@ import com.zhao.pojo.Comment;
 import com.zhao.pojo.MsgUser;
 import com.zhao.pojo.User;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +31,8 @@ public interface LoginService {
     boolean addComment(Comment comment) throws Exception;
 
     Map<String, Object> showUnReadMsg(int uid);
+
+    boolean RenewUnReadMsg(int uid);
 
     List<MsgUser> showMsg(int uid, boolean read, String type);
 

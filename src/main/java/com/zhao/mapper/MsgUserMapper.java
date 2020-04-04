@@ -12,11 +12,14 @@ public interface MsgUserMapper {
     Long countMsg(int uid, int status, String type);
 
     @Update("UPDATE msg_user SET status=1 WHERE uid=#{0} AND type=#{1}")
-    int updateMsg(int uid, String type);
+    Integer updateMsg(int uid, String type);
 
-    int insertOne(MsgUser msgUser);
+    @Select("SELECT MAX(mid) FROM msg_user WHERE uid=#{0} AND type=#{1}")
+    Long selectMaxMidByUidAndType(int uid,String type);
 
-    long insertBatch(List<MsgUser> ids);
+    Integer insertOne(MsgUser msgUser);
+
+    Long insertBatch(List<MsgUser> msgUsers);
 
     List<MsgUser> selectByStatus(int uid, int status);
 

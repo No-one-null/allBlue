@@ -1,4 +1,4 @@
-package com.zhao.shiro.realm;
+package com.zhao.shiro;
 
 import com.zhao.pojo.User;
 import com.zhao.service.LoginService;

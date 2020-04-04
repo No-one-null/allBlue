@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 import static com.zhao.util.CommonUtil.*;
@@ -149,6 +148,28 @@ public class LoginServiceImpl implements LoginService {
         return msg;
     }
 
+    @Override
+    public boolean RenewUnReadMsg(int uid) {
+        Long maxMid=msgUserMapper.selectMaxMidByUidAndType(uid,"sys");
+        maxMid=maxMid==null?0:maxMid;
+        List<MsgContent> list=msgContentMapper.selectByTypeAndMax("sys",maxMid);
+        if(list.size()>0){
+            List<MsgUser> msgUsers=new ArrayList<>();
+            for (MsgContent msg :list) {
+                msgUsers.add(new MsgUser(msg.getId(),uid,"sys"));
+            }
+            Long result=msgUserMapper.insertBatch(msgUsers);
+            return result>0;
+        }
+        return true;
+    }
+
+    /**
+     * 新增评论
+     * @param comment 评论对象
+     * @return 是否成功
+     * @throws Exception 数据错误时抛出异常并回滚
+     */
     @Transactional
     @Override
     public boolean addComment(Comment comment) throws Exception {
@@ -180,14 +201,17 @@ public class LoginServiceImpl implements LoginService {
         }
         if (uid != -1) {
             msgcontent.setMessage((content.length() > 10 ? content.substring(0, 10) : content) +
-                    "　<a href='/allBlue/topic/t" + comment.getTopicId() + "'>动态详情</a>");
+                    "　<a target='_blank' href='/allBlue/topic/t" + comment.getTopicId() + "'>动态详情</a>");
+            msgcontent.setType("user");
             msgcontent.setCreateDate(new Date());
             int result1 = msgContentMapper.insertOne(msgcontent);
-            MsgUser msgUser = new MsgUser(msgcontent.getId(), uid, "user");
+            MsgUser msgUser = new MsgUser(msgcontent.getId(), uid,"user");
             int result2 = msgUserMapper.insertOne(msgUser);
             if (result1 <= 0 || result2 <= 0) {
                 throw new Exception("数据插入失败!");
             }
+        }else {
+            return false;
         }
         return true;
     }

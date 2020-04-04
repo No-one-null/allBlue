@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>错误提示页面</title>
+    <style type="text/css">
+        html,body{
+            height: 95%;
+        }
+    </style>
+</head>
+<body th:styleappend="|background: url('@{/images/background/errors.png}') no-repeat fixed center;|">
+<div style="text-align: center;background-size: cover;text-shadow: 5px 5px 5px orangered;color: yellow;height: 100%;">
+    <h1><b>出错了!</b></h1>
+    <hr>
+    <div style="display: table;margin: 0 auto;height: 85%;">
+        <div style="display: table-cell;vertical-align: middle;height: 85%;">
+            <h2><strong>。。。请与管理员联系。。。</strong><br>
+                <em th:text="${exception}"></em><br>
+                <i th:text="${status}"></i><br>
+                <i th:text="${error}"></i><br>
+                <i th:text="${timestamp}"></i><br>
+                <i th:text="${URL}"></i>
+            </h2>
+            <h4><a style="background-color: white;" th:href="@{/}">点击此回到首页</a></h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

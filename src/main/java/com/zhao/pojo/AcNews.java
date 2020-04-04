@@ -1,6 +1,10 @@
 package com.zhao.pojo;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +13,14 @@ import static com.zhao.util.CommonUtil.getImgSrc;
 public class AcNews {
 
     private long newsId;
+    @NotBlank
     private String newsTitle;
+    @NotBlank
     private String newsAuthor;
+    @NotEmpty
     private String newsContent;
     private Date newsDate;
+    @NotNull
     private String newsType;
     private int status;
     private String firstImg;

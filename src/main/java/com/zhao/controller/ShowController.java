@@ -47,6 +47,13 @@ public class ShowController {
         return "/index";
     }
 
+    @RequestMapping("/test")
+    public String test(){
+        String str=null;
+        str.length();
+        return "login";
+    }
+
     @RequestMapping("/ac/{category}")
     public String redirect(@PathVariable String category) {
         String str = ERR404;
@@ -234,6 +241,8 @@ public class ShowController {
         model.addAttribute("userNum", userNum);
         List<Mark> marks = showServiceImpl.allComments(ac.getId()+"");
         model.addAttribute("comment", marks);
+        long[] l=showServiceImpl.getArrayByListMap(ac.getId());
+        model.addAttribute("eData",l);
         return "/acInfo";
     }
 
@@ -270,18 +279,8 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping("/rating")
-    public Map<String, Object> rating(String acId) {
-        Map<String, Object> map = new HashMap<>();
-        System.out.println("acId" + acId);
-        AcItems ac = showServiceImpl.findById(acId);
-        float acRating = 0;
-        int userNum = showServiceImpl.sumRating(acId);
-        map.put("userNum", userNum);
-        if (userNum > 0) {
-            acRating = showServiceImpl.calRating(acId, ac.getRating());
-        }
-        map.put("acRating", acRating);
-        return map;
+    public boolean rating(String acId) {
+        return showServiceImpl.calRating(Integer.parseInt(acId));
     }
 
     @RequestMapping("/user{uid}")
@@ -396,7 +395,7 @@ public class ShowController {
         return "/results";
     }
 
-    @RequestMapping("/error{num}")
+    @RequestMapping("/err{num}")
     public String error(@PathVariable String num) {
         String page = "/error/error404";
         if (num != null && !num.equals("")) {

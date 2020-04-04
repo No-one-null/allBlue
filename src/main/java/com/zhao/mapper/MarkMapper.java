@@ -4,6 +4,7 @@ import com.zhao.pojo.Mark;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MarkMapper {
     int insertMark(Mark acMark);
@@ -13,6 +14,8 @@ public interface MarkMapper {
     List<Mark> selectComments(int acId);
 
     List<Mark> selectByUid(@Param("uid") int uid, @Param("orderField") String orderField, @Param("orderType") String orderType);
+
+    List<Map<String,Long>> selectRating(int acId);
 
     int updateMark(Mark acMark);
 

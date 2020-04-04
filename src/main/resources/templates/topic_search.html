@@ -87,22 +87,13 @@
         <div class="panel" th:unless="${#lists.isEmpty(list)}" th:each="list : ${list}"
              th:classappend="${(session.currentUser!=null)&&(list.user.uid==session.currentUser.uid)}?'panel-success':'panel-warning'">
             <div class="panel-heading" style="width: 100%">
-                <img class="img-circle headImg" alt="用户头像"
-                     th:src="@{'/images/'+${#strings.isEmpty(list.user.photo)?'no-one.jpg':'avatar/'+list.user.photo}}">
-                <a th:href="@{'/u'+${list.user.uid}+'/talk'}" class="panel-title" th:text="${list.user.username}"></a>
+                <a th:href="@{'/u'+${list.user.uid}+'/talk'}" class="panel-title">
+                    <img class="img-circle headImg" alt="用户头像" th:src="@{'/images/'+${#strings.isEmpty(list.user.photo)?'no-one.jpg':'avatar/'+list.user.photo}}">
+                    <strong th:text="${list.user.username}"></strong>
+                </a>
                 <div class="pull-right">
-                    <b>发表于:</b><a th:href="@{'/topic/t'+${list.tid}}"
-                                  th:text="${#dates.format(list.time,'yyy年MM月dd日HH:mm:ss')}"></a>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">分享</a></li>
-                            <li class="divider"></li>
-                            <li><a target="_blank" th:href="@{'/topic/t'+${list.tid}}">更多</a></li>
-                        </ul>
-                    </div>
+                    <b>发表于:</b>
+                    <a th:href="@{'/topic/t'+${list.tid}}" th:text="${#dates.format(list.time,'yyy年MM月dd日HH:mm:ss')}"></a>
                 </div>
             </div>
             <div class="panel-body" style="width: 100%">

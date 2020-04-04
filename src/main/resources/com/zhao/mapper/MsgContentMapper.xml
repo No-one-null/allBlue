@@ -6,14 +6,20 @@
         <result column="title" property="title"/>
         <result column="message" property="message"/>
         <result column="create_date" property="createDate"/>
+        <result column="type" property="type"/>
     </resultMap>
     <select id="selectById" resultMap="msg">
         SELECT *
         FROM msg_content
         WHERE id = #{0}
     </select>
+    <select id="selectByTypeAndMax" resultMap="msg">
+        SELECT *
+        FROM msg_content
+        WHERE id>#{max} AND type=#{type}
+    </select>
     <insert id="insertOne" parameterType="msgContent" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO msg_content (title, message, create_date)
-        VALUES (#{title}, #{message}, #{createDate})
+        INSERT INTO msg_content (title, message,type, create_date)
+        VALUES (#{title}, #{message},#{type}, #{createDate})
     </insert>
 </mapper>

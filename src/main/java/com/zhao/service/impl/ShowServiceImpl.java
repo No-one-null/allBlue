@@ -106,16 +106,15 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional
     @Override
-    public float calRating(String acId, float rating) {
-        float newRating = markMapper.avgRating(Integer.parseInt(acId));
-        float realRating = (float) Math.round(newRating * 10) / 10;
-        if (rating == realRating) {
-            return rating;
-        } else {
-            int result = acItemsMapper.updateRating(realRating, Integer.parseInt(acId));
-            System.out.println(result);
-            return realRating;
+    public boolean calRating(int acId) {
+        int num=markMapper.countRating(acId);
+        if(num<=0){
+            return false;
         }
+        float newRating = markMapper.avgRating(acId);
+        float realRating = (float) Math.round(newRating * 10) / 10;
+        int result = acItemsMapper.updateRating(realRating, acId);
+        return result > 0;
     }
 
     @Override
@@ -441,5 +440,20 @@ public class ShowServiceImpl implements ShowService {
                 list = new ArrayList<>();
         }
         return list;
+    }
+
+    /**
+     * 从数据库获取分组查询的数据List<Map<String,Long>>并转为数组
+     * @param acId 动漫id
+     * @return 返回数组
+     */
+    @Override
+    public long[] getArrayByListMap(int acId){
+        List<Map<String,Long>> list=markMapper.selectRating(acId);
+        long[] numbers={0,0,0,0,0};
+        for (Map<String,Long> m: list) {
+            numbers[Integer.parseInt(""+(m.get("key")))-1]=m.get("value");
+        }
+        return numbers;
     }
 }

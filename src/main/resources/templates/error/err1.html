@@ -2,21 +2,24 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>403 Forbidden</title>
+    <title>错误提示页面-ArithmeticException</title>
 </head>
-<body th:style="|background: url('@{/images/background/403.jpg}') no-repeat center center fixed blue;|">
+<body th:style="|background: url('@{/images/background/errors.png}') no-repeat fixed center;|">
 <!-- 导航栏-->
 <nav th:replace="/index :: head"></nav>
 <div style="text-align: center;background-size: cover;text-shadow: 5px 5px 5px #F8F8FF;color: #FF4500;height: 85%;">
-    <h1><b>403 Forbidden</b></h1>
+    <h1><b>ArithmeticException</b></h1>
     <hr>
     <div style="display: table;margin: 0 auto;height: 100%;">
         <div class="cell">
-            <h2>对不起,您无法访问该内容</h2>
-            <h3><em>没有权限访问此页，服务器收到请求但拒绝提供服务。</em></h3>
+            <h2>出错了，请与管理员联系。。。</h2>
+            <h3><em th:text="${error}"></em></h3>
             <h4><a style="background-color: white;" th:href="@{/}">点击此回到首页</a></h4>
         </div>
     </div>
 </div>
+</body>
+<body>
+<span th:text="${error}"></span>
 </body>
 </html>

@@ -19,8 +19,7 @@
             <li class="active">动漫新增</li>
         </ol>
     </div>
-    <form class="form-horizontal" role="form" th:action="@{/back/addOne}" method="post"
-          enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" th:action="@{/back/addOne}" method="post" enctype="multipart/form-data">
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">名称</label>
@@ -93,9 +92,8 @@
     </form>
 </div>
 <script type="text/javascript">
-    const maxSize = 2 * 1024 * 1024;
     const $preImg = $("#preImg");
-    $("#file").change(function () {
+    $("#file").on("change",function () {
         let file = $(this)[0].files[0];
         if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
             alert(file.type + "格式错误!暂时只支持jpg/png");

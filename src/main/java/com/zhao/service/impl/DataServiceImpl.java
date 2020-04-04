@@ -357,36 +357,9 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public boolean addMessage(String title, String message, String type) {
-        List<Integer> ids = new ArrayList<>();
-        if (type.equals("all")) {
-            ids = userMapper.selectUid();
-        }
-        if (type.equals("admin")) {
-            ids = userMapper.selectUidByRole("admin");
-        }
-        if (type.equals("user")) {
-            ids = userMapper.selectUid();
-            List<Integer> admins = userMapper.selectUidByRole("admin");
-            ids.removeAll(admins);
-        }
-        if (ids.size() <= 0) {
-            return false;
-        }
-        MsgContent msgContent = new MsgContent(title, message, new Date());
-        int index = msgContentMapper.insertOne(msgContent);
-        if (index <= 0) {
-            return false;
-        }
-        List<MsgUser> msgList = new ArrayList<>();
-        for (Integer id : ids) {
-            MsgUser msgUser = new MsgUser(msgContent.getId(), id, "sys");
-            msgList.add(msgUser);
-        }
-        if (msgList.size() > 0) {
-            long result = msgUserMapper.insertBatch(msgList);
-            return result > 0;
-        }
-        return false;
+    public boolean addMessage(MsgContent msgContent) {
+        msgContent.setCreateDate(new Date());
+        int result=msgContentMapper.insertOne(msgContent);
+        return result>0;
     }
 }

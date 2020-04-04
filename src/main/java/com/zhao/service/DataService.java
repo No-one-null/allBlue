@@ -42,5 +42,5 @@ public interface DataService {
 
     String[] uploadImg(MultipartFile[] file, HttpServletRequest request) throws IOException;
 
-    boolean addMessage(String title, String message, String type);
+    boolean addMessage(MsgContent msgContent);
 }

@@ -23,11 +23,11 @@
         ORDER BY id DESC
     </select>
     <insert id="insertOne" parameterType="MsgUser">
-        INSERT INTO msg_user (mid, uid, type, status)
-        VALUES (#{mid}, #{uid}, #{type}, 0)
+        INSERT INTO msg_user (mid, uid,type, status)
+        VALUES (#{mid}, #{uid},#{type}, 0)
     </insert>
     <insert id="insertBatch" parameterType="List">
-        INSERT INTO msg_user (mid, uid, type, status)
+        INSERT INTO msg_user (mid, uid,type, status)
         VALUES
         <foreach collection="list" item="item" separator=",">
             (#{item.mid},#{item.uid},#{item.type},0)

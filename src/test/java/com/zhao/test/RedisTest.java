@@ -2,11 +2,11 @@ package com.zhao.test;
 
 
 import com.zhao.App;
+import com.zhao.mapper.MarkMapper;
 import com.zhao.mapper.MsgContentMapper;
 import com.zhao.mapper.MsgUserMapper;
 import com.zhao.mapper.UserMapper;
 import com.zhao.pojo.MsgContent;
-import com.zhao.service.LoginService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.zhao.pojo.User;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Spring Data Redis测试
@@ -34,7 +32,7 @@ public class RedisTest {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private LoginService loginServiceImpl;
+    private MarkMapper markMapper;
     @Resource
     private MsgContentMapper msgContentMapper;
     @Resource
@@ -148,5 +146,27 @@ public class RedisTest {
     @Test
     public void testSelect() {
         System.out.println(msgUserMapper.selectByStatus(5, 1));
+    }
+
+    @Test
+    public void testRating(){
+        List<Map<String,Long>> list=markMapper.selectRating(3);
+        System.out.println(list);
+        Map<Long,Long> map=new HashMap<>();
+        int i=0;
+        long[] numbers={0,0,0,0,0};
+        System.out.println(Arrays.toString(numbers));
+        for (Map<String,Long> m: list) {
+            map.put(m.get("rating"),m.get("count"));
+            numbers[Integer.parseInt(""+(m.get("rating")))-1]=m.get("count");
+        }
+        System.out.println(map);
+        System.out.println(Arrays.toString(numbers));
+    }
+
+    @Test
+    public void testMsg(){
+        Long max=msgUserMapper.selectMaxMidByUidAndType(4,"all");
+        System.out.println(max);
     }
 }

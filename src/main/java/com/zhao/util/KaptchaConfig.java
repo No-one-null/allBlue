@@ -14,7 +14,7 @@ public class KaptchaConfig {
     /**
      * 验证码配置
      *
-     * @return
+     * @return 返回值
      */
     @Bean
     public DefaultKaptcha getDefaultKaptcha() {

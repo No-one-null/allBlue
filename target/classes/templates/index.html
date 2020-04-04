@@ -113,7 +113,7 @@
                 <b th:switch="${map.current.key}">热门<b th:case="anime">动画</b><b th:case="comic">漫画</b></b>
             </h2>
             <div class="col-md-3 ac-div" th:each="ac,num : ${map.current.value}">
-                <a th:href="@{'acInfo/'+${ac.id}}" class="thumbnail">
+                <a th:href="@{'acInfo/'+${ac.id}}" class="thumbnail" th:title="${'《'+ac.name+'》'+ac.author+'（'+ac.year+')'}">
                     <strong style="color: red;" th:text="${num.index+1}"></strong><br>
                     <em style="color: white;" th:text="${ac.count+'人收藏'}"></em><br>
                     <i><strong>评分：</strong><span th:text="${ac.rating}"></span></i>

@@ -14,7 +14,7 @@ body {
     background-color: #F0F8FF;
     padding-top: 60px;
     height: 100%;
-    font-size: 150%;
+    /*font-size: 150%;*/
 }
 
 /* 未访问链接*/
@@ -52,26 +52,11 @@ a:active {
 }
 
 .error {
-    text-shadow: 5px 5px 5px #F8F8FF;
     text-align: center;
     background-size: cover;
-    height: 85%;
-}
-
-.error div {
+    text-shadow: 5px 5px 5px #F8F8FF;
     color: #FF4500;
-}
-
-.error h1 {
-    font-size: 3em;
-}
-
-.error h3 {
-    margin-top: 5%;
-}
-
-.error h5 {
-    margin-top: 12%;
+    height: 85%;
 }
 
 .backGround {
@@ -279,6 +264,7 @@ textarea {
     height: 100%;
     width: 75%;
     float: right;
+    border-style: double;
 }
 
 .my-mark-div {

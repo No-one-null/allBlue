@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-//import java.util.Date;
+import java.util.Date;
 
 @Component
 public class ScheduledDemo {
@@ -23,8 +23,8 @@ public class ScheduledDemo {
         redisTemplate.getConnectionFactory().getConnection().flushDb();
     }
 
-//    @Scheduled(cron = "0/10 * * * * ?")
-//    public void scheduled1(){
+//    @Scheduled(cron = "0/1 * * * * ?")
+//    public void renewUnread(){
 //        System.out.println("定时器被触发"+new Date());
 //    }
 }

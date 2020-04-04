@@ -80,8 +80,7 @@ public class LoginController {
     }
 
     @RequestMapping("/save")
-    public String saveUser(@Valid User user, BindingResult result,
-                           Model model, HttpServletRequest request) {
+    public String saveUser(@Valid User user, BindingResult result, Model model, HttpServletRequest request) {
         String sessionCode = (String) request.getSession().getAttribute("verifyCode");
         String userCode = request.getParameter("verifyCode");
         Set<String> errors = new HashSet<>();
@@ -200,18 +199,6 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/messages")
     public boolean renewMessages(HttpSession session, String type) {
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null) {
-            System.out.println(1);
-            return false;
-        }
-        boolean iSuccess = loginServiceImpl.renewMessages(user.getUid(), type);
-        if (iSuccess) {
-            Map<String, Object> msg = loginServiceImpl.showUnReadMsg(user.getUid());
-            session.setAttribute("msg", msg);
-            return true;
-        }
-        System.out.println(2);
         return false;
     }
 }

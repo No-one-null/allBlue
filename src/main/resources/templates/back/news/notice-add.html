@@ -52,17 +52,17 @@
                 <input id="title" name="title" type="text" class="new-input" placeholder="请输入标题">
                 <label for="type">通知类型：</label>
                 <select id="type" name="type">
-                    <option value="all">全站通知</option>
-                    <option value="user">用户通知</option>
+                    <option value="sys">全站通知</option>
                     <option value="admin">管理员通知</option>
                 </select>
             </div>
-            <div th:if="${error!=null}" class="alert alert-danger text-center" hidden>
+            <div th:if="${success!=null}" class="alert text-center" th:classappend="${success?'alert-success':'alert-danger'}">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                发布失败!<span th:text="${error}"></span>
-            </div>
-            <div th:if="${message!=null&&message.equals('success')}" class="alert alert-success text-center">
-                发布成功!
+                <span th:unless="${success}">发布失败!
+                <em th:errors="${msgContent.title}"></em>
+                <em th:errors="${msgContent.message}"></em>
+                </span>
+                <span th:if="${success}">发布成功!</span>
             </div>
             <div class="col-md-offset-1 col-md-10">
                 <div id="toolbar" class="tool"></div>
@@ -81,7 +81,6 @@
             editor.customConfig.pasteIgnoreImg = true;
 
             editor.customConfig.menus = [
-                'head',  // 标题
                 'bold',  // 粗体
                 'fontSize',  // 字号
                 'italic',  // 斜体
@@ -100,11 +99,11 @@
     </div><!-- /.panel panel-success -->
 </div>
 <script type="text/javascript">
-    if ("[[${message}]]" === "success") {
+    if ("[[${success}]]" === "true") {
         setTimeout('location.href="[[@{notices}]]";', 1000);
     }
     $("#notice-sys-form").on("submit", function () {
-        if (editor.txt.text() === '' || $("#title").val() === '') {
+        if (editor.txt.text() === ''|| $("#title").val() === '') {
             alert("内容不能为空!");
             return false;
         }

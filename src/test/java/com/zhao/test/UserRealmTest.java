@@ -1,6 +1,6 @@
 package com.zhao.test;
 
-import com.zhao.shiro.realm.AuthRealm;
+import com.zhao.shiro.AuthRealm;
 import com.zhao.util.CommonUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;

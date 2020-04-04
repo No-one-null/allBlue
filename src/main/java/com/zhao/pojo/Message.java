@@ -1,34 +1,32 @@
 package com.zhao.pojo;
 
+import java.util.Date;
 
-public class MsgUser {
+public class Message {
 
     private long id;
     private long mid;
     private int uid;
     private String type;
     private int status;
+    private String title;
+    private String message;
+    private Date createDate;
     private MsgContent content;
 
     @Override
     public String toString() {
-        return "MsgUser{" +
+        return "Message{" +
                 "id=" + id +
                 ", mid=" + mid +
                 ", uid=" + uid +
                 ", type='" + type + '\'' +
                 ", status=" + status +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                ", createDate=" + createDate +
                 ", content=" + content +
                 '}';
-    }
-
-    public MsgUser() {
-    }
-
-    public MsgUser(long mid, int uid, String type) {
-        this.mid = mid;
-        this.uid = uid;
-        this.type = type;
     }
 
     public long getId() {
@@ -69,6 +67,30 @@ public class MsgUser {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public MsgContent getContent() {

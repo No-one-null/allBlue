@@ -2,6 +2,7 @@ package com.zhao.controller;
 
 import com.zhao.pojo.AcItems;
 import com.zhao.pojo.AcNews;
+import com.zhao.pojo.MsgContent;
 import com.zhao.util.PageInfo;
 import com.zhao.pojo.User;
 import com.zhao.service.DataService;
@@ -224,14 +225,12 @@ public class DataController {
     }
 
     @PostMapping("news/notices")
-    public String notice(Model model, String message, String title, String type) {
-        if (message == null || message.equals("") || title == null || title.equals("") || type == null || type.equals("")) {
-            return "redirect:notices";
+    public String notice(Model model, @Valid MsgContent msgContent, BindingResult result) {
+        boolean success=false;
+        if(!result.hasErrors()){
+            success = dataServiceImpl.addMessage(msgContent);
         }
-        boolean result = dataServiceImpl.addMessage(title, message, type);
-        if (result) {
-            model.addAttribute("message", "success");
-        }
+        model.addAttribute("success", success);
         return "back/news/notice-add";
     }
 

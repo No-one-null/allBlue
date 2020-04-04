@@ -53,6 +53,10 @@
           AND `rating` >= 1
           AND rating <![CDATA[<=]]> 5
     </select>
+    <select id="selectRating" resultType="Map">
+        SELECT rating 'key',COUNT(rating) 'value' FROM mark WHERE ac_id=#{0} AND rating IS NOT NULL
+        GROUP BY rating
+    </select>
     <insert id="insertMark">
         INSERT INTO mark (uid, ac_id)
         VALUES (#{uid}, #{acId})
